@@ -6,7 +6,7 @@ minutes: 45
 
 
 ```{r, echo = FALSE, purl = FALSE, message = FALSE}
-source("setup.R")
+#source("setup.R")
 ```
 
 ------------

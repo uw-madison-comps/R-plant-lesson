@@ -7,7 +7,7 @@ output:
 ---
 
 ```{r source, include=FALSE, purl=FALSE}
-source("setup.R")
+#source("setup.R")
 if (file.exists("portal-database.sqlite")) file.remove("portal-database.sqlite")
 ```
 
