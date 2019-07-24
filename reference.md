@@ -4,6 +4,6 @@ layout: reference
 
 ## Glossary
 
-FIXME
+Here are key terms
 
 {% include links.md %}

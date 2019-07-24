@@ -1,4 +1,5 @@
 ---
+source: Rmd
 title: Data visualization with ggplot2
 author: Data Carpentry contributors
 minutes: 60
@@ -602,7 +603,4 @@ Note: The parameters `width` and `height` also determine the font size in the sa
 ##  exercise or create a beautiful graph of your own. Use the RStudio
 ##  ggplot2 cheat sheet for inspiration:
 ##  https://www.rstudio.com/wp-content/uploads/2015/08/ggplot2-cheatsheet.pdf
-```
-
-```{r, child="_page_built_on.Rmd"}
 ```
