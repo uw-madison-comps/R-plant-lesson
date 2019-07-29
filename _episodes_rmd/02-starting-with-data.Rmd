@@ -1,11 +1,12 @@
 ---
+source: Rmd
 title: "Starting with data"
 author: "Data Carpentry contributors"
 minutes: 20
 ---
 
 ```{r, echo=FALSE, purl=FALSE, message = FALSE}
-source("setup.R")
+#source("setup.R")
 ```
 
 ------------
@@ -120,7 +121,7 @@ vectors, each column must contain a single type of data (e.g., characters, integ
 factors). For example, here is a figure depicting a data frame comprising a
 numeric, a character, and a logical vector.
 
-![](./img/data-frame.svg)
+![](/fig/data-frame.svg)
 
 
 We can see this when inspecting the <b>str</b>ucture of a data frame
@@ -625,6 +626,3 @@ head(missing_dates)
 
 Why did these dates fail to parse? If you had to use these data for your
 analyses, how would you deal with this situation?
-
-```{r, child="_page_built_on.Rmd"}
-```
