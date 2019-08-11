@@ -5,7 +5,7 @@ author: Data Carpentry contributors
 ---
 
 ```{r, echo=FALSE, purl=FALSE, message = FALSE}
-#source("setup.R")
+source("setup.R")
 library(tidyverse)
 data(iris)
 iris<-as_tibble(iris)
