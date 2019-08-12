@@ -9,13 +9,6 @@ minutes: 60
 
 
 
-```
-## Error in read_csv(file = "data_output/surveys_complete.csv", col_types = cols()): could not find function "read_csv"
-```
-
-
-
-
 ------------
 
 > ### Learning Objectives
@@ -35,24 +28,12 @@ We start by loading the required packages. **`ggplot2`** is included in the **`t
 library(tidyverse)
 ```
 
-```
-## Warning: package 'ggplot2' was built under R version 3.5.2
-```
-
-```
-## Warning: package 'tibble' was built under R version 3.5.2
-```
-
-```
-## Warning: package 'dplyr' was built under R version 3.5.2
-```
-
 If not still in the workspace, load the data we saved in the previous lesson.
 
 
-
 ```r
-surveys_complete <- read_csv("data_output/surveys_complete.csv")
+iris <- read_csv(file = "data/iris.csv")
+plant_phys<-read_csv("data_output/phys_dates.csv")
 ```
 
 ## Plotting with **`ggplot2`**
@@ -82,14 +63,16 @@ ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) +  <GEOM_FUNCTION>()
 
 
 ```r
-ggplot(data = surveys_complete)
+ggplot(data = iris)
 ```
 
 - define a mapping (using the aesthetic (`aes`) function), by selecting the variables to be plotted and specifying how to present them in the graph, e.g. as x/y positions or characteristics such as size, shape, color, etc.
 
 
 ```r
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length))
+ggplot(data = iris, 
+       mapping = aes(x = sepal.length, 
+                     y = sepal.width))
 ```
 
 - add 'geoms' – graphical representations of the data in the plot (points,
@@ -105,13 +88,13 @@ let's use `geom_point()` first:
 
 
 ```r
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
+ggplot(data = iris, 
+       mapping = aes(x = sepal_length, 
+                     y = sepal_width))+
   geom_point()
 ```
 
-```
-## Error in ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)): object 'surveys_complete' not found
-```
+![plot of chunk first-ggplot](figure/first-ggplot-1.png)
 
 The `+` in the **`ggplot2`** package is particularly useful because it allows you
 to modify existing `ggplot` objects. This means you can easily set up plot
@@ -121,15 +104,14 @@ plot can also be generated with code like this:
 
 ```r
 # Assign plot to a variable
-surveys_plot <- ggplot(data = surveys_complete, 
-                       mapping = aes(x = weight, y = hindfoot_length))
+iris_plot <- ggplot(data = iris, 
+       mapping = aes(x = sepal_length, 
+                     y = sepal_width))
 
 # Draw the plot
-surveys_plot + 
+iris_plot + 
     geom_point()
 ```
-
-
 
 **Notes**
 
@@ -146,45 +128,13 @@ error message.
 
 ```r
 # This is the correct syntax for adding layers
-surveys_plot +
+iris_plot +
   geom_point()
 
 # This will not add the new layer and will return an error message
-surveys_plot
+iris_plot
   + geom_point()
 ```
-
-> ### Challenge (optional)
->
-> Scatter plots can be useful exploratory tools for small datasets. For data
-> sets with large numbers of observations, such as the `surveys_complete` data
-> set, overplotting of points can be a limitation of scatter plots. One strategy
-> for handling such settings is to use hexagonal binning of observations. The
-> plot space is tessellated into hexagons. Each hexagon is assigned a color
-> based on the number of observations that fall within its boundaries.  To use
-> hexagonal binning with **`ggplot2`**, first install the R package `hexbin`
-> from CRAN:
->
->
-> 
-> ```r
-> install.packages("hexbin")
-> library(hexbin)
-> ```
->
-> Then use the `geom_hex()` function:
->
-> 
-> ```r
-> surveys_plot +
->  geom_hex()
-> ```
->
-> - What are the relative strengths and weaknesses of a hexagonal bin plot
->   compared to a scatter plot? Examine the above scatter plot and compare it
->   with the hexagonal bin plot that you created.
-
-
 
 ## Building your plots iteratively
 
@@ -193,122 +143,107 @@ defining the dataset we'll use, lay out the axes, and choose a geom:
 
 
 ```r
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
+ggplot(data = iris, 
+       mapping = aes(x = sepal_width, 
+                     y = sepal_length))+
     geom_point()
 ```
 
-```
-## Error in ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)): object 'surveys_complete' not found
-```
-
-Then, we start modifying this plot to extract more information from it. For
-instance, we can add transparency (`alpha`) to avoid overplotting:
-
-
-```r
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-    geom_point(alpha = 0.1)
-```
-
-```
-## Error in ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)): object 'surveys_complete' not found
-```
+![plot of chunk create-ggplot-object](figure/create-ggplot-object-1.png)
 
 We can also add colors for all the points:
 
 
 ```r
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-    geom_point(alpha = 0.1, color = "blue")
+ggplot(data = iris, 
+       mapping = aes(x = sepal_width, 
+                     y = sepal_length))+
+    geom_point(color = "blue")
 ```
 
-```
-## Error in ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)): object 'surveys_complete' not found
-```
+![plot of chunk adding-colors](figure/adding-colors-1.png)
 
-Or to color each species in the plot differently, you could use a vector as an input to the argument **color**. **`ggplot2`** will provide a different color corresponding to different values in the vector. Here is an example where we color with **`species_id`**:
+Or to color each species in the plot differently, you could use a vector as an input to the argument **color**. **`ggplot2`** will provide a different color corresponding to different values in the vector. Here is an example where we color with **`species`**:
 
 
 
 ```r
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-    geom_point(alpha = 0.1, aes(color = species_id))
+ggplot(data = iris, 
+       mapping = aes(x = sepal_width, 
+                     y = sepal_length))+
+    geom_point(aes(color = species))
 ```
 
-```
-## Error in ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)): object 'surveys_complete' not found
-```
+![plot of chunk color-by-species-1](figure/color-by-species-1-1.png)
 
 We can also specify the colors directly inside the mapping provided in the `ggplot()` function. This will be seen by any geom layers and the mapping will be determined by the x- and y-axis set up in `aes()`.
 
 
 ```r
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length, color = species_id)) +
-    geom_point(alpha = 0.1)
+ggplot(data = iris, 
+       mapping = aes(x = sepal_width, 
+                     y = sepal_length, 
+                     color = species))+
+    geom_point()
 ```
 
-```
-## Error in ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length, : object 'surveys_complete' not found
-```
+![plot of chunk color-by-species-2](figure/color-by-species-2-1.png)
 
-Notice that we can change the geom layer and colors will be still determined by **`species_id`**
+Notice that we can change the geom layer and colors will be still determined by **`species`**
 
 
 ```r
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length, color = species_id)) +
-    geom_jitter(alpha = 0.1)
+ggplot(data = iris, 
+       mapping = aes(x = sepal_width, 
+                     y = sepal_length, 
+                     color = species))+
+    geom_jitter()
 ```
 
-```
-## Error in ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length, : object 'surveys_complete' not found
-```
-
-
-
+![plot of chunk color-by-species-3](figure/color-by-species-3-1.png)
 
 > ### Challenge
 >
-> Use what you just learned to create a scatter plot of `weight` over
-> `species_id` with the plot types showing in different colors. Is this a good
+> Use what you just learned to create a scatter plot of the `plant_phys` dataset. Plot `Cond_day` over
+> `Cond_night` with the species showing in different colors. Is this a good
 > way to show this type of data?
 > 
 > ```r
-> ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
->    geom_point(aes(color = plot_type))
+> ggplot(data = plant_phys, mapping = aes(x = Cond_day, y = Cond_night)) +
+>    geom_point(aes(color = species))
 > ```
 > 
 > ```
-> ## Error in ggplot(data = surveys_complete, mapping = aes(x = species_id, : object 'surveys_complete' not found
+> ## Error in FUN(X[[i]], ...): object 'species' not found
 > ```
-
+> 
+> ![plot of chunk scatter-challenge](figure/scatter-challenge-1.png)
 
 ## Boxplot
 
-We can use boxplots to visualize the distribution of weight within each species:
+We can use boxplots to visualize the distribution of sepal length within each species:
 
 
 ```r
-ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+ggplot(data = iris, mapping = aes(x = species, y = sepal_length)) +
     geom_boxplot()
 ```
 
-```
-## Error in ggplot(data = surveys_complete, mapping = aes(x = species_id, : object 'surveys_complete' not found
-```
+![plot of chunk boxplot](figure/boxplot-1.png)
 
 By adding points to boxplot, we can have a better idea of the number of
 measurements and of their distribution:
 
 
 ```r
-ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
-    geom_boxplot(alpha = 0) +
-    geom_jitter(alpha = 0.3, color = "tomato")
+ggplot(data = iris, 
+       mapping = aes(x = species, 
+                     y = sepal_length)) +
+    geom_boxplot()+
+    geom_jitter(color = "tomato")
 ```
 
-```
-## Error in ggplot(data = surveys_complete, mapping = aes(x = species_id, : object 'surveys_complete' not found
-```
+![plot of chunk boxplot-with-points](figure/boxplot-with-points-1.png)
 
 Notice how the boxplot layer is behind the jitter layer? What do you need to
 change in the code to put the boxplot in front of the points such that it's not
@@ -334,30 +269,23 @@ hidden?
 > So far, we've looked at the distribution of weight within species. Try making a
 > new plot to explore the distribution of another variable within each species.
 >
-> - Create a boxplot for `hindfoot_length`. Overlay the boxplot layer on a jitter
+> - Create a boxplot for `petal_length`. Overlay the boxplot layer on a jitter
 >   layer to show actual measurements.
 >
-> - Add color to the data points on your boxplot according to the plot from which
->   the sample was taken (`plot_id`).
+> - Add color to the data points on your boxplot according to `species`.
 >
-> *Hint:* Check the class for `plot_id`. Consider changing the class of `plot_id` from integer to factor. Why does this change how R makes the graph?
-
 
 
 
 ## Plotting time series data
 
-Let's calculate number of counts per year for each species. First we need
-to group the data and count records within each group:
+Let's calculate the average photosynthesis rate per month for each Functional group (`Fgroup`). First we need to group the data and count records within each group:
 
 
 ```r
-yearly_counts <- surveys_complete %>%
-                 count(year, species_id)
-```
-
-```
-## Error in eval(lhs, parent, parent): object 'surveys_complete' not found
+monthly_photo_fg <- plant_phys %>%
+  group_by(Month, Fgroup)%>%
+  summarize(mean_phot = mean(Photo))
 ```
 
 Time series data can be visualized as a line plot with years on the x axis and counts
@@ -365,39 +293,41 @@ on the y axis:
 
 
 ```r
-ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
+ggplot(data = monthly_photo_fg, 
+       mapping = aes(x = Month, 
+                     y = mean_phot)) +
      geom_line()
 ```
 
-```
-## Error in ggplot(data = yearly_counts, mapping = aes(x = year, y = n)): object 'yearly_counts' not found
-```
+![plot of chunk first-time-series](figure/first-time-series-1.png)
 
-Unfortunately, this does not work because we plotted data for all the species
-together. We need to tell ggplot to draw a line for each species by modifying
-the aesthetic function to include `group = species_id`:
+Unfortunately, this does not work because we plotted data for all the functional
+groups together. We need to tell ggplot to draw a line for each species by
+modifying the aesthetic function to include `group = Species`:
 
 
 ```r
-ggplot(data = yearly_counts, mapping = aes(x = year, y = n, group = species_id)) +
-    geom_line()
+ggplot(data = monthly_photo_fg, 
+       mapping = aes(x = Month, 
+                     y = mean_phot, 
+                     group = Fgroup)) +
+     geom_line()
 ```
 
-```
-## Error in ggplot(data = yearly_counts, mapping = aes(x = year, y = n, group = species_id)): object 'yearly_counts' not found
-```
+![plot of chunk time-series-by-species](figure/time-series-by-species-1.png)
 
 We will be able to distinguish species in the plot if we add colors (using `color` also automatically groups the data):
 
 
 ```r
-ggplot(data = yearly_counts, mapping = aes(x = year, y = n, color = species_id)) +
-    geom_line()
+ggplot(data = monthly_photo_fg, 
+       mapping = aes(x = Month, 
+                     y = mean_phot, 
+                     color = Fgroup)) +
+     geom_line()
 ```
 
-```
-## Error in ggplot(data = yearly_counts, mapping = aes(x = year, y = n, color = species_id)): object 'yearly_counts' not found
-```
+![plot of chunk time-series-with-colors](figure/time-series-with-colors-1.png)
 
 ## Faceting
 
@@ -407,41 +337,38 @@ make a time series plot for each species:
 
 
 ```r
-ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
-    geom_line() +
-    facet_wrap(~ species_id)
+ggplot(data = monthly_photo_fg, 
+       mapping = aes(x = Month, 
+                     y = mean_phot)) +
+     geom_line()+
+    facet_wrap(~ Fgroup)
 ```
 
-```
-## Error in ggplot(data = yearly_counts, mapping = aes(x = year, y = n)): object 'yearly_counts' not found
-```
+![plot of chunk first-facet](figure/first-facet-1.png)
 
-Now we would like to split the line in each plot by the sex of each individual
-measured. To do that we need to make counts in the data frame grouped by `year`,
-`species_id`, and `sex`:
+Now we would like to split the line in each plot by the functional group 
+of each individual measured. To do that we need to make counts in the data frame grouped by `month`, `Species`, and `Fgroup`:
 
 
 ```r
- yearly_sex_counts <- surveys_complete %>%
-                      count(year, species_id, sex)
-```
-
-```
-## Error in eval(lhs, parent, parent): object 'surveys_complete' not found
+mo_sp_fg <- plant_phys %>%
+  group_by(Month, Species, Fgroup)%>%
+  summarize(mean_phot = mean(Photo))
 ```
 
 We can now make the faceted plot by splitting further by sex using `color` (within a single plot):
 
 
 ```r
- ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
-     geom_line() +
-     facet_wrap(~ species_id)
+ggplot(data = mo_sp_fg, 
+       mapping = aes(x = Month, 
+                     y = mean_phot, 
+                     color = Species)) +
+     geom_line()+
+    facet_wrap(~ Fgroup) 
 ```
 
-```
-## Error in ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, : object 'yearly_sex_counts' not found
-```
+![plot of chunk facet-by-species-and-sex](figure/facet-by-species-and-sex-1.png)
 
 Usually plots with white background look more readable when printed.  We can set
 the background to white using the function `theme_bw()`. Additionally, you can remove
@@ -449,16 +376,17 @@ the grid:
 
 
 ```r
- ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
-     geom_line() +
-     facet_wrap(~ species_id) +
+ggplot(data = mo_sp_fg, 
+       mapping = aes(x = Month, 
+                     y = mean_phot, 
+                     color = Species)) +
+     geom_line()+
+    facet_wrap(~ Fgroup) +
      theme_bw() +
      theme(panel.grid = element_blank())
 ```
 
-```
-## Error in ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, : object 'yearly_sex_counts' not found
-```
+![plot of chunk facet-by-species-and-sex-white-bg](figure/facet-by-species-and-sex-white-bg-1.png)
 
 ## **`ggplot2`** themes
 
@@ -479,78 +407,62 @@ themes.
 
 > ### Challenge
 
-> Use what you just learned to create a plot that depicts how the average weight
-> of each species changes through the years.
+> Use what you just learned to create a plot that depicts how the average `PD`
+> of each species changes over a season. Color the lines by functional group
 > 
 > 
 > ```r
-> yearly_weight <- surveys_complete %>%
->                 group_by(year, species_id) %>%
->                  summarize(avg_weight = mean(weight))
-> ```
-> 
-> ```
-> ## Error in eval(lhs, parent, parent): object 'surveys_complete' not found
-> ```
-> 
-> ```r
-> ggplot(data = yearly_weight, mapping = aes(x=year, y=avg_weight)) +
+> seasonPD <- plant_phys %>%
+>                 group_by(Month, Species, Fgroup) %>%
+>                  summarize(avg_PD = mean(PD))
+> ggplot(data = seasonPD, 
+>    mapping = aes(x=Month, 
+>                  y=avg_PD, 
+>                  color = Fgroup)) +
 >    geom_line() +
->    facet_wrap(~ species_id) +
+>    facet_wrap(~ Species) +
 >    theme_bw()
+> 
+> The `facet_wrap` geometry extracts plots into an arbitrary number of dimensions
+> to allow them to cleanly fit on one page. On the other hand, the `facet_grid`
+> geometry allows you to explicitly specify how you want your plots to be
+> arranged via formula notation (`rows ~ columns`; a `.` can be used as
+> a placeholder that indicates only one row or column).
+> 
+> Let's modify the previous plot to compare how the photosynthesis rate of functional
+> groups have changed through time:
 > ```
 > 
 > ```
-> ## Error in ggplot(data = yearly_weight, mapping = aes(x = year, y = avg_weight)): object 'yearly_weight' not found
+> ## Error: <text>:12:5: unexpected symbol
+> ## 11: 
+> ## 12: The `facet_wrap`
+> ##         ^
 > ```
 
-
-
-
-The `facet_wrap` geometry extracts plots into an arbitrary number of dimensions
-to allow them to cleanly fit on one page. On the other hand, the `facet_grid`
-geometry allows you to explicitly specify how you want your plots to be
-arranged via formula notation (`rows ~ columns`; a `.` can be used as
-a placeholder that indicates only one row or column).
-
-Let's modify the previous plot to compare how the weights of males and females
-have changed through time:
-
-
 ```r
-# One column, facet by rows
-yearly_sex_weight <- surveys_complete %>%
-    group_by(year, sex, species_id) %>%
-    summarize(avg_weight = mean(weight))
-```
-
-```
-## Error in eval(lhs, parent, parent): object 'surveys_complete' not found
-```
-
-```r
-ggplot(data = yearly_sex_weight, 
-       mapping = aes(x = year, y = avg_weight, color = species_id)) +
+ggplot(data = mo_sp_fg, 
+       mapping = aes(x = Month, 
+                     y = mean_phot, 
+                     color = Species)) +
     geom_line() +
-    facet_grid(sex ~ .)
+    facet_grid(Fgroup ~ .)
 ```
 
-```
-## Error in ggplot(data = yearly_sex_weight, mapping = aes(x = year, y = avg_weight, : object 'yearly_sex_weight' not found
-```
+![plot of chunk average-weight-time-facet-sex-rows](figure/average-weight-time-facet-sex-rows-1.png)
 
 
 ```r
 # One row, facet by column
-ggplot(data = yearly_sex_weight, 
-       mapping = aes(x = year, y = avg_weight, color = species_id)) +
+ggplot(data = mo_sp_fg, 
+       mapping = aes(x = Month, 
+                     y = mean_phot, 
+                     color = Species)) +
     geom_line() +
-    facet_grid(. ~ sex)
+    facet_grid(.~ Fgroup)
 ```
 
-```
-## Error in ggplot(data = yearly_sex_weight, mapping = aes(x = year, y = avg_weight, : object 'yearly_sex_weight' not found
-```
+![plot of chunk average-weight-time-facet-sex-columns](figure/average-weight-time-facet-sex-columns-1.png)
 
 ## Customization
 
@@ -562,37 +474,39 @@ and 'n' and add a title to the figure:
 
 
 ```r
-ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
-    geom_line() +
-    facet_wrap(~ species_id) +
-    labs(title = "Observed species in time",
-         x = "Year of observation",
-         y = "Number of individuals") +
+ggplot(data = mo_sp_fg, 
+       mapping = aes(x = Month, 
+                     y = mean_phot, 
+                     color = Species)) +
+     geom_line()+
+    facet_wrap(~ Fgroup) +
+    labs(title = "Average photosynthesis over a season",
+         x = "Month of observation",
+         y = "Mean photosynthesis") +
     theme_bw()
 ```
 
-```
-## Error in ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, : object 'yearly_sex_counts' not found
-```
+![plot of chunk number-species-year-with-right-labels](figure/number-species-year-with-right-labels-1.png)
 
 The axes have more informative names, but their readability can be improved by
 increasing the font size:
 
 
 ```r
-ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
-    geom_line() +
-    facet_wrap(~ species_id) +
-    labs(title = "Observed species in time",
-        x = "Year of observation",
-        y = "Number of individuals") +
+ggplot(data = mo_sp_fg, 
+       mapping = aes(x = Month, 
+                     y = mean_phot, 
+                     color = Species)) +
+     geom_line()+
+    facet_wrap(~ Fgroup) +
+    labs(title = "Average photosynthesis over a season",
+         x = "Month of observation",
+         y = "Mean photosynthesis") +
     theme_bw() +
     theme(text=element_text(size = 16))
 ```
 
-```
-## Error in ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, : object 'yearly_sex_counts' not found
-```
+![plot of chunk number-species-year-with-right-labels-xfont-size](figure/number-species-year-with-right-labels-xfont-size-1.png)
 
 Note that it is also possible to change the fonts of your plots. If you are on
 Windows, you may have to install
@@ -607,21 +521,24 @@ labels:
 
 
 ```r
-ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
-    geom_line() +
-    facet_wrap(~ species_id) +
-    labs(title = "Observed species in time",
-        x = "Year of observation",
-        y = "Number of individuals") +
+ggplot(data = mo_sp_fg, 
+       mapping = aes(x = Month, 
+                     y = mean_phot, 
+                     color = Species)) +
+     geom_line()+
+    facet_wrap(~ Fgroup) +
+    labs(title = "Average photosynthesis over a season",
+         x = "Month of observation",
+         y = "Mean photosynthesis") +
     theme_bw() +
-    theme(axis.text.x = element_text(colour = "grey20", size = 12, angle = 90, hjust = 0.5, vjust = 0.5),
+    theme(axis.text.x = element_text(color = "grey20", 
+                                     size = 12, angle = 90, 
+                                     hjust = 0.5, vjust = 0.5),
                         axis.text.y = element_text(colour = "grey20", size = 12),
           text = element_text(size = 16))
 ```
 
-```
-## Error in ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, : object 'yearly_sex_counts' not found
-```
+![plot of chunk number-species-year-with-theme](figure/number-species-year-with-theme-1.png)
 
 If you like the changes you created better than the default theme, you can save them as
 an object to be able to easily apply them to other plots you may create:
@@ -632,14 +549,14 @@ an object to be able to easily apply them to other plots you may create:
 grey_theme <- theme(axis.text.x = element_text(colour = "grey20", size = 12, angle = 90, hjust = 0.5, vjust = 0.5),
                           axis.text.y = element_text(colour = "grey20", size = 12),
                           text = element_text(size = 16))
-ggplot(surveys_complete, aes(x = species_id, y = hindfoot_length)) +
+ggplot(plant_phys, 
+       aes(x = Species, 
+           y = Photo)) +
     geom_boxplot() +
     grey_theme
 ```
 
-```
-## Error in ggplot(surveys_complete, aes(x = species_id, y = hindfoot_length)): object 'surveys_complete' not found
-```
+![plot of chunk number-species-year-with-right-labels-xfont-orientation](figure/number-species-year-with-right-labels-xfont-orientation-1.png)
 
 > ### Challenge
 > 
@@ -665,42 +582,28 @@ install.packages("gridExtra")
 
 ```r
 library(gridExtra)
+
+sp_photo_boxplot <- ggplot(plant_phys, 
+       aes(x = Species, 
+           y = Photo)) +
+    geom_boxplot() +
+    grey_theme
+
+sp_photo_line<-ggplot(data = mo_sp_fg, 
+       mapping = aes(x = Month, 
+                     y = mean_phot, 
+                     color = Species)) +
+     geom_line()+
+    facet_wrap(~ Fgroup) +
+    labs(title = "Average photosynthesis over a season",
+         x = "Month of observation",
+         y = "Mean photosynthesis") +
+    grey_theme
+
+grid.arrange(sp_photo_boxplot, sp_photo_line, ncol = 2, widths = c(4, 6))
 ```
 
-```
-## Error in library(gridExtra): there is no package called 'gridExtra'
-```
-
-```r
-spp_weight_boxplot <- ggplot(data = surveys_complete, 
-                             mapping = aes(x = species_id, y = weight)) +
-  geom_boxplot() +
-  xlab("Species") + ylab("Weight (g)") +
-  scale_y_log10()
-```
-
-```
-## Error in ggplot(data = surveys_complete, mapping = aes(x = species_id, : object 'surveys_complete' not found
-```
-
-```r
-spp_count_plot <- ggplot(data = yearly_counts, 
-                         mapping = aes(x = year, y = n, color = species_id)) +
-  geom_line() + 
-  xlab("Year") + ylab("Abundance")
-```
-
-```
-## Error in ggplot(data = yearly_counts, mapping = aes(x = year, y = n, color = species_id)): object 'yearly_counts' not found
-```
-
-```r
-grid.arrange(spp_weight_boxplot, spp_count_plot, ncol = 2, widths = c(4, 6))
-```
-
-```
-## Error in grid.arrange(spp_weight_boxplot, spp_count_plot, ncol = 2, widths = c(4, : could not find function "grid.arrange"
-```
+![plot of chunk gridarrange-example](figure/gridarrange-example-1.png)
 
 In addition to the `ncol` and `nrow` arguments, used to make simple arrangements, there are tools for [constructing more complex layouts](https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.html). 
 
@@ -712,22 +615,19 @@ Make sure you have the `fig_output/` folder in your working directory.
 
 
 ```r
-my_plot <- ggplot(data = yearly_sex_counts, 
-                  mapping = aes(x = year, y = n, color = sex)) +
-    geom_line() +
-    facet_wrap(~ species_id) +
-    labs(title = "Observed species in time",
-        x = "Year of observation",
-        y = "Number of individuals") +
-    theme_bw() +
-    theme(axis.text.x = element_text(colour = "grey20", size = 12, angle = 90, hjust = 0.5, vjust = 0.5),
-                        axis.text.y = element_text(colour = "grey20", size = 12),
-          text=element_text(size = 16))
-ggsave("fig_output/yearly_sex_counts.png", my_plot, width = 15, height = 10)
+my_plot <- ggplot(plant_phys, 
+       aes(x = Species, 
+           y = Photo)) +
+    geom_boxplot() +
+    grey_theme
+  
+ggsave("fig_output/boxplot.png", my_plot, width = 15, height = 10)
 
 # This also works for grid.arrange() plots
-combo_plot <- grid.arrange(spp_weight_boxplot, spp_count_plot, ncol = 2, widths = c(4, 6))
-ggsave("fig_output/combo_plot_abun_weight.png", combo_plot, width = 10, dpi = 300)
+combo_plot <- 
+grid.arrange(sp_photo_boxplot, sp_photo_line, ncol = 2, widths = c(4, 6))
+
+ggsave("fig_output/combo_plot.png", combo_plot, width = 10, dpi = 300)
 ```
 
 Note: The parameters `width` and `height` also determine the font size in the saved plot.

@@ -5,9 +5,7 @@ author: Data Carpentry contributors
 minutes: 60
 ---
 
-
 ```{r setup, include = FALSE}
-#source("setup.R")
 library(tidyverse)
 iris <- read_csv(file = "data/iris.csv")
 plant_phys<-read_csv("data_output/phys_dates.csv")
