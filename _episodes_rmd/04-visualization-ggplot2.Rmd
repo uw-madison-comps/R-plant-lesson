@@ -6,16 +6,12 @@ minutes: 60
 ---
 
 
-```{r setup, echo=FALSE, purl=FALSE}
+```{r setup, include = FALSE}
 #source("setup.R")
-surveys_complete <- read_csv(file = "data_output/surveys_complete.csv", col_types = cols())
+library(tidyverse)
+iris <- read_csv(file = "data/iris.csv")
+plant_phys<-read_csv("data/Physiology_Environmental_Data.csv")
 ```
-
-```{r, echo=FALSE, purl=TRUE}
-### Data Visualization with ggplot2
-```
-
-
 ------------
 
 > ### Learning Objectives
@@ -36,9 +32,9 @@ library(tidyverse)
 
 If not still in the workspace, load the data we saved in the previous lesson.
 
-
 ```{r load-data, eval=FALSE, purl=FALSE}
-surveys_complete <- read_csv("data_output/surveys_complete.csv")
+iris <- read_csv(file = "data/iris.csv")
+plant_phys<-read_csv("data/Physiology_Environmental_Data.csv")
 ```
 
 ## Plotting with **`ggplot2`**
@@ -67,13 +63,15 @@ ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) +  <GEOM_FUNCTION>()
       `data` argument
 
 ```{r, eval=FALSE, purl=FALSE}
-ggplot(data = surveys_complete)
+ggplot(data = iris)
 ```
 
 - define a mapping (using the aesthetic (`aes`) function), by selecting the variables to be plotted and specifying how to present them in the graph, e.g. as x/y positions or characteristics such as size, shape, color, etc.
 
 ```{r, eval=FALSE, purl=FALSE}
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length))
+ggplot(data = iris, 
+       mapping = aes(x = sepal.length, 
+                     y = sepal.width))
 ```
 
 - add 'geoms' – graphical representations of the data in the plot (points,
@@ -88,7 +86,9 @@ To add a geom to the plot use the `+` operator. Because we have two continuous v
 let's use `geom_point()` first:
 
 ```{r first-ggplot, purl=FALSE}
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
+ggplot(data = iris, 
+       mapping = aes(x = sepal_length, 
+                     y = sepal_width))+
   geom_point()
 ```
 
@@ -99,18 +99,12 @@ plot can also be generated with code like this:
 
 ```{r, first-ggplot-with-plus, eval=FALSE, purl=FALSE}
 # Assign plot to a variable
-surveys_plot <- ggplot(data = surveys_complete, 
-                       mapping = aes(x = weight, y = hindfoot_length))
+iris_plot <- ggplot(data = iris, 
+       mapping = aes(x = sepal_length, 
+                     y = sepal_width))
 
 # Draw the plot
-surveys_plot + 
-    geom_point()
-```
-
-```{r, eval=FALSE, purl=TRUE, echo=FALSE, purl=FALSE}
-# Create a ggplot and draw it
-surveys_plot <- ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length))
-surveys_plot + 
+iris_plot + 
     geom_point()
 ```
 
@@ -128,58 +122,12 @@ error message.
 
 ```{r, ggplot-with-plus-position, eval=FALSE, purl=FALSE}
 # This is the correct syntax for adding layers
-surveys_plot +
+iris_plot +
   geom_point()
 
 # This will not add the new layer and will return an error message
-surveys_plot
+iris_plot
   + geom_point()
-```
-
-> ### Challenge (optional)
->
-> Scatter plots can be useful exploratory tools for small datasets. For data
-> sets with large numbers of observations, such as the `surveys_complete` data
-> set, overplotting of points can be a limitation of scatter plots. One strategy
-> for handling such settings is to use hexagonal binning of observations. The
-> plot space is tessellated into hexagons. Each hexagon is assigned a color
-> based on the number of observations that fall within its boundaries.  To use
-> hexagonal binning with **`ggplot2`**, first install the R package `hexbin`
-> from CRAN:
->
->
-> ```{r, eval = FALSE}
-> install.packages("hexbin")
-> library(hexbin)
-> ```
->
-> Then use the `geom_hex()` function:
->
-> ```{r, eval = FALSE}
-> surveys_plot +
->  geom_hex()
-> ```
->
-> - What are the relative strengths and weaknesses of a hexagonal bin plot
->   compared to a scatter plot? Examine the above scatter plot and compare it
->   with the hexagonal bin plot that you created.
-
-```{r hexbin-challenge, echo=FALSE, eval=FALSE, purl=TRUE}
-### Challenge with hexbin
-##
-## To use the hexagonal binning with **`ggplot2`**, first install the `hexbin`
-## package from CRAN:
-
-install.packages("hexbin")
-library(hexbin)
-
-## Then use the `geom_hex()` function:
-
-surveys_plot +
-    geom_hex()
-
-## What are the relative strengths and weaknesses of a hexagonal bin
-## plot compared to a scatter plot?
 ```
 
 ## Building your plots iteratively
@@ -188,67 +136,68 @@ Building plots with **`ggplot2`** is typically an iterative process. We start by
 defining the dataset we'll use, lay out the axes, and choose a geom:
 
 ```{r create-ggplot-object, purl=FALSE}
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
+ggplot(data = iris, 
+       mapping = aes(x = sepal_width, 
+                     y = sepal_length))+
     geom_point()
-```
-
-Then, we start modifying this plot to extract more information from it. For
-instance, we can add transparency (`alpha`) to avoid overplotting:
-
-```{r adding-transparency, purl=FALSE}
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-    geom_point(alpha = 0.1)
 ```
 
 We can also add colors for all the points:
 
 ```{r adding-colors, purl=FALSE}
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-    geom_point(alpha = 0.1, color = "blue")
+ggplot(data = iris, 
+       mapping = aes(x = sepal_width, 
+                     y = sepal_length))+
+    geom_point(color = "blue")
 ```
 
-Or to color each species in the plot differently, you could use a vector as an input to the argument **color**. **`ggplot2`** will provide a different color corresponding to different values in the vector. Here is an example where we color with **`species_id`**:
+Or to color each species in the plot differently, you could use a vector as an input to the argument **color**. **`ggplot2`** will provide a different color corresponding to different values in the vector. Here is an example where we color with **`species`**:
 
 
 ```{r color-by-species-1, purl=FALSE}
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-    geom_point(alpha = 0.1, aes(color = species_id))
+ggplot(data = iris, 
+       mapping = aes(x = sepal_width, 
+                     y = sepal_length))+
+    geom_point(aes(color = species))
 ```
 
 We can also specify the colors directly inside the mapping provided in the `ggplot()` function. This will be seen by any geom layers and the mapping will be determined by the x- and y-axis set up in `aes()`.
 
 ```{r color-by-species-2, purl=FALSE}
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length, color = species_id)) +
-    geom_point(alpha = 0.1)
+ggplot(data = iris, 
+       mapping = aes(x = sepal_width, 
+                     y = sepal_length, 
+                     color = species))+
+    geom_point()
 ```
 
-Notice that we can change the geom layer and colors will be still determined by **`species_id`**
+Notice that we can change the geom layer and colors will be still determined by **`species`**
 
 ```{r color-by-species-3, purl=FALSE}
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length, color = species_id)) +
-    geom_jitter(alpha = 0.1)
+ggplot(data = iris, 
+       mapping = aes(x = sepal_width, 
+                     y = sepal_length, 
+                     color = species))+
+    geom_jitter()
 ```
-
-
-
 
 > ### Challenge
 >
-> Use what you just learned to create a scatter plot of `weight` over
-> `species_id` with the plot types showing in different colors. Is this a good
+> Use what you just learned to create a scatter plot of the `plant_phys` dataset. Plot `Cond_day` over
+> `Cond_night` with the species showing in different colors. Is this a good
 > way to show this type of data?
 > ```{r scatter-challenge, answer=TRUE, purl=FALSE}
-> ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
->    geom_point(aes(color = plot_type))
+> ggplot(data = plant_phys, mapping = aes(x = Cond_day, y = Cond_night)) +
+>    geom_point(aes(color = species))
 > ```
 
 
 ## Boxplot
 
-We can use boxplots to visualize the distribution of weight within each species:
+We can use boxplots to visualize the distribution of sepal length within each species:
 
 ```{r boxplot, purl=FALSE}
-ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+ggplot(data = iris, mapping = aes(x = species, y = sepal_length)) +
     geom_boxplot()
 ```
 
@@ -256,9 +205,11 @@ By adding points to boxplot, we can have a better idea of the number of
 measurements and of their distribution:
 
 ```{r boxplot-with-points, purl=FALSE}
-ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
-    geom_boxplot(alpha = 0) +
-    geom_jitter(alpha = 0.3, color = "tomato")
+ggplot(data = iris, 
+       mapping = aes(x = species, 
+                     y = sepal_length)) +
+    geom_boxplot()+
+    geom_jitter(color = "tomato")
 ```
 
 Notice how the boxplot layer is behind the jitter layer? What do you need to
@@ -285,20 +236,18 @@ hidden?
 > So far, we've looked at the distribution of weight within species. Try making a
 > new plot to explore the distribution of another variable within each species.
 >
-> - Create a boxplot for `hindfoot_length`. Overlay the boxplot layer on a jitter
+> - Create a boxplot for `petal_length`. Overlay the boxplot layer on a jitter
 >   layer to show actual measurements.
 >
-> - Add color to the data points on your boxplot according to the plot from which
->   the sample was taken (`plot_id`).
+> - Add color to the data points on your boxplot according to `species`.
 >
-> *Hint:* Check the class for `plot_id`. Consider changing the class of `plot_id` from integer to factor. Why does this change how R makes the graph?
 
 ```{r boxplot-challenge, eval=FALSE, purl=TRUE, echo=FALSE}
 ## Challenge with boxplots:
 ##  Start with the boxplot we created:
-ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
-  geom_boxplot(alpha = 0) +
-  geom_jitter(alpha = 0.3, color = "tomato")
+ggplot(data = iris, mapping = aes(x = species, y = sepal_length)) +
+    geom_boxplot()+
+    geom_jitter(color = "tomato")
 
 ##  1. Replace the box plot with a violin plot; see `geom_violin()`.
 
@@ -308,16 +257,12 @@ ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
 
 ##  4. Add color to the data points on your boxplot according to the
 ##  plot from which the sample was taken (`plot_id`).
-##  *Hint:* Check the class for `plot_id`. Consider changing the class
-##  of `plot_id` from integer to factor. Why does this change how R
-##  makes the graph?
 
 ```
 
-
 ## Plotting time series data
 
-Let's calculate number of counts per year for each species. First we need
+Let's calculate number of counts per month for each species. First we need
 to group the data and count records within each group:
 
 ```{r, purl=FALSE}
@@ -445,6 +390,7 @@ have changed through time:
 yearly_sex_weight <- surveys_complete %>%
     group_by(year, sex, species_id) %>%
     summarize(avg_weight = mean(weight))
+
 ggplot(data = yearly_sex_weight, 
        mapping = aes(x = year, y = avg_weight, color = species_id)) +
     geom_line() +
