@@ -292,8 +292,20 @@ year(one_date)
 > ### Challenge {.challenge}
 >
 >  Create a new data frame from the `plant_phys` data has columns for 
->  month, day, and year
+>  month and day
+> ```{r, answer=TRUE, eval=FALSE, purl=FALSE}
+> plant_phys <- plant_phys %>%
+>     mutate(Day = day(Date), 
+>            Month = month(Date))%>%
+>     select(Date, Year, Month, Day, DOY, everything())
+> ```
 
+```{r, answer=TRUE, eval=FALSE, purl=FALSE}
+plant_phys <- plant_phys %>%
+  mutate(Day = day(Date), 
+         Month = month(Date))%>%
+  select(Date, Year, Month, Day, DOY, everything())
+```
 # Exporting data
 
 Now that you have learned how to use **`dplyr`** to extract information from
