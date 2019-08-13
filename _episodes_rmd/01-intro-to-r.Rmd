@@ -144,7 +144,10 @@ out one line, you can put the cursor at any location of that line (i.e. no need
 to select the whole line), then press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + 
 <kbd>C</kbd>.
 
-<!-- to do:  change this to petal width and length -->
+ <!-- Got to here:   SG:  8/13 -->
+<!-- to do:  change this to petal width and length; something like petal width/petal length;
+  like the example in the mutate() section of https://rpubs.com/moeransm/intro-iris
+-->
 
 > ### Challenge
 >
