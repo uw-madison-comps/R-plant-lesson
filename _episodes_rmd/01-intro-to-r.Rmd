@@ -7,7 +7,7 @@ minutes: 45
 
 
 ```{r, echo = FALSE, purl = FALSE, message = FALSE}
-#source("setup.R")
+source("setup.R")
 ```
 
 ------------
@@ -45,7 +45,7 @@ _objects_. To create an object, we need to give it a name followed by the
 assignment operator `<-`, and the value we want to give it:
 
 ```{r, purl = FALSE}
-weight_kg <- 55
+sepal_length <- 5.1
 ```
 
 `<-` is the assignment operator. It assigns values on the right to objects on
@@ -60,15 +60,15 @@ In RStudio, typing <kbd>Alt</kbd> + <kbd>-</kbd> (push <kbd>Alt</kbd> at the
 same time as the <kbd>-</kbd> key) will write ` <- ` in a single keystroke in a PC, while typing <kbd>Option</kbd> + <kbd>-</kbd> (push <kbd>Option</kbd> at the
 same time as the <kbd>-</kbd> key) does the same in a Mac.
 
-Objects can be given any name such as `x`, `current_temperature`, or
-`subject_id`. You want your object names to be explicit and not too long. They
+Objects can be given any name such as `x`, `species`, or
+`sample_id`. You want your object names to be explicit and not too long. They
 cannot start with a number (`2x` is not valid, but `x2` is). R is case sensitive
-(e.g., `weight_kg` is different from `Weight_kg`). There are some names that
+(e.g., `sepal_length` is different from `Sepal_length`). There are some names that
 cannot be used because they are the names of fundamental functions in R (e.g.,
 `if`, `else`, `for`, see
 [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html)
 for a complete list). In general, even if it's allowed, it's best to not use
-other function names (e.g., `c`, `T`, `mean`, `data`, `df`, `weights`). If in
+other function names (e.g., `c`, `T`, `mean`, `data`, `df`, `length`). If in
 doubt, check the help to see if the name is already in use. It's also best to
 avoid dots (`.`) within an object name as in `my.dataset`. There are many
 functions in R with dots in their names for historical reasons, but because dots
@@ -97,40 +97,40 @@ for issues in the styling of your code.
 When assigning a value to an object, R does not print anything. You can force R to print the value by using parentheses or by typing the object name:
 
 ```{r, purl = FALSE}
-weight_kg <- 55    # doesn't print anything
-(weight_kg <- 55)  # but putting parenthesis around the call prints the value of `weight_kg`
-weight_kg          # and so does typing the name of the object
+sepal_length <- 55    # doesn't print anything
+(sepal_length <- 55)  # but putting parenthesis around the call prints the value of `sepal_length`
+sepal_length          # and so does typing the name of the object
 ```
 
-Now that R has `weight_kg` in memory, we can do arithmetic with it. For
-instance, we may want to convert this weight into pounds (weight in pounds is 2.2 times the weight in kg):
+Now that R has `sepal_length` in memory, we can do arithmetic with it. For
+instance, we may want to convert this measurement into inches ( `1 inch = 2.54 cm`):
 
 ```{r, purl = FALSE}
-2.2 * weight_kg
+sepal_length / 2.54
 ```
 
 We can also change an object's value by assigning it a new one:
 
 ```{r, purl = FALSE}
-weight_kg <- 57.5
-2.2 * weight_kg
+sepal_length <- 4.9
+sepal_length / 2.54
 ```
 
 This means that assigning a value to one object does not change the values of
-other objects  For example, let's store the animal's weight in pounds in a new
-object, `weight_lb`:
+other objects  For example, let's store the observation in inches in a new
+object, `sepal_length_inch`:
 
 ```{r, purl = FALSE}
-weight_lb <- 2.2 * weight_kg
+sepal_length_inch <- sepal_length / 2.54
 ```
 
-and then change `weight_kg` to 100.
+and then change `sepal_length` to 100.
 
 ```{r, purl = FALSE}
-weight_kg <- 100
+sepal_length <- 2.54
 ```
 
-What do you think is the current content of the object `weight_lb`? 126.5 or 220?
+What do you think is the current content of the object `sepal_length_inch`? 1 or 1.93 ?
 
 ### Comments
 
@@ -143,6 +143,8 @@ lines you  want to comment, press at the same time on your keyboard
 out one line, you can put the cursor at any location of that line (i.e. no need 
 to select the whole line), then press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + 
 <kbd>C</kbd>.
+
+<!-- to do:  change this to petal width and length -->
 
 > ### Challenge
 >
