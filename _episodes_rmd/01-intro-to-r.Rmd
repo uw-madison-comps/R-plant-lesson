@@ -493,8 +493,6 @@ species %in% c("versicolor", "virginica", "sibirica","cristata","spuria")
 species[#species %in% c("rat", "cat", "dog", "duck", "goat")
 species %in% c("versicolor", "virginica", "sibirica","cristata","spuria")]
 ```
- <!-- Got to here:   SG:  8/14 -->
-
 
 > ### Challenge (optional){.challenge}
 >
@@ -510,7 +508,7 @@ species %in% c("versicolor", "virginica", "sibirica","cristata","spuria")]
 ##
 ## * Can you figure out why `"four" > "five"` returns `TRUE`?
 ```
-
+<!-- Should heights be replaced by something like temperature or a feature in the physiology data set? -->
 
 ## Missing data
 
@@ -558,7 +556,7 @@ Recall that you can use the `typeof()` function to find the type of your atomic 
 >     ```
 > 2. Use the function `median()` to calculate the median of the `heights` vector.
 >
-> 3. Use R to figure out how many people in the set are taller than 67 inches.
+> 3. Use R to figure out how many samples in the set are taller than 67 inches.
 >
 > ```{r, answer=TRUE}
 > heights <- c(63, 69, 60, 65, NA, 68, 61, 70, 61, 59, 64, 69, 63, 63, NA, 72, 65, 64, 70, 63, 65)
@@ -587,7 +585,7 @@ Recall that you can use the `typeof()` function to find the type of your atomic 
 ##
 ## 2. Use the function `median()` to calculate the median of the `heights` vector.
 ##
-## 3. Use R to figure out how many people in the set are taller than 67 inches.
+## 3. Use R to figure out how many samples in the set are taller than 67 inches.
 ```
 
 Now that we have learned how to write scripts, and the basics of R's data
