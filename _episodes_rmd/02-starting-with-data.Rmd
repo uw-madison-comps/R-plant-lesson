@@ -38,13 +38,19 @@ as comma separated value (CSV) file.
 The `iris` data have morphological measures from more than 100 samples of 3 species of irises.
 Each row holds information for a single sample (plant?  specimen?), and the columns represent:
 
-| Column          |
-|-----------------|
-| sepal\_length   |
-| sepal\_width    |
-| petal\_length   |
+
+
+| Column          |  Description               |
+|-----------------|----------------------------|
+| sepal\_length   |  are these in cm or inch?  |
+| sepal\_width    |  what should we write for  |
+| petal\_length   |  description?
 | petal\_width    |
-| species         |
+| species         |  ...?
+
+<!-- maybe we should get rid of the table and just say the columns are
+... measurements (in units) of sepal and petal lengths and widths, and
+the species  --> 
 
 We are going to use the R function `download.file()` to download the CSV file
 that contains the survey data from figshare, and we will use `read.csv()` to
@@ -71,7 +77,7 @@ iris <- read.csv("data/iris.csv")
 
 This statement doesn't produce any output because, as you might recall,
 assignments don't display anything. If we want to check that our data has been
-loaded, we can see the contents of the data frame by typing its name: `surveys`.
+loaded, we can see the contents of the data frame by typing its name: `iris`.
 
 Wow... that was a more than a screenful of output.
 Let's check the top (the first 6 lines) of this data frame using the
@@ -97,7 +103,7 @@ View(iris)
 > the help for `read.csv()` by typing `?read.csv` to learn more. There is also the `read.delim()` for 
 > in tab separated data files. It is important to note that all of these functions 
 > are actually wrapper functions for the main `read.table()` function with different arguments.
-> As such, the surveys data above could have also been loaded by using `read.table()`
+> As such, the iris data above could have also been loaded by using `read.table()`
 > with the separation argument as `,`. The code is as follows:
 > `iris <- read.table(file="data/iris.csv", sep=",", header=TRUE)`.
 > The header argument has to be set to TRUE to be able to read the headers as
@@ -135,25 +141,25 @@ content and the structure of a data frame. Here is a non-exhaustive list of
 functions to get a sense of the content/structure of the data. Let's try them out!
 
 * Size:
-    * `dim(surveys)` - returns a vector with the number of rows in the first element,
+    * `dim(iris)` - returns a vector with the number of rows in the first element,
           and the number of columns as the second element (the **dim**ensions of
           the object)
-    * `nrow(surveys)` - returns the number of rows
-    * `ncol(surveys)` - returns the number of columns
+    * `nrow(iris)` - returns the number of rows
+    * `ncol(iris)` - returns the number of columns
 
 * Content:
-    * `head(surveys)` - shows the first 6 rows
-    * `tail(surveys)` - shows the last 6 rows
+    * `head(iris)` - shows the first 6 rows
+    * `tail(iris)` - shows the last 6 rows
 
 * Names:
-    * `names(surveys)` - returns the column names (synonym of `colnames()` for `data.frame`
+    * `names(iris)` - returns the column names (synonym of `colnames()` for `data.frame`
 	   objects)
-    * `rownames(surveys)` - returns the row names
+    * `rownames(iris)` - returns the row names
 
 * Summary:
-    * `str(surveys)` - structure of the object and information about the class, length and
+    * `str(iris)` - structure of the object and information about the class, length and
 	   content of  each column
-    * `summary(surveys)` - summary statistics for each column
+    * `summary(iris)` - summary statistics for each column
 
 Note: most of these functions are "generic", they can be used on other types of
 objects besides `data.frame`.
@@ -161,19 +167,19 @@ objects besides `data.frame`.
 
 > ### Challenge
 >
-> Based on the output of `str(surveys)`, can you answer the following questions?
+> Based on the output of `str(iris)`, can you answer the following questions?
 >
-> * What is the class of the object `surveys`?
+> * What is the class of the object `iris`?
 > * How many rows and how many columns are in this object?
-> * How many species have been recorded during these surveys?
+> * How many species have been recorded during these iris?
 >
 > ```{r, answer=TRUE, results="markup", purl=FALSE}
 >
-> str(surveys)
+> str(iris)
 >
 > ## * class: data frame
-> ## * how many rows: 34786,  how many columns: 13
-> ## * how many species: 48
+> ## * how many rows: 150,  how many columns: 5
+> ## * how many species: 3
 >
 > ```
 
@@ -181,10 +187,10 @@ objects besides `data.frame`.
 ```{r, echo=FALSE, purl=TRUE}
 
 ## Challenge
-## Based on the output of `str(surveys)`, can you answer the following questions?
-## * What is the class of the object `surveys`?
+## Based on the output of `str(iris)`, can you answer the following questions?
+## * What is the class of the object `iris`?
 ## * How many rows and how many columns are in this object?
-## * How many species have been recorded during these surveys?
+## * How many species have been recorded during these iris?
 
 ```
 
@@ -207,19 +213,19 @@ different classes.
 
 ```{r, purl=FALSE}
 # first element in the first column of the data frame (as a vector)
-surveys[1, 1]   
-# first element in the 6th column (as a vector)
-surveys[1, 6]   
+iris[1, 1]   
+# first element in the 3rd column (as a vector)
+iris[1, 3]   
 # first column of the data frame (as a vector)
-surveys[, 1]    
+iris[, 1]    
 # first column of the data frame (as a data.frame)
-surveys[1]      
-# first three elements in the 7th column (as a vector)
-surveys[1:3, 7] 
+iris[1]      
+# first three elements in the 4th column (as a vector)
+iris[1:3, 4] 
 # the 3rd row of the data frame (as a data.frame)
-surveys[3, ]    
-# equivalent to head_surveys <- head(surveys)
-head_surveys <- surveys[1:6, ] 
+iris[3, ]    
+# equivalent to head_iris <- head(iris)
+head_iris <- iris[1:6, ] 
 ```
 
 `:` is a special function that creates numeric vectors of integers in increasing
@@ -228,25 +234,25 @@ or decreasing order, test `1:10` and `10:1` for instance.
 You can also exclude certain indices of a data frame using the "`-`" sign:
 
 ```{r, purl=FALSE}
-surveys[, -1]          # The whole data frame, except the first column
-surveys[-c(7:34786), ] # Equivalent to head(surveys)
+iris[, -1]          # The whole data frame, except the first column
+iris[-c(7:150), ] # Equivalent to head(iris)
 ```
 
 Data frames can be subset by calling indices (as shown previously), but also by calling their column names directly:
 
 ```{r, eval = FALSE, purl=FALSE}
-surveys["species_id"]       # Result is a data.frame
-surveys[, "species_id"]     # Result is a vector
-surveys[["species_id"]]     # Result is a vector
-surveys$species_id          # Result is a vector
+iris["species"]       # Result is a data.frame
+iris[, "species"]     # Result is a vector
+iris[["species"]]     # Result is a vector
+iris$species          # Result is a vector
 ```
 
 In RStudio, you can use the autocompletion feature to get the full and correct names of the columns.
 
 > ### Challenge
 >
-> 1. Create a `data.frame` (`surveys_200`) containing only the data in
->    row 200 of the `surveys` dataset.
+> 1. Create a `data.frame` (`iris_100`) containing only the data in
+>    row 100 of the `iris` dataset.
 >
 > 2. Notice how `nrow()` gave you the number of rows in a `data.frame`?
 >
@@ -254,34 +260,34 @@ In RStudio, you can use the autocompletion feature to get the full and correct n
 >      * Compare that with what you see as the last row using `tail()` to make
 >        sure it's meeting expectations.
 >      * Pull out that last row using `nrow()` instead of the row number.
->      * Create a new data frame (`surveys_last`) from that last row.
+>      * Create a new data frame (`iris_last`) from that last row.
 >
 > 3. Use `nrow()` to extract the row that is in the middle of the data
->    frame. Store the content of this row in an object named `surveys_middle`.
+>    frame. Store the content of this row in an object named `iris_middle`.
 >
 > 4. Combine `nrow()` with the `-` notation above to reproduce the behavior of
->    `head(surveys)`, keeping just the first through 6th rows of the surveys
+>    `head(iris)`, keeping just the first through 6th rows of the iris
 >    dataset.
 >
 > ```{r, answer=TRUE, purl=FALSE}
 > ## 1.
-> surveys_200 <- surveys[200, ]
+> iris_100 <- iris[100, ]
 > ## 2.
 > # Saving `n_rows` to improve readability and reduce duplication
-> n_rows <- nrow(surveys)
-> surveys_last <- surveys[n_rows, ]
+> n_rows <- nrow(iris)
+> iris_last <- iris[n_rows, ]
 > ## 3.
-> surveys_middle <- surveys[n_rows / 2, ]
+> iris_middle <- iris[n_rows / 2, ]
 > ## 4.
-> surveys_head <- surveys[-(7:n_rows), ]
+> iris_head <- iris[-(7:n_rows), ]
 > ```
 
 
 ```{r, echo=FALSE, purl=TRUE}
 ### Challenges:
 ###
-### 1. Create a `data.frame` (`surveys_200`) containing only the
-###    data in row 200 of the `surveys` dataset.
+### 1. Create a `data.frame` (`iris_100`) containing only the
+###    data in row 100 of the `iris` dataset.
 ###
 ### 2. Notice how `nrow()` gave you the number of rows in a `data.frame`?
 ###
@@ -289,14 +295,14 @@ In RStudio, you can use the autocompletion feature to get the full and correct n
 ###      * Compare that with what you see as the last row using `tail()` to make
 ###        sure it's meeting expectations.
 ###      * Pull out that last row using `nrow()` instead of the row number
-###      * Create a new data frame object (`surveys_last`) from that last row
+###      * Create a new data frame object (`iris_last`) from that last row
 ###
 ### 3. Use `nrow()` to extract the row that is in the middle of the
 ###    data frame. Store the content of this row in an object named
-###    `surveys_middle`.
+###    `iris_middle`.
 ###
 ### 4. Combine `nrow()` with the `-` notation above to reproduce the behavior of
-###    `head(surveys)`, keeping just the first through 6th rows of the surveys
+###    `head(iris)`, keeping just the first through 6th rows of the iris
 ###    dataset.
 
 ```
@@ -307,8 +313,8 @@ In RStudio, you can use the autocompletion feature to get the full and correct n
 ### Factors
 ```
 
-When we did `str(surveys)` we saw that several of the columns consist of
-integers. The columns `genus`, `species`, `sex`, `plot_type`, ... however, are
+When we did `str(iris)` we saw that four of the columns consist of
+numbers. The column `species`, ... however, is
 of a special class called `factor`. Factors are very useful and actually
 contribute to making R particularly well suited to working with data. So we are
 going to spend a little time introducing them.
@@ -319,6 +325,7 @@ Once created, factors can only contain a pre-defined set of values, known as
 *levels*. By default, R always sorts levels in alphabetical order. For
 instance, if you have a factor with 2 levels:
 
+<!-- should we have a factor like monicot and dicot or coniferous and decidous? -->
 ```{r, purl=TRUE}
 sex <- factor(c("male", "female", "female", "male"))
 ```
@@ -396,8 +403,11 @@ the experiment:
 
 ```{r, purl=TRUE}
 ## bar plot of the number of females and males captured during the experiment:
-plot(surveys$sex)
+plot(iris$species)
 ```
+
+<!--  should we just leave this out and do something else here?  -->
+<!-- introduce the other dataset?      -->
 
 In addition to males and females, there are about 1700 individuals for which the
 sex information hasn't been recorded. Additionally, for these individuals,
@@ -407,7 +417,7 @@ the data on sex and work with that data, so we're not modifying the working copy
 of the data frame:
 
 ```{r, results=TRUE, purl=FALSE}
-sex <- surveys$sex
+sex <- iris$sex
 head(sex)
 levels(sex)
 levels(sex)[1] <- "undetermined"
@@ -452,12 +462,12 @@ type.
 
 ```{r, eval=FALSE, purl=TRUE}
 ## Compare the difference between our data read as `factor` vs `character`.
-surveys <- read.csv("data/portal_data_joined.csv", stringsAsFactors = TRUE)
-str(surveys)
-surveys <- read.csv("data/portal_data_joined.csv", stringsAsFactors = FALSE)
-str(surveys)
-## Convert the column "plot_type" into a factor
-surveys$plot_type <- factor(surveys$plot_type)
+iris <- read.csv("data/iris.csv", stringsAsFactors = TRUE)
+str(iris)
+iris <- read.csv("data/iris.csv", stringsAsFactors = FALSE)
+str(iris)
+## Convert the column "species" into a factor
+iris$species <- factor(iris$species)
 ```
 
 
@@ -553,7 +563,7 @@ data frame has a separate column for day, month, and year, and that each contain
 integer values.
 
 ```{r, eval=FALSE, purl=FALSE}
-str(surveys)
+str(iris)
 ```
 We are going to use the `ymd()` function from the package **`lubridate`** (which belongs to the **`tidyverse`**; learn more [here](https://www.tidyverse.org/)). . **`lubridate`** gets installed as part as the **`tidyverse`** installation. When you load  the **`tidyverse`** (`library(tidyverse)`), the core packages (the packages used in most data analyses) get loaded. **`lubridate`** however does not belong to the core tidyverse, so you have to load it explicitly with `library(lubridate)`
 
@@ -584,30 +594,30 @@ my_date <- ymd(paste("2015", "1", "1", sep = "-"))
 str(my_date)
 ```
 
-Now we apply this function to the surveys dataset. Create a character vector from the `year`, `month`, and `day` columns of
-`surveys` using `paste()`:
+Now we apply this function to the iris dataset. Create a character vector from the `year`, `month`, and `day` columns of
+`iris` using `paste()`:
 
 ```{r, purl=FALSE}
-paste(surveys$year, surveys$month, surveys$day, sep = "-")
+paste(iris$year, iris$month, iris$day, sep = "-")
 ```
 
 This character vector can be used as the argument for `ymd()`:
 
 ```{r, purl=FALSE}
-ymd(paste(surveys$year, surveys$month, surveys$day, sep = "-"))
+ymd(paste(iris$year, iris$month, iris$day, sep = "-"))
 ```
 
-The resulting `Date` vector can be added to `surveys` as a new column called `date`:
+The resulting `Date` vector can be added to `iris` as a new column called `date`:
 
 ```{r, purl=FALSE}
-surveys$date <- ymd(paste(surveys$year, surveys$month, surveys$day, sep = "-"))
-str(surveys) # notice the new column, with 'date' as the class
+iris$date <- ymd(paste(iris$year, iris$month, iris$day, sep = "-"))
+str(iris) # notice the new column, with 'date' as the class
 ```
 
 Let's make sure everything worked correctly. One way to inspect the new column is to use `summary()`:
 
 ```{r, results=TRUE, purl=FALSE}
-summary(surveys$date)
+summary(iris$date)
 ```
 
 Something went wrong: some dates have missing values. Let's investigate where they are coming from.
@@ -616,7 +626,7 @@ We can use the functions we saw previously to deal with missing data to identify
 the rows in our data frame that are failing. If we combine them with what we learned about subsetting data frames earlier, we can extract the columns "year, "month", "day" from the records that have `NA` in our new column `date`. We will also use `head()` so we don't clutter the output:
 
 ```{r, results=TRUE, purl=FALSE}
-missing_dates <- surveys[is.na(surveys$date), c("year", "month", "day")]
+missing_dates <- iris[is.na(iris$date), c("year", "month", "day")]
 
 head(missing_dates)
 ```
