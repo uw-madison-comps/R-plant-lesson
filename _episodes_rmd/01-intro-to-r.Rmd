@@ -421,15 +421,13 @@ tricky <- c(1, 2, 3, "4")
 ## you draw a diagram that represents the hierarchy of how these data
 ## types are coerced?
 ```
- <!-- Got to here:   SG:  8/13 -->
-
 ## Subsetting vectors
 
 If we want to extract one or several values from a vector, we must provide one
 or several indices in square brackets. For instance:
 
 ```{r, results = 'show', purl = FALSE}
-species <- c("mouse", "rat", "dog", "cat")
+species <- c("setosa", "versicolor", "virginica", "sibirica")
 species[2]
 species[c(3, 2)]
 ```
@@ -453,26 +451,26 @@ Another common way of subsetting is by using a logical vector. `TRUE` will
 select the element with the same index, while `FALSE` will not:
 
 ```{r, results = 'show', purl = FALSE}
-widths <- c(21, 34, 39, 54, 55)
+widths <- c(0.21, 0.34, 0.39, 0.54, 0.55)
 widths[c(TRUE, FALSE, TRUE, TRUE, FALSE)]
 ```
 
 Typically, these logical vectors are not typed by hand, but are the output of
 other functions or logical tests. For instance, if you wanted to select only the
-values above 50:
+values above 0.5:
 
 ```{r, results = 'show', purl = FALSE}
-widths > 50    # will return logicals with TRUE for the indices that meet the condition
-## so we can use this to select only the values above 50
-widths[widths > 50]
+widths > 0.5    # will return logicals with TRUE for the indices that meet the condition
+## so we can use this to select only the values above 0.5
+widths[widths > 0.5]
 ```
 
 You can combine multiple tests using `&` (both conditions are true, AND) or `|`
 (at least one of the conditions is true, OR):
 
 ```{r, results = 'show', purl = FALSE}
-widths[widths < 30 | widths > 50]
-widths[widths >= 30 & widths == 21]
+widths[widths < 0.3 | widths > 0.5]
+widths[widths >= 0.3 & widths == 0.21]
 ```
 
 Here, `<` stands for "less than", `>` for "greater than", `>=` for "greater than
@@ -487,11 +485,16 @@ become tedious. The function `%in%` allows you to test if any of the elements of
 a search vector are found:
 
 ```{r, results = 'show', purl = FALSE}
-species <- c("mouse", "rat", "dog", "cat")
-species[species == "cat" | species == "rat"] # returns both rat and cat
-species %in% c("rat", "cat", "dog", "duck", "goat")
-species[species %in% c("rat", "cat", "dog", "duck", "goat")]
+species <- c("setosa", "versicolor", "virginica", "sibirica")
+#species <- c("mouse", "rat", "dog", "cat")
+species[species == "sibirica" | species == "versicolor"] # returns both sibirica and versicolor
+#species %in% c("rat", "cat", "dog", "duck", "goat")
+species %in% c("versicolor", "virginica", "sibirica","cristata","spuria")
+species[#species %in% c("rat", "cat", "dog", "duck", "goat")
+species %in% c("versicolor", "virginica", "sibirica","cristata","spuria")]
 ```
+ <!-- Got to here:   SG:  8/14 -->
+
 
 > ### Challenge (optional){.challenge}
 >
