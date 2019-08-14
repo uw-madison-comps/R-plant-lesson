@@ -25,68 +25,65 @@ minutes: 20
 
 ------------
 
-## Presentation of the Survey Data
+## Presentation of the Workshop Data
 
 ```{r, echo=FALSE, purl=TRUE}
-### Presentation of the survey data
+### Presentation of the workshop data
 ```
+In this workshop, we will be working with two sets of data: one is the
+`iris` data  from the classic paper by Fisher (ref?  1934?) and the
+other is from a recent paper on ??? by OKeefe and Nippert (ref).  Each dataset is stored
+as comma separated value (CSV) file.
 
-We are studying the species repartition and weight of animals caught in plots in our study
-area. The dataset is stored as a comma separated value (CSV) file.
-Each row holds information for a single animal, and the columns represent:
+The `iris` data have morphological measures from more than 100 samples of 3 species of irises.
+Each row holds information for a single sample (plant?  specimen?), and the columns represent:
 
-| Column           | Description                        |
-|------------------|------------------------------------|
-| record\_id       | Unique id for the observation      |
-| month            | month of observation               |
-| day              | day of observation                 |
-| year             | year of observation                |
-| plot\_id         | ID of a particular plot            |
-| species\_id      | 2-letter code                      |
-| sex              | sex of animal ("M", "F")           |
-| hindfoot\_length | length of the hindfoot in mm       |
-| weight           | weight of the animal in grams      |
-| genus            | genus of animal                    |
-| species          | species of animal                  |
-| taxon             | e.g. Rodent, Reptile, Bird, Rabbit |
-| plot\_type       | type of plot                       |
+| Column          |
+|-----------------|
+| sepal\_length   |
+| sepal\_width    |
+| petal\_length   |
+| petal\_width    |
+| species         |
 
 We are going to use the R function `download.file()` to download the CSV file
 that contains the survey data from figshare, and we will use `read.csv()` to
 load into memory the content of the CSV file as an object of class `data.frame`. 
 Inside the download.file command, the first entry is a character string with the source URL 
+<!-- URL??  -->
 ("https://ndownloader.figshare.com/files/2292169"). This source URL downloads a CSV file from 
-figshare. The text after the comma ("data/portal_data_joined.csv") is the destination of the 
+figshare. The text after the comma ("data/iris.csv") is the destination of the 
 file on your local machine. You'll need to have a folder on your machine called "data" where 
 you'll download the file. So this command downloads a file from figshare, names it 
-"portal_data_joined.csv," and adds it to a preexisting folder named "data."
+"iris.csv," and adds it to a preexisting folder named "data."
+
 
 ```{r, eval=FALSE, purl=TRUE}
-download.file(url="https://ndownloader.figshare.com/files/2292169",
-              destfile = "data/portal_data_joined.csv")
+download.file(url="https://ndownloader.figshare.com/files????",
+              destfile = "data/iris.csv")
 ```
 
 You are now ready to load the data:
 
 ```{r, eval=TRUE,  purl=FALSE}
-surveys <- read.csv("data/portal_data_joined.csv")
+iris <- read.csv("data/iris.csv")
 ```
 
 This statement doesn't produce any output because, as you might recall,
 assignments don't display anything. If we want to check that our data has been
 loaded, we can see the contents of the data frame by typing its name: `surveys`.
 
-Wow... that was a lot of output. At least it means the data loaded
-properly. Let's check the top (the first 6 lines) of this data frame using the
+Wow... that was a more than a screenful of output.
+Let's check the top (the first 6 lines) of this data frame using the
 function `head()`:
 
 ```{r, results='show', purl=FALSE}
-head(surveys)
+head(iris)
 ```
 
 ```{r, eval = FALSE, purl = FALSE}
 ## Try also
-View(surveys)
+View(iris)
 ```
 
 > ### Note
@@ -102,7 +99,7 @@ View(surveys)
 > are actually wrapper functions for the main `read.table()` function with different arguments.
 > As such, the surveys data above could have also been loaded by using `read.table()`
 > with the separation argument as `,`. The code is as follows:
-> `surveys <- read.table(file="data/portal_data_joined.csv", sep=",", header=TRUE)`.
+> `iris <- read.table(file="data/iris.csv", sep=",", header=TRUE)`.
 > The header argument has to be set to TRUE to be able to read the headers as
 > by default `read.table()` has the header argument set to FALSE.
 
@@ -128,7 +125,7 @@ We can see this when inspecting the <b>str</b>ucture of a data frame
 with the function `str()`:
 
 ```{r, purl=FALSE}
-str(surveys)
+str(iris)
 ```
 
 ## Inspecting `data.frame` Objects
