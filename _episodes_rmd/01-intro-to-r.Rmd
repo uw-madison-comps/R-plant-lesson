@@ -7,7 +7,7 @@ minutes: 45
 
 
 ```{r, echo = FALSE, purl = FALSE, message = FALSE}
-source("setup.R")
+## source("setup.R")
 ```
 
 ------------
@@ -97,8 +97,8 @@ for issues in the styling of your code.
 When assigning a value to an object, R does not print anything. You can force R to print the value by using parentheses or by typing the object name:
 
 ```{r, purl = FALSE}
-sepal_length <- 55    # doesn't print anything
-(sepal_length <- 55)  # but putting parenthesis around the call prints the value of `sepal_length`
+sepal_length <- 5.1    # doesn't print anything
+(sepal_length <- 5.1)  # but putting parenthesis around the call prints the value of `sepal_length`
 sepal_length          # and so does typing the name of the object
 ```
 
@@ -106,14 +106,14 @@ Now that R has `sepal_length` in memory, we can do arithmetic with it. For
 instance, we may want to convert this measurement into inches ( `1 inch = 2.54 cm`):
 
 ```{r, purl = FALSE}
-sepal_length / 2.54
+sepal_length/2.54
 ```
 
 We can also change an object's value by assigning it a new one:
 
 ```{r, purl = FALSE}
 sepal_length <- 4.9
-sepal_length / 2.54
+sepal_length/2.54
 ```
 
 This means that assigning a value to one object does not change the values of
@@ -121,7 +121,7 @@ other objects  For example, let's store the observation in inches in a new
 object, `sepal_length_inch`:
 
 ```{r, purl = FALSE}
-sepal_length_inch <- sepal_length / 2.54
+sepal_length_inch <- sepal_length/2.54
 ```
 
 and then change `sepal_length` to 100.
@@ -144,8 +144,7 @@ out one line, you can put the cursor at any location of that line (i.e. no need
 to select the whole line), then press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + 
 <kbd>C</kbd>.
 
- <!-- Got to here:   SG:  8/13 -->
-<!-- to do:  change this to petal width and length; something like petal width/petal length;
+<!-- 
   like the example in the mutate() section of https://rpubs.com/moeransm/intro-iris
 -->
 
@@ -154,11 +153,11 @@ to select the whole line), then press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> +
 > What are the values after each statement in the following?
 >
 > ```{r, purl = FALSE}
-> mass <- 47.5            # mass?
-> age  <- 122             # age?
-> mass <- mass * 2.0      # mass?
-> age  <- age - 20        # age?
-> mass_index <- mass/age  # mass_index?
+> petal_length <- 1.5					# petal_length?
+> petal_width  <- 0.2                       		# petal_width?
+> petal_length <- petal_length - 0.5        		# petal_length?
+> petal_width  <- petal_width * 5           		# petal_width?
+> petal_ratio  <- petal_length/petal_width  		# petal_ratio?
 > ```
 
 ```{r, echo = FALSE, purl = TRUE}
@@ -166,11 +165,11 @@ to select the whole line), then press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> +
 ##
 ## What are the values after each statement in the following?
 ##
-## mass <- 47.5            # mass?
-## age  <- 122             # age?
-## mass <- mass * 2.0      # mass?
-## age  <- age - 20        # age?
-## mass_index <- mass/age  # mass_index?
+## petal_length <- 1.5					# petal_length?
+## petal_width  <- 0.2                      		# petal_width?
+## petal_length <- petal_length - 0.5       		# petal_length?
+## petal_width  <- petal_width * 5          		# petal_width?
+## petal_ratio  <- petal_length/petal_width  		# petal_ratio?
 ```
 
 ### Functions and their arguments
@@ -266,35 +265,35 @@ the `c()` function. For example we can create a vector of animal weights and ass
 it to a new object `weight_g`:
 
 ```{r, purl = FALSE}
-weight_g <- c(50, 60, 65, 82)
-weight_g
+widths  <- c(0.12, 0.23, 0.41, 0.33)
+widths
 ```
 
 A vector can also contain characters:
 
-```{r, purl = FALSE}
-animals <- c("mouse", "rat", "dog")
-animals
+```{r, purl = FALSE}  
+species <- c("setosa", "versicolor", "virginica")
+species
 ```
 
-The quotes around "mouse", "rat", etc. are essential here. Without the quotes R
-will assume objects have been created called `mouse`, `rat` and `dog`. As these objects
+The quotes around "setosa", "versicolor", and "virginica" are essential here. Without the quotes R
+will assume objects have been created called `setosa`, `versicolor`, and `virginica`.As these objects
 don't exist in R's memory, there will be an error message.
 
 There are many functions that allow you to inspect the content of a
 vector. `length()` tells you how many elements are in a particular vector:
 
 ```{r, purl = FALSE}
-length(weight_g)
-length(animals)
+length(widths)
+length(species)
 ```
 
 An important feature of a vector, is that all of the elements are the same type of data.
 The function `class()` indicates the class (the type of element) of an object:
 
 ```{r, purl = FALSE}
-class(weight_g)
-class(animals)
+class(widths)
+class(species)
 ```
 
 The function `str()` provides an overview of the structure of an object and its
@@ -302,21 +301,21 @@ elements. It is a useful function when working with large and complex
 objects:
 
 ```{r, purl = FALSE}
-str(weight_g)
-str(animals)
+str(widths)
+str(species)
 ```
 
 You can use the `c()` function to add other elements to your vector:
 ```{r, purl = FALSE}
-weight_g <- c(weight_g, 90) # add to the end of the vector
-weight_g <- c(30, weight_g) # add to the beginning of the vector
-weight_g
+widths <- c(widths, 0.22) # add to the end of the vector
+widths <- c(0.3, widths) # add to the beginning of the vector
+widths
 ```
 
-In the first line, we take the original vector `weight_g`,
-add the value `90` to the end of it, and save the result back into
-`weight_g`. Then we add the value `30` to the beginning, again saving the result
-back into `weight_g`.
+In the first line, we take the original vector `widths`,
+add the value `0.22` to the end of it, and save the result back into
+`widths`. Then we add the value `0.3` to the beginning, again saving the result
+back into `widths`.
 
 We can do this over and over again to grow a vector, or assemble a dataset.
 As we program, this may be useful to add results that we are collecting or
@@ -422,6 +421,7 @@ tricky <- c(1, 2, 3, "4")
 ## you draw a diagram that represents the hierarchy of how these data
 ## types are coerced?
 ```
+ <!-- Got to here:   SG:  8/13 -->
 
 ## Subsetting vectors
 
@@ -429,17 +429,17 @@ If we want to extract one or several values from a vector, we must provide one
 or several indices in square brackets. For instance:
 
 ```{r, results = 'show', purl = FALSE}
-animals <- c("mouse", "rat", "dog", "cat")
-animals[2]
-animals[c(3, 2)]
+species <- c("mouse", "rat", "dog", "cat")
+species[2]
+species[c(3, 2)]
 ```
 
 We can also repeat the indices to create an object with more elements than the
 original one:
 
 ```{r, results = 'show', purl = FALSE}
-more_animals <- animals[c(1, 2, 3, 2, 1, 4)]
-more_animals
+more_species <- species[c(1, 2, 3, 2, 1, 4)]
+more_species
 ```
 
 R indices start at 1. Programming languages like Fortran, MATLAB, Julia, and R start
@@ -453,8 +453,8 @@ Another common way of subsetting is by using a logical vector. `TRUE` will
 select the element with the same index, while `FALSE` will not:
 
 ```{r, results = 'show', purl = FALSE}
-weight_g <- c(21, 34, 39, 54, 55)
-weight_g[c(TRUE, FALSE, TRUE, TRUE, FALSE)]
+widths <- c(21, 34, 39, 54, 55)
+widths[c(TRUE, FALSE, TRUE, TRUE, FALSE)]
 ```
 
 Typically, these logical vectors are not typed by hand, but are the output of
@@ -462,17 +462,17 @@ other functions or logical tests. For instance, if you wanted to select only the
 values above 50:
 
 ```{r, results = 'show', purl = FALSE}
-weight_g > 50    # will return logicals with TRUE for the indices that meet the condition
+widths > 50    # will return logicals with TRUE for the indices that meet the condition
 ## so we can use this to select only the values above 50
-weight_g[weight_g > 50]
+widths[widths > 50]
 ```
 
 You can combine multiple tests using `&` (both conditions are true, AND) or `|`
 (at least one of the conditions is true, OR):
 
 ```{r, results = 'show', purl = FALSE}
-weight_g[weight_g < 30 | weight_g > 50]
-weight_g[weight_g >= 30 & weight_g == 21]
+widths[widths < 30 | widths > 50]
+widths[widths >= 30 & widths == 21]
 ```
 
 Here, `<` stands for "less than", `>` for "greater than", `>=` for "greater than
@@ -487,10 +487,10 @@ become tedious. The function `%in%` allows you to test if any of the elements of
 a search vector are found:
 
 ```{r, results = 'show', purl = FALSE}
-animals <- c("mouse", "rat", "dog", "cat")
-animals[animals == "cat" | animals == "rat"] # returns both rat and cat
-animals %in% c("rat", "cat", "dog", "duck", "goat")
-animals[animals %in% c("rat", "cat", "dog", "duck", "goat")]
+species <- c("mouse", "rat", "dog", "cat")
+species[species == "cat" | species == "rat"] # returns both rat and cat
+species %in% c("rat", "cat", "dog", "duck", "goat")
+species[species %in% c("rat", "cat", "dog", "duck", "goat")]
 ```
 
 > ### Challenge (optional){.challenge}
