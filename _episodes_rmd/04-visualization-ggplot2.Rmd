@@ -10,7 +10,7 @@ library(tidyverse)
 library(knitr)
 
 source("../bin/chunk-options.R")
-knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 knitr_fig_path("04-")
 
 data(iris)
