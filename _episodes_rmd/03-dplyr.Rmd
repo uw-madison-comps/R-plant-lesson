@@ -4,8 +4,7 @@ author: "Data Carpentry contributors"
 source: Rmd
 ---
 
-```{r, echo=FALSE}
-source("setup.R")
+```{r, echo=FALSE, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(lubridate)
 library(knitr)
@@ -219,21 +218,27 @@ You can also create a second new column based on the first new column within the
 #removed the NA example because iris doesn't have NAs
 
 > ### Challenge
->
+>  Instantaneous Water-Use Efficiency (WUE) is an efficiency measure of how much carbon is gained by photosynthesis per water lost through transpiration. A higher WUE indicates that the plant is losing less water, which is better for the plant. WUE is caluclated by dividing photosynthesis by transpiration. Often, different species and functional groups have distinct WUE.
+
 >  Create a new data frame from the `plant_phys` data that meets the following
->  criteria: contains only the `Species` column and a new column called
->  `Cond_ratio` containing values that are `Cond_night` divided by the `Cond_day` values.
->  Filter this `Cond_ratio` column so that all values are less
->  than 1.
+>  criteria: 
+>  * is named phys_wue
+>  * contains the following columns: Species, FGroup
+>  * contains a new column called wue_day (wue_day = Photo/Trmmol_day)
+>  * contains only rows that have a wue_day >1
+>
+>  Which species and functional types have the highest WUE?
 >
 >  **Hint**: think about how the commands should be ordered to produce this data frame!
 > 
-> ```{r, answer=TRUE, eval=FALSE, purl=FALSE}
-> phys_ratio <- plant_phys %>%
->     mutate(Cond_ratio = Cond_night/Cond_day) %>%
->     filter(Cond_ratio < 1) %>%
->     select(Species, Cond_Ratio)
-> ```
+>> ```{r}
+>> phys_wue <- plant_phys %>%
+>>     mutate(wue_day = Cond_night/Cond_day) %>%
+>>     filter(wue_day > 1) %>%
+>>     select(Species, Fgroup, wue_day)
+>> ```
+> {: .solution}
+{: .challenge}
 
 #Using dates in R
 
@@ -344,7 +349,6 @@ plant_phys %>%
   summarize(mean_photo = mean(Photo))
 ```
 
-
 If you want to display more data, you can use the `print()` function
 at the end of your chain with the argument `n` specifying the number of rows to display:
 
@@ -384,7 +388,6 @@ plant_phys %>%
             min_photo = min(Photo)) %>%
   arrange(desc(min_photo))
 ```
-
 
 #### Counting
 
