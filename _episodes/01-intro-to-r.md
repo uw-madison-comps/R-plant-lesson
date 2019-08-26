@@ -36,18 +36,7 @@ You can get output from R simply by typing math in the console:
 
 ```r
 3 + 5
-```
-
-```
-## [1] 8
-```
-
-```r
 12 / 7
-```
-
-```
-## [1] 1.714286
 ```
 
 However, to do useful and interesting things, we need to assign _values_ to
@@ -56,7 +45,7 @@ assignment operator `<-`, and the value we want to give it:
 
 
 ```r
-weight_kg <- 55
+sepal_length <- 5.1
 ```
 
 `<-` is the assignment operator. It assigns values on the right to objects on
@@ -71,15 +60,15 @@ In RStudio, typing <kbd>Alt</kbd> + <kbd>-</kbd> (push <kbd>Alt</kbd> at the
 same time as the <kbd>-</kbd> key) will write ` <- ` in a single keystroke in a PC, while typing <kbd>Option</kbd> + <kbd>-</kbd> (push <kbd>Option</kbd> at the
 same time as the <kbd>-</kbd> key) does the same in a Mac.
 
-Objects can be given any name such as `x`, `current_temperature`, or
-`subject_id`. You want your object names to be explicit and not too long. They
+Objects can be given any name such as `x`, `species`, or
+`sample_id`. You want your object names to be explicit and not too long. They
 cannot start with a number (`2x` is not valid, but `x2` is). R is case sensitive
-(e.g., `weight_kg` is different from `Weight_kg`). There are some names that
+(e.g., `sepal_length` is different from `Sepal_length`). There are some names that
 cannot be used because they are the names of fundamental functions in R (e.g.,
 `if`, `else`, `for`, see
 [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html)
 for a complete list). In general, even if it's allowed, it's best to not use
-other function names (e.g., `c`, `T`, `mean`, `data`, `df`, `weights`). If in
+other function names (e.g., `c`, `T`, `mean`, `data`, `df`, `length`). If in
 doubt, check the help to see if the name is already in use. It's also best to
 avoid dots (`.`) within an object name as in `my.dataset`. There are many
 functions in R with dots in their names for historical reasons, but because dots
@@ -109,63 +98,44 @@ When assigning a value to an object, R does not print anything. You can force R 
 
 
 ```r
-weight_kg <- 55    # doesn't print anything
-(weight_kg <- 55)  # but putting parenthesis around the call prints the value of `weight_kg`
+sepal_length <- 55    # doesn't print anything
+(sepal_length <- 55)  # but putting parenthesis around the call prints the value of `sepal_length`
+sepal_length          # and so does typing the name of the object
 ```
 
-```
-## [1] 55
-```
-
-```r
-weight_kg          # and so does typing the name of the object
-```
-
-```
-## [1] 55
-```
-
-Now that R has `weight_kg` in memory, we can do arithmetic with it. For
-instance, we may want to convert this weight into pounds (weight in pounds is 2.2 times the weight in kg):
+Now that R has `sepal_length` in memory, we can do arithmetic with it. For
+instance, we may want to convert this measurement into inches ( `1 inch = 2.54 cm`):
 
 
 ```r
-2.2 * weight_kg
-```
-
-```
-## [1] 121
+sepal_length / 2.54
 ```
 
 We can also change an object's value by assigning it a new one:
 
 
 ```r
-weight_kg <- 57.5
-2.2 * weight_kg
-```
-
-```
-## [1] 126.5
+sepal_length <- 4.9
+sepal_length / 2.54
 ```
 
 This means that assigning a value to one object does not change the values of
-other objects  For example, let's store the animal's weight in pounds in a new
-object, `weight_lb`:
+other objects  For example, let's store the observation in inches in a new
+object, `sepal_length_inch`:
 
 
 ```r
-weight_lb <- 2.2 * weight_kg
+sepal_length_inch <- sepal_length / 2.54
 ```
 
-and then change `weight_kg` to 100.
+and then change `sepal_length` to 100.
 
 
 ```r
-weight_kg <- 100
+sepal_length <- 2.54
 ```
 
-What do you think is the current content of the object `weight_lb`? 126.5 or 220?
+What do you think is the current content of the object `sepal_length_inch`? 1 or 1.93 ?
 
 ### Comments
 
@@ -178,6 +148,8 @@ lines you  want to comment, press at the same time on your keyboard
 out one line, you can put the cursor at any location of that line (i.e. no need 
 to select the whole line), then press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + 
 <kbd>C</kbd>.
+
+<!-- to do:  change this to petal width and length -->
 
 > ### Challenge
 >
@@ -235,7 +207,7 @@ round(3.14159)
 ```
 
 ```
-## [1] 3
+#> [1] 3
 ```
 
 Here, we've called `round()` with just one argument, `3.14159`, and it has
@@ -251,8 +223,8 @@ args(round)
 ```
 
 ```
-## function (x, digits = 0) 
-## NULL
+#> function (x, digits = 0) 
+#> NULL
 ```
 
 
@@ -269,7 +241,7 @@ round(3.14159, digits = 2)
 ```
 
 ```
-## [1] 3.14
+#> [1] 3.14
 ```
 
 If you provide the arguments in the exact same order as they are defined you
@@ -281,7 +253,7 @@ round(3.14159, 2)
 ```
 
 ```
-## [1] 3.14
+#> [1] 3.14
 ```
 
 And if you do name the arguments, you can switch their order:
@@ -292,7 +264,7 @@ round(digits = 2, x = 3.14159)
 ```
 
 ```
-## [1] 3.14
+#> [1] 3.14
 ```
 
 It's good practice to put the non-optional arguments (like the number you're
@@ -318,20 +290,12 @@ weight_g <- c(50, 60, 65, 82)
 weight_g
 ```
 
-```
-## [1] 50 60 65 82
-```
-
 A vector can also contain characters:
 
 
 ```r
 animals <- c("mouse", "rat", "dog")
 animals
-```
-
-```
-## [1] "mouse" "rat"   "dog"
 ```
 
 The quotes around "mouse", "rat", etc. are essential here. Without the quotes R
@@ -344,18 +308,7 @@ vector. `length()` tells you how many elements are in a particular vector:
 
 ```r
 length(weight_g)
-```
-
-```
-## [1] 4
-```
-
-```r
 length(animals)
-```
-
-```
-## [1] 3
 ```
 
 An important feature of a vector, is that all of the elements are the same type of data.
@@ -364,18 +317,7 @@ The function `class()` indicates the class (the type of element) of an object:
 
 ```r
 class(weight_g)
-```
-
-```
-## [1] "numeric"
-```
-
-```r
 class(animals)
-```
-
-```
-## [1] "character"
 ```
 
 The function `str()` provides an overview of the structure of an object and its
@@ -385,18 +327,7 @@ objects:
 
 ```r
 str(weight_g)
-```
-
-```
-##  num [1:4] 50 60 65 82
-```
-
-```r
 str(animals)
-```
-
-```
-##  chr [1:3] "mouse" "rat" "dog"
 ```
 
 You can use the `c()` function to add other elements to your vector:
@@ -405,10 +336,6 @@ You can use the `c()` function to add other elements to your vector:
 weight_g <- c(weight_g, 90) # add to the end of the vector
 weight_g <- c(30, weight_g) # add to the beginning of the vector
 weight_g
-```
-
-```
-## [1] 30 50 60 65 82 90
 ```
 
 In the first line, we take the original vector `weight_g`,
@@ -496,7 +423,7 @@ animals[2]
 ```
 
 ```
-## [1] "rat"
+#> [1] "rat"
 ```
 
 ```r
@@ -504,7 +431,7 @@ animals[c(3, 2)]
 ```
 
 ```
-## [1] "dog" "rat"
+#> [1] "dog" "rat"
 ```
 
 We can also repeat the indices to create an object with more elements than the
@@ -517,7 +444,7 @@ more_animals
 ```
 
 ```
-## [1] "mouse" "rat"   "dog"   "rat"   "mouse" "cat"
+#> [1] "mouse" "rat"   "dog"   "rat"   "mouse" "cat"
 ```
 
 R indices start at 1. Programming languages like Fortran, MATLAB, Julia, and R start
@@ -537,7 +464,7 @@ weight_g[c(TRUE, FALSE, TRUE, TRUE, FALSE)]
 ```
 
 ```
-## [1] 21 39 54
+#> [1] 21 39 54
 ```
 
 Typically, these logical vectors are not typed by hand, but are the output of
@@ -550,7 +477,7 @@ weight_g > 50    # will return logicals with TRUE for the indices that meet the 
 ```
 
 ```
-## [1] FALSE FALSE FALSE  TRUE  TRUE
+#> [1] FALSE FALSE FALSE  TRUE  TRUE
 ```
 
 ```r
@@ -559,7 +486,7 @@ weight_g[weight_g > 50]
 ```
 
 ```
-## [1] 54 55
+#> [1] 54 55
 ```
 
 You can combine multiple tests using `&` (both conditions are true, AND) or `|`
@@ -571,7 +498,7 @@ weight_g[weight_g < 30 | weight_g > 50]
 ```
 
 ```
-## [1] 21 54 55
+#> [1] 21 54 55
 ```
 
 ```r
@@ -579,7 +506,7 @@ weight_g[weight_g >= 30 & weight_g == 21]
 ```
 
 ```
-## numeric(0)
+#> numeric(0)
 ```
 
 Here, `<` stands for "less than", `>` for "greater than", `>=` for "greater than
@@ -600,7 +527,7 @@ animals[animals == "cat" | animals == "rat"] # returns both rat and cat
 ```
 
 ```
-## [1] "rat" "cat"
+#> [1] "rat" "cat"
 ```
 
 ```r
@@ -608,7 +535,7 @@ animals %in% c("rat", "cat", "dog", "duck", "goat")
 ```
 
 ```
-## [1] FALSE  TRUE  TRUE  TRUE
+#> [1] FALSE  TRUE  TRUE  TRUE
 ```
 
 ```r
@@ -616,7 +543,7 @@ animals[animals %in% c("rat", "cat", "dog", "duck", "goat")]
 ```
 
 ```
-## [1] "rat" "dog" "cat"
+#> [1] "rat" "dog" "cat"
 ```
 
 > ### Challenge (optional){.challenge}
@@ -644,34 +571,9 @@ the missing values.
 ```r
 heights <- c(2, 4, 4, NA, 6)
 mean(heights)
-```
-
-```
-## [1] NA
-```
-
-```r
 max(heights)
-```
-
-```
-## [1] NA
-```
-
-```r
 mean(heights, na.rm = TRUE)
-```
-
-```
-## [1] 4
-```
-
-```r
 max(heights, na.rm = TRUE)
-```
-
-```
-## [1] 6
 ```
 
 If your data include missing values, you may want to become familiar with the
@@ -683,32 +585,12 @@ examples.
 ```r
 ## Extract those elements which are not missing values.
 heights[!is.na(heights)]
-```
 
-```
-## [1] 2 4 4 6
-```
-
-```r
 ## Returns the object with incomplete cases removed. The returned object is an atomic vector of type `"numeric"` (or `"double"`).
 na.omit(heights)
-```
 
-```
-## [1] 2 4 4 6
-## attr(,"na.action")
-## [1] 4
-## attr(,"class")
-## [1] "omit"
-```
-
-```r
 ## Extract those elements which are complete cases. The returned object is an atomic vector of type `"numeric"` (or `"double"`).
 heights[complete.cases(heights)]
-```
-
-```
-## [1] 2 4 4 6
 ```
 Recall that you can use the `typeof()` function to find the type of your atomic vector.
 
@@ -723,6 +605,9 @@ Recall that you can use the `typeof()` function to find the type of your atomic 
 >
 > 3. Use R to figure out how many people in the set are taller than 67 inches.
 >
+> <div class="accordion">
+> <h3 class="toc-ignore">Answer</h3>
+> <div style="background: #fff;">
 > 
 > ```r
 > heights <- c(63, 69, 60, 65, NA, 68, 61, 70, 61, 59, 64, 69, 63, 63, NA, 72, 65, 64, 70, 63, 65)
@@ -736,21 +621,14 @@ Recall that you can use the `typeof()` function to find the type of your atomic 
 > 
 > # 2.
 > median(heights, na.rm = TRUE)
-> ```
 > 
-> ```
-> ## [1] 64
-> ```
-> 
-> ```r
 > # 3.
 > heights_above_67 <- heights_no_na[heights_no_na > 67]
 > length(heights_above_67)
 > ```
 > 
-> ```
-> ## [1] 6
-> ```
+> </div>
+> </div>
 
 
 
