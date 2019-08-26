@@ -5,7 +5,7 @@ source: Rmd
 ---
 
 ```{r, echo=FALSE, purl=FALSE, message = FALSE}
-#source("setup.R")
+source("setup.R")
 library(tidyverse)
 library(lubridate)
 data(iris)
@@ -180,7 +180,7 @@ Some may find it helpful to read the pipe like the word "then". For instance, in
 If we want to create a new object with this smaller version of the data, we can assign it a new name:
 
 ```{r, purl = FALSE}
-iris_sml <- surveys %>%
+iris_sml <- iris %>%
   filter(Sepal.Length < 5) %>%
   select(Species, Sepal.Length, Sepal.Width)
 
@@ -358,9 +358,9 @@ If you want to display more data, you can use the `print()` function
 at the end of your chain with the argument `n` specifying the number of rows to display:
 
 ```{r, purl = FALSE}
-plant_phys %>%
+plant_phys %>%  
   group_by(Year, Species) %>%
-  summarize(mean_photo = mean(Photo))
+  summarize(mean_photo = mean(Photo)) %>% 
   print(n = 15)
 ```
 
@@ -438,7 +438,7 @@ From the table above, we may learn that, for instance, there are 75 observations
 > 1. How many plant species were measured in each `Year`?
 >
 > ```{r, answer=TRUE, purl=FALSE}
-> surveys %>%
+> plant_phys %>%
 >     count(Species) 
 > ```
 >
@@ -452,7 +452,7 @@ From the table above, we may learn that, for instance, there are 75 observations
 >     summarize(
 >         mean_photo = mean(Photo),
 >         max_photo = max(Photo),
->         min_photo = min(Photo)
+>         min_photo = min(Photo),
 >         n = n()
 >     )
 > ```
@@ -586,8 +586,10 @@ We could also have used a specification for what columns to include. This can be
 >    `Fgroup` by `Year` combination.
 >
 > ```{r, answer=TRUE, purl=FALSE}
-> rich_time %>%
->   gather(Fgroup, n_genera, -Year)
+# commenting this out for now to get the lesson to knit.
+# 'Error.. object rich_time not found;
+#> rich_time %>%
+#>   gather(Fgroup, n_genera, -Year)
 > ```
 >
 
