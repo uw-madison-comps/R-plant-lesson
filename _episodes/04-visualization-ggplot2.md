@@ -3,13 +3,35 @@
 # Instead, please edit 04-visualization-ggplot2.md in _episodes_rmd/
 source: Rmd
 title: Data visualization with ggplot2
-author: Data Carpentry contributors
+author: Tobin Magle
 minutes: 60
 ---
 
 
+```r
+library(tidyverse)
+```
 
-------------
+```
+## Warning: package 'ggplot2' was built under R version 3.5.2
+```
+
+```
+## Warning: package 'tibble' was built under R version 3.5.2
+```
+
+```
+## Warning: package 'dplyr' was built under R version 3.5.2
+```
+
+```r
+library(knitr)
+
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+data(iris)
+iris<-as_tibble(iris)
+plant_phys<-read_csv("data_output/phys_dates.csv")
+```
 
 > ### Learning Objectives
 >
@@ -58,8 +80,7 @@ To build a ggplot, we will use the following basic template that can be used for
 ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) +  <GEOM_FUNCTION>()
 ```
 
-- use the `ggplot()` function and bind the plot to a specific data frame using the
-      `data` argument
+- use the `ggplot()` function and bind the plot to a specific data frame using the `data` argument
 
 
 ```r
@@ -89,8 +110,8 @@ let's use `geom_point()` first:
 
 ```r
 ggplot(data = iris, 
-       mapping = aes(x = sepal_length, 
-                     y = sepal_width))+
+       mapping = aes(x = Sepal.Length, 
+                     y = Sepal.Width))+
   geom_point()
 ```
 
@@ -105,13 +126,15 @@ plot can also be generated with code like this:
 ```r
 # Assign plot to a variable
 iris_plot <- ggplot(data = iris, 
-       mapping = aes(x = sepal_length, 
-                     y = sepal_width))
+       mapping = aes(x = Sepal.Length, 
+                     y = Sepal.Width))
 
 # Draw the plot
 iris_plot + 
     geom_point()
 ```
+
+![plot of chunk first-ggplot-with-plus](figure/first-ggplot-with-plus-1.png)
 
 **Notes**
 
@@ -130,10 +153,23 @@ error message.
 # This is the correct syntax for adding layers
 iris_plot +
   geom_point()
+```
 
+![plot of chunk ggplot-with-plus-position](figure/ggplot-with-plus-position-1.png)
+
+```r
 # This will not add the new layer and will return an error message
 iris_plot
+```
+
+![plot of chunk ggplot-with-plus-position](figure/ggplot-with-plus-position-2.png)
+
+```r
   + geom_point()
+```
+
+```
+## Error: Cannot use `+.gg()` with a single argument. Did you accidentally put + on a new line?
 ```
 
 ## Building your plots iteratively
@@ -144,8 +180,8 @@ defining the dataset we'll use, lay out the axes, and choose a geom:
 
 ```r
 ggplot(data = iris, 
-       mapping = aes(x = sepal_width, 
-                     y = sepal_length))+
+       mapping = aes(x = Sepal.Width, 
+                     y = Sepal.Length))+
     geom_point()
 ```
 
@@ -156,8 +192,8 @@ We can also add colors for all the points:
 
 ```r
 ggplot(data = iris, 
-       mapping = aes(x = sepal_width, 
-                     y = sepal_length))+
+       mapping = aes(x = Sepal.Width, 
+                     y = Sepal.Length))+
     geom_point(color = "blue")
 ```
 
@@ -169,9 +205,9 @@ Or to color each species in the plot differently, you could use a vector as an i
 
 ```r
 ggplot(data = iris, 
-       mapping = aes(x = sepal_width, 
-                     y = sepal_length))+
-    geom_point(aes(color = species))
+       mapping = aes(x = Sepal.Width, 
+                     y = Sepal.Length))+
+    geom_point(aes(color = Species))
 ```
 
 ![plot of chunk color-by-species-1](figure/color-by-species-1-1.png)
@@ -181,9 +217,9 @@ We can also specify the colors directly inside the mapping provided in the `ggpl
 
 ```r
 ggplot(data = iris, 
-       mapping = aes(x = sepal_width, 
-                     y = sepal_length, 
-                     color = species))+
+       mapping = aes(x = Sepal.Width, 
+                     y = Sepal.Length, 
+                     color = Species))+
     geom_point()
 ```
 
@@ -194,30 +230,33 @@ Notice that we can change the geom layer and colors will be still determined by 
 
 ```r
 ggplot(data = iris, 
-       mapping = aes(x = sepal_width, 
-                     y = sepal_length, 
-                     color = species))+
+       mapping = aes(x = Sepal.Width, 
+                     y = Sepal.Length, 
+                     color = Species))+
     geom_jitter()
 ```
 
 ![plot of chunk color-by-species-3](figure/color-by-species-3-1.png)
 
-> ### Challenge
+> ## Challenge 1
 >
-> Use what you just learned to create a scatter plot of the `plant_phys` dataset. Plot `Cond_day` over
-> `Cond_night` with the species showing in different colors. Is this a good
-> way to show this type of data?
-> 
-> ```r
-> ggplot(data = plant_phys, mapping = aes(x = Cond_day, y = Cond_night)) +
->    geom_point(aes(color = species))
-> ```
-> 
-> ```
-> ## Error in FUN(X[[i]], ...): object 'species' not found
-> ```
-> 
-> ![plot of chunk scatter-challenge](figure/scatter-challenge-1.png)
+> Use what you just learned to create a scatter plot. Use these skills to plot the of the `plant_phys` dataset. 
+> Plot `Cond_day` over `Cond_night` with the species showing in different colors. Is this a good way to show this type of data?
+>
+> > ## Solution to Challenge 1
+> > 
+> > ```r
+> > ggplot(data = plant_phys, mapping = aes(x = Cond_day, y = Cond_night)) +
+> >    geom_point(aes(color = species))
+> > ```
+> > 
+> > ```
+> > ## Error in FUN(X[[i]], ...): object 'species' not found
+> > ```
+> > 
+> > ![plot of chunk ch1-soln](figure/ch1-soln-1.png)
+> {: .solution}
+{: .challenge}
 
 ## Boxplot
 
@@ -225,7 +264,9 @@ We can use boxplots to visualize the distribution of sepal length within each sp
 
 
 ```r
-ggplot(data = iris, mapping = aes(x = species, y = sepal_length)) +
+ggplot(data = iris, 
+       mapping = aes(x = Species, 
+                     y = Sepal.Length)) +
     geom_boxplot()
 ```
 
@@ -237,8 +278,8 @@ measurements and of their distribution:
 
 ```r
 ggplot(data = iris, 
-       mapping = aes(x = species, 
-                     y = sepal_length)) +
+       mapping = aes(x = Species, 
+                     y = Sepal.Length)) +
     geom_boxplot()+
     geom_jitter(color = "tomato")
 ```
@@ -249,33 +290,47 @@ Notice how the boxplot layer is behind the jitter layer? What do you need to
 change in the code to put the boxplot in front of the points such that it's not
 hidden?
 
-> ### Challenges
+### The violin plot: an alternative to the boxplot
+
+Boxplots are useful summaries, but hide the *shape* of the distribution. For example, if the distribution is bimodal, we would not see it in a boxplot. An alternative to the boxplot is the violin plot, where the shape (of the density of points) is drawn.
+
+> ## Challenge 2
 >
-> Boxplots are useful summaries, but hide the *shape* of the distribution. For
-> example, if the distribution is bimodal, we would not see it in a
-> boxplot. An alternative to the boxplot is the violin plot, where the shape 
-(of the density of points) is drawn.
+> Try replacing the box plot with a violin plot with `geom_violin()`.
+
+> > ## Solution to Challenge 2
+> > 
+> > ```r
+> >       ggplot(data = iris, 
+> >              mapping = aes(x = Species, 
+> >                            y = Sepal.Length)) +
+> >       geom_boxplot()
+> > ```
+> > 
+> > ![plot of chunk ch2-soln](figure/ch2-soln-1.png)
+> {: .solution}
+{: .challenge}
+
+
+> ## Challenge 3
 >
-> - Replace the box plot with a violin plot; see `geom_violin()`.
->
-> In many types of data, it is important to consider the *scale* of the
-> observations.  For example, it may be worth changing the scale of the axis to
-> better distribute the observations in the space of the plot.  Changing the scale
-> of the axes is done similarly to adding/modifying other components (i.e., by
-> incrementally adding commands). Try making these modifications:
->
-> - Represent weight on the log~10~ scale; see `scale_y_log10()`.
->
-> So far, we've looked at the distribution of weight within species. Try making a
-> new plot to explore the distribution of another variable within each species.
->
-> - Create a boxplot for `petal_length`. Overlay the boxplot layer on a jitter
->   layer to show actual measurements.
->
+> - Create a boxplot for `Petal.Length`. 
+> - Overlay the boxplot layer on a jitter layer to show actual measurements.
 > - Add color to the data points on your boxplot according to `species`.
 >
-
-
+> > Solution to Challenge 3
+> > 
+> > ```r
+> > ggplot(data = iris, 
+> >        mapping = aes(x = Species, 
+> >                      y = Petal.Length)) +
+> >     geom_boxplot()+
+> >     geom_jitter(color = "tomato")
+> > ```
+> > 
+> > ![plot of chunk ch3-soln](figure/ch3-soln-1.png)
+> {: .solution}
+{: .challenge}
 
 ## Plotting time series data
 
@@ -288,8 +343,7 @@ monthly_photo_fg <- plant_phys %>%
   summarize(mean_phot = mean(Photo))
 ```
 
-Time series data can be visualized as a line plot with years on the x axis and counts
-on the y axis:
+Time series data can be visualized as a line plot with years on the x axis and counts on the y axis:
 
 
 ```r
@@ -301,9 +355,7 @@ ggplot(data = monthly_photo_fg,
 
 ![plot of chunk first-time-series](figure/first-time-series-1.png)
 
-Unfortunately, this does not work because we plotted data for all the functional
-groups together. We need to tell ggplot to draw a line for each species by
-modifying the aesthetic function to include `group = Species`:
+Unfortunately, this does not work because we plotted data for all the functional groups together. We need to tell ggplot to draw a line for each species by modifying the aesthetic function to include `group = Species`:
 
 
 ```r
@@ -368,7 +420,7 @@ ggplot(data = mo_sp_fg,
     facet_wrap(~ Fgroup) 
 ```
 
-![plot of chunk facet-by-species-and-sex](figure/facet-by-species-and-sex-1.png)
+![plot of chunk facet-by](figure/facet-by-1.png)
 
 Usually plots with white background look more readable when printed.  We can set
 the background to white using the function `theme_bw()`. Additionally, you can remove
@@ -386,7 +438,7 @@ ggplot(data = mo_sp_fg,
      theme(panel.grid = element_blank())
 ```
 
-![plot of chunk facet-by-species-and-sex-white-bg](figure/facet-by-species-and-sex-white-bg-1.png)
+![plot of chunk facet-by-white-bg](figure/facet-by-white-bg-1.png)
 
 ## **`ggplot2`** themes
 
@@ -405,40 +457,43 @@ of packages that extend the capabilities of **`ggplot2`**, including additional
 themes.
 
 
-> ### Challenge
+> ## Challenge 4
 
 > Use what you just learned to create a plot that depicts how the average `PD`
 > of each species changes over a season. Color the lines by functional group
 > 
-> 
-> ```r
-> seasonPD <- plant_phys %>%
->                 group_by(Month, Species, Fgroup) %>%
->                  summarize(avg_PD = mean(PD))
-> ggplot(data = seasonPD, 
->    mapping = aes(x=Month, 
->                  y=avg_PD, 
->                  color = Fgroup)) +
->    geom_line() +
->    facet_wrap(~ Species) +
->    theme_bw()
-> 
-> The `facet_wrap` geometry extracts plots into an arbitrary number of dimensions
-> to allow them to cleanly fit on one page. On the other hand, the `facet_grid`
-> geometry allows you to explicitly specify how you want your plots to be
-> arranged via formula notation (`rows ~ columns`; a `.` can be used as
-> a placeholder that indicates only one row or column).
-> 
-> Let's modify the previous plot to compare how the photosynthesis rate of functional
-> groups have changed through time:
-> ```
-> 
-> ```
-> ## Error: <text>:12:5: unexpected symbol
-> ## 11: 
-> ## 12: The `facet_wrap`
-> ##         ^
-> ```
+> > Solution to Challenge 4
+> > 
+> > ```r
+> > seasonPD <- plant_phys %>%
+> >                group_by(Month, Species, Fgroup) %>%
+> >                summarize(avg_PD = mean(PD))
+> > ggplot(data = seasonPD, 
+> >    mapping = aes(x=Month, 
+> >                  y=avg_PD, 
+> >                  color = Fgroup)) +
+> > geom_line() +
+> > facet_wrap(~ Species) +
+> > theme_bw()
+> > > {: .solution}
+> > {: .challenge}
+> > 
+> > The `facet_wrap` geometry extracts plots into an arbitrary number of dimensions
+> > to allow them to cleanly fit on one page. On the other hand, the `facet_grid`
+> > geometry allows you to explicitly specify how you want your plots to be
+> > arranged via formula notation (`rows ~ columns`; a `.` can be used as
+> > a placeholder that indicates only one row or column).
+> > 
+> > Let's modify the previous plot to compare how the photosynthesis rate of functional
+> > groups have changed through time:
+> > ```
+> > 
+> > ```
+> > ## Error: <text>:11:1: unexpected '>'
+> > ## 10: theme_bw()
+> > ## 11: >
+> > ##     ^
+> > ```
 
 ```r
 ggplot(data = mo_sp_fg, 
@@ -449,7 +504,7 @@ ggplot(data = mo_sp_fg,
     facet_grid(Fgroup ~ .)
 ```
 
-![plot of chunk average-weight-time-facet-sex-rows](figure/average-weight-time-facet-sex-rows-1.png)
+![plot of chunk average-photo-time-facet-Fgroup-rows](figure/average-photo-time-facet-Fgroup-rows-1.png)
 
 
 ```r
@@ -462,7 +517,7 @@ ggplot(data = mo_sp_fg,
     facet_grid(.~ Fgroup)
 ```
 
-![plot of chunk average-weight-time-facet-sex-columns](figure/average-weight-time-facet-sex-columns-1.png)
+![plot of chunk average-photo-time-facet-Fgroup-columns](figure/average-photo-time-facet-Fgroup-columns-1.png)
 
 ## Customization
 
@@ -486,7 +541,7 @@ ggplot(data = mo_sp_fg,
     theme_bw()
 ```
 
-![plot of chunk number-species-year-with-right-labels](figure/number-species-year-with-right-labels-1.png)
+![plot of chunk number-species-month-with-right-labels](figure/number-species-month-with-right-labels-1.png)
 
 The axes have more informative names, but their readability can be improved by
 increasing the font size:
@@ -538,7 +593,7 @@ ggplot(data = mo_sp_fg,
           text = element_text(size = 16))
 ```
 
-![plot of chunk number-species-year-with-theme](figure/number-species-year-with-theme-1.png)
+![plot of chunk number-Fgroup-month-with-theme](figure/number-Fgroup-month-with-theme-1.png)
 
 If you like the changes you created better than the default theme, you can save them as
 an object to be able to easily apply them to other plots you may create:
@@ -556,9 +611,9 @@ ggplot(plant_phys,
     grey_theme
 ```
 
-![plot of chunk number-species-year-with-right-labels-xfont-orientation](figure/number-species-year-with-right-labels-xfont-orientation-1.png)
+![plot of chunk number-Fgroup-month-with-right-labels-xfont-orientation](figure/number-Fgroup-month-with-right-labels-xfont-orientation-1.png)
 
-> ### Challenge
+> ## Challenge 5
 > 
 > With all of this information in hand, please take another five minutes to
 > either improve one of the plots generated in this exercise or create a
@@ -632,5 +687,10 @@ ggsave("fig_output/combo_plot.png", combo_plot, width = 10, dpi = 300)
 
 Note: The parameters `width` and `height` also determine the font size in the saved plot.
 
-
-
+> ## Final Plotting Challenge
+> With all of this information in hand, please take another five
+> minutes to either improve one of the plots generated in this
+> exercise or create a beautiful graph of your own. Use the RStudio
+> ggplot2 cheat sheet for inspiration:
+> https://www.rstudio.com/wp-content/uploads/2015/08/ggplot2-cheatsheet.pdf
+{: .challenge}
