@@ -5,11 +5,14 @@ author: Tobin Magle
 minutes: 60
 ---
 
-```{r setup, message = FALSE, warnings = FALSE}
+```{r setup, message = FALSE, warning = FALSE, echo = FALSE}
 library(tidyverse)
 library(knitr)
 
+source("../bin/chunk-options.R")
 knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+knitr_fig_path("04-")
+
 data(iris)
 iris<-as_tibble(iris)
 plant_phys<-read_csv("data_output/phys_dates.csv")
@@ -189,7 +192,7 @@ ggplot(data = iris,
 > > ## Solution to Challenge 1
 > > ```{r ch1-soln}
 > > ggplot(data = plant_phys, mapping = aes(x = Cond_day, y = Cond_night)) +
-> >    geom_point(aes(color = species))
+> >    geom_point(aes(color = Species))
 > > ```
 > {: .solution}
 {: .challenge}
