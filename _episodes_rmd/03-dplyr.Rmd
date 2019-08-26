@@ -199,12 +199,6 @@ Note that the final data frame is the leftmost part of this expression.
 >     select(Year, Species, Photo)
 > ```
 
-```{r, eval=FALSE, purl=TRUE, echo=FALSE}
-## Pipes Challenge:
-##  Using pipes, subset the data to include animals collected
-##  in 2014, and retain the columns `Year`, `Species`, and `Photo.`
-```
-
 ### Mutate
 
 Frequently you'll want to create new columns based on the values in existing columns, for example to do unit conversions, or to find the ratio of values in two columns. For this we'll use `mutate()`.
@@ -224,7 +218,7 @@ You can also create a second new column based on the first new column within the
 ```
 #removed the NA example because iris doesn't have NAs
 
-> ### Challenge {.challenge}
+> ### Challenge
 >
 >  Create a new data frame from the `plant_phys` data that meets the following
 >  criteria: contains only the `Species` column and a new column called
