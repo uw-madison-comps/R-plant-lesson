@@ -8,10 +8,9 @@ source: Rmd
 
 
 
-### Manipulating and analyzing data with dplyr
+## Manipulating and analyzing data with dplyr
 
 ------------
-
 > ### Learning Objectives
 >
 > * Describe the purpose of the **`dplyr`** and **`tidyr`** packages.
@@ -49,60 +48,91 @@ We have seen in our previous lesson that when building or importing a data frame
 
 This time we will use the **`tidyverse`** package to read the data and avoid having to set **`stringsAsFactors`** to **`FALSE`**
 
-To load the package type:
-
+#### To load the tidyverse package set, including dplyr, type:
 
 
 ```r
-## load the tidyverse packages, incl. dplyr
+## load the tidyverse packages, including dplyr
 library("tidyverse")
 ```
 
-## What are **`dplyr`** and **`tidyr`**?
+## What is **`dplyr`**?
 
-The package **`dplyr`** provides easy tools for the most common data manipulation tasks. It is built to work directly with data frames, with many common tasks optimized by being written in a compiled language (C++). An additional feature is the ability to work directly with data stored in an external database. The benefits of doing this are that the data can be managed natively in a relational database, queries can be conducted on that database, and only the results of the query are
-returned.
+The package **`dplyr`** provides easy tools for the most common data manipulation tasks like selecting columns, filtering rows, creating new columns, and creating summary tables. 
 
-This feature addresses a common problem with R in that all operations are conducted in-memory and thus the amount of data you can work with is limited by available memory. The database connections essentially remove that limitation in that you can connect to a database of many hundreds of GB, conduct queries on it directly, and pull back into R only what you need for analysis.
-
-The package **`tidyr`** addresses the common problem of wanting to reshape your data for plotting and use by different R functions. Sometimes we want data sets where we have one row per measurement. Sometimes we want a data frame where each measurement type has its own column, and rows are instead more aggregated groups - like plots or aquaria. Moving back and forth between these formats is nontrivial, and **`tidyr`** gives you tools for this and more sophisticated  data manipulation.
-
-To learn more about **`dplyr`** and **`tidyr`** after the workshop, you may want to check out this [handy data transformation with **`dplyr`** cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf) and this [one about **`tidyr`**](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf).
+To learn more about **`dplyr`** after the workshop, you may want to check out this [handy data transformation with **`dplyr`** cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf).
 
 We'll read in our data using the `read_csv()` function, from the tidyverse package **`readr`**, instead of `read.csv()`.
 
 
 ```r
 plant_phys <- read_csv("data/Physiology_Environmental_Data.csv")
-```
 
-```
-#> Parsed with column specification:
-#> cols(
-#>   Year = col_double(),
-#>   DOY = col_double(),
-#>   Species = col_character(),
-#>   Fgroup = col_character(),
-#>   Cond_night = col_double(),
-#>   Trmmol_night = col_double(),
-#>   Photo = col_double(),
-#>   Cond_day = col_double(),
-#>   Trmmol_day = col_double(),
-#>   Percent_cond = col_double(),
-#>   Percent_trmmol = col_double(),
-#>   PD = col_double(),
-#>   MD = col_double(),
-#>   Soil_moisture = col_double(),
-#>   TAIR_N = col_double(),
-#>   VPD_N = col_double(),
-#>   TAIR_D = col_double(),
-#>   VPD_D = col_double()
-#> )
-```
-
-```r
 ## inspect the data
 str(plant_phys)
+```
+
+```
+## Classes 'tbl_df', 'tbl' and 'data.frame':	285 obs. of  18 variables:
+##  $ Year          : int  2014 2014 2014 2014 2014 2014 2014 2014 2014 2014 ...
+##  $ DOY           : int  169 169 169 169 169 169 169 169 169 169 ...
+##  $ Species       : chr  "AG" "AG" "AG" "CD" ...
+##  $ Fgroup        : chr  "grass" "grass" "grass" "woody" ...
+##  $ Cond_night    : num  0.0273 0.0168 0.0655 0.0593 0.0594 ...
+##  $ Trmmol_night  : num  0.606 0.374 1.414 1.265 1.241 ...
+##  $ Photo         : num  25 20.5 22.5 16.4 17 ...
+##  $ Cond_day      : num  0.186 0.162 0.169 0.398 0.313 ...
+##  $ Trmmol_day    : num  5.55 5.2 6.84 9.21 9.55 ...
+##  $ Percent_cond  : num  14.7 10.4 38.9 14.9 17.5 ...
+##  $ Percent_trmmol: num  10.9 7.2 20.7 13.7 11.7 ...
+##  $ PD            : num  -0.2 -0.4 -0.35 -0.15 -0.3 -0.45 -0.35 -0.3 -0.2 -0.3 ...
+##  $ MD            : num  -0.95 -0.9 -0.95 -1.4 -1.45 -1.15 -1.4 -1 -1.45 -0.8 ...
+##  $ Soil_moisture : num  0.213 0.213 0.213 0.213 0.213 0.213 0.213 0.213 0.213 0.213 ...
+##  $ TAIR_N        : num  26.6 26.6 26.6 26.6 26.6 ...
+##  $ VPD_N         : num  0.908 0.908 0.908 0.908 0.908 ...
+##  $ TAIR_D        : num  27.6 27.6 27.6 27.6 27.6 ...
+##  $ VPD_D         : num  1.26 1.26 1.26 1.26 1.26 ...
+##  - attr(*, "spec")=List of 2
+##   ..$ cols   :List of 18
+##   .. ..$ Year          : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_integer" "collector"
+##   .. ..$ DOY           : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_integer" "collector"
+##   .. ..$ Species       : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+##   .. ..$ Fgroup        : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+##   .. ..$ Cond_night    : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+##   .. ..$ Trmmol_night  : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+##   .. ..$ Photo         : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+##   .. ..$ Cond_day      : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+##   .. ..$ Trmmol_day    : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+##   .. ..$ Percent_cond  : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+##   .. ..$ Percent_trmmol: list()
+##   .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+##   .. ..$ PD            : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+##   .. ..$ MD            : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+##   .. ..$ Soil_moisture : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+##   .. ..$ TAIR_N        : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+##   .. ..$ VPD_N         : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+##   .. ..$ TAIR_D        : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+##   .. ..$ VPD_D         : list()
+##   .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+##   ..$ default: list()
+##   .. ..- attr(*, "class")= chr  "collector_guess" "collector"
+##   ..- attr(*, "class")= chr "col_spec"
 ```
 
 We also need to load the iris data as a tibble for this lesson
@@ -113,17 +143,21 @@ data(iris)
 iris<-as_tibble(iris)
 ```
 
+To preview the data, you can click on the name of the tibble in your environment or use the `View` function. 
 
 
 ```r
 ## preview the data
 View(plant_phys)
 ```
+Either of these methods will open a window with the dataset in the same area as your script file.
+
+#### Tibbles
 Notice that the class of the data is now `tbl_df`
 
 This is referred to as a "tibble". Tibbles tweak some of the behaviors of the data frame objects we introduced in the previous episode. The data structure is very similar to a data frame. For our purposes the only differences are that:
 
-1. In addition to displaying the data type of each column under its name, itonly prints the first few rows of data and only as many columns as fit on one screen.
+1. In addition to displaying the data type of each column under its name, it only prints the first few rows of data and only as many columns as fit on one screen.
 
 2. Columns of class `character` are never converted into factors.
 
@@ -148,12 +182,47 @@ arguments are the columns to keep.
 select(iris, Sepal.Length, Sepal.Width)
 ```
 
+```
+## # A tibble: 150 x 2
+##    Sepal.Length Sepal.Width
+##           <dbl>       <dbl>
+##  1          5.1         3.5
+##  2          4.9         3  
+##  3          4.7         3.2
+##  4          4.6         3.1
+##  5          5           3.6
+##  6          5.4         3.9
+##  7          4.6         3.4
+##  8          5           3.4
+##  9          4.4         2.9
+## 10          4.9         3.1
+## # … with 140 more rows
+```
+
+
 To select all columns *except* certain ones, put a "-" in front of
 the variable to exclude it.
 
 
 ```r
 select(iris, -Sepal.Length, -Sepal.Width)
+```
+
+```
+## # A tibble: 150 x 3
+##    Petal.Length Petal.Width Species
+##           <dbl>       <dbl> <fct>  
+##  1          1.4         0.2 setosa 
+##  2          1.4         0.2 setosa 
+##  3          1.3         0.2 setosa 
+##  4          1.5         0.2 setosa 
+##  5          1.4         0.2 setosa 
+##  6          1.7         0.4 setosa 
+##  7          1.4         0.3 setosa 
+##  8          1.5         0.2 setosa 
+##  9          1.4         0.2 setosa 
+## 10          1.5         0.1 setosa 
+## # … with 140 more rows
 ```
 
 This will select all the variables in `iris` except `Sepal.Length`
@@ -164,6 +233,23 @@ To choose rows based on a specific criteria, use `filter()`:
 
 ```r
 filter(iris, Sepal.Length>5)
+```
+
+```
+## # A tibble: 118 x 5
+##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##           <dbl>       <dbl>        <dbl>       <dbl> <fct>  
+##  1          5.1         3.5          1.4         0.2 setosa 
+##  2          5.4         3.9          1.7         0.4 setosa 
+##  3          5.4         3.7          1.5         0.2 setosa 
+##  4          5.8         4            1.2         0.2 setosa 
+##  5          5.7         4.4          1.5         0.4 setosa 
+##  6          5.4         3.9          1.3         0.4 setosa 
+##  7          5.1         3.5          1.4         0.3 setosa 
+##  8          5.7         3.8          1.7         0.3 setosa 
+##  9          5.1         3.8          1.5         0.3 setosa 
+## 10          5.4         3.4          1.7         0.2 setosa 
+## # … with 108 more rows
 ```
 
 ## Pipes
@@ -203,6 +289,23 @@ iris %>%
   select(Species, Sepal.Length, Sepal.Width)
 ```
 
+```
+## # A tibble: 22 x 3
+##    Species Sepal.Length Sepal.Width
+##    <fct>          <dbl>       <dbl>
+##  1 setosa           4.9         3  
+##  2 setosa           4.7         3.2
+##  3 setosa           4.6         3.1
+##  4 setosa           4.6         3.4
+##  5 setosa           4.4         2.9
+##  6 setosa           4.9         3.1
+##  7 setosa           4.8         3.4
+##  8 setosa           4.8         3  
+##  9 setosa           4.3         3  
+## 10 setosa           4.6         3.6
+## # … with 12 more rows
+```
+
 In the above code, we use the pipe to send the `iris` dataset first through `filter()` to keep rows where `Sepal.Length` is less than 5, then through `select()` to keep only the `Sepal.Length`, `Sepal.Width`, and `species` columns. Since `%>%` takes the object on its left and passes it as the first argument to the function on its right, we don't need to explicitly include the data frame as an argument to the `filter()` and `select()` functions any more.
 
 Some may find it helpful to read the pipe like the word "then". For instance, in the above example, we took the data frame `iris`, *then* we `filter`ed for rows with `Sepal.Length < 5`, *then* we `select`ed columns `species`, `Sepal.Length`, and `Sepal.Width`. The **`dplyr`** functions by themselves are somewhat simple, but by combining them into linear workflows with the pipe, we can accomplish more complex manipulations of data frames.
@@ -218,28 +321,39 @@ iris_sml <- iris %>%
 iris_sml
 ```
 
+```
+## # A tibble: 22 x 3
+##    Species Sepal.Length Sepal.Width
+##    <fct>          <dbl>       <dbl>
+##  1 setosa           4.9         3  
+##  2 setosa           4.7         3.2
+##  3 setosa           4.6         3.1
+##  4 setosa           4.6         3.4
+##  5 setosa           4.4         2.9
+##  6 setosa           4.9         3.1
+##  7 setosa           4.8         3.4
+##  8 setosa           4.8         3  
+##  9 setosa           4.3         3  
+## 10 setosa           4.6         3.6
+## # … with 12 more rows
+```
+
 Note that the final data frame is the leftmost part of this expression.
 
-> ### Challenge {.challenge}
+> ## Challenge 1
 >
 >  Using pipes, subset the `plant_phys` data to include animals collected in
 >  2014 and retain only the columns `year`, `Species`, and `Photo`.
 > 
 > 
-> <div class="accordion">
-> <h3 class="toc-ignore">Answer</h3>
-> <div style="background: #fff;">
-> 
-> ```r
-> plant_phes %>%
->     filter(Year == 2014) %>%
->     select(Year, Species, Photo)
-> ```
-> 
-> </div>
-> </div>
-
-
+> > ## Solution to Challenge 1
+> > 
+> > ```r
+> >    filter(Year == 2014) %>%
+> >    select(Year, Species, Photo)
+> > ```
+> {: .solution}
+{: .challenge}
 
 ### Mutate
 
@@ -253,39 +367,59 @@ iris %>%
   mutate(Sepal.Ratio = Sepal.Length/Sepal.Width)
 ```
 
+```
+## # A tibble: 150 x 6
+##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Ratio
+##           <dbl>       <dbl>        <dbl>       <dbl> <fct>         <dbl>
+##  1          5.1         3.5          1.4         0.2 setosa         1.46
+##  2          4.9         3            1.4         0.2 setosa         1.63
+##  3          4.7         3.2          1.3         0.2 setosa         1.47
+##  4          4.6         3.1          1.5         0.2 setosa         1.48
+##  5          5           3.6          1.4         0.2 setosa         1.39
+##  6          5.4         3.9          1.7         0.4 setosa         1.38
+##  7          4.6         3.4          1.4         0.3 setosa         1.35
+##  8          5           3.4          1.5         0.2 setosa         1.47
+##  9          4.4         2.9          1.4         0.2 setosa         1.52
+## 10          4.9         3.1          1.5         0.1 setosa         1.58
+## # … with 140 more rows
+```
+
 You can also create a second new column based on the first new column within the same call of `mutate()`:
 
 
 ```r
-iris %>%
   mutate(Sepal.Ratio = Sepal.Length/Sepal.Width,
          Petal.Ratio = Petal.Length/Petal.Width)
 ```
+
+```
+## Error in mutate(Sepal.Ratio = Sepal.Length/Sepal.Width, Petal.Ratio = Petal.Length/Petal.Width): object 'Sepal.Length' not found
+```
 #removed the NA example because iris doesn't have NAs
 
-> ### Challenge {.challenge}
->
+> ## Challenge 2 
+>  Instantaneous Water-Use Efficiency (WUE) is an efficiency measure of how much carbon is gained by photosynthesis per water lost through transpiration. A higher WUE indicates that the plant is losing less water, which is better for the plant. WUE is caluclated by dividing photosynthesis by transpiration. Often, different species and functional groups have distinct WUE.
 >  Create a new data frame from the `plant_phys` data that meets the following
->  criteria: contains only the `Species` column and a new column called
->  `Cond_ratio` containing values that are `Cond_night` divided by the `Cond_day` values.
->  Filter this `Cond_ratio` column so that all values are less
->  than 1.
+>  criteria: 
+>  * is named phys_wue
+>  * contains the following columns: Species, FGroup
+>  * contains a new column called wue_day (wue_day = Photo/Trmmol_day)
+>  * contains only rows that have a wue_day >1
+>
+>  Which species and functional types have the highest WUE?
 >
 >  **Hint**: think about how the commands should be ordered to produce this data frame!
 > 
-> <div class="accordion">
-> <h3 class="toc-ignore">Answer</h3>
-> <div style="background: #fff;">
-> 
-> ```r
-> phys_ratio <- plant_phys %>%
->     mutate(Cond_ratio = Cond_night/Cond_day) %>%
->     filter(Cond_ratio < 1) %>%
->     select(Species, Cond_Ratio)
-> ```
-> 
-> </div>
-> </div>
+> > ## Solution to Challenge 2
+> > 
+> > ```r
+> > phys_wue <- plant_phys %>%
+> >     mutate(wue_day = Cond_night/Cond_day) %>%
+> >     filter(wue_day > 1) %>%
+> >     select(Species, Fgroup, wue_day)
+> > ```
+> {: .solution}
+{: .challenge}
 
 #Using dates in R
 
@@ -298,6 +432,13 @@ R has a package called `lubridate` that can convert to and from various date for
 
 ```r
 install.packages("lubridate")
+```
+
+```
+## Error in contrib.url(repos, "source"): trying to use CRAN without setting a mirror
+```
+
+```r
 library(lubridate)
 ```
 
@@ -308,7 +449,18 @@ For example, we could use the following syntax to get the date for DOY = 1 and Y
 ```r
 one_date<-as.Date(paste(1,2015), format="%j %Y")
 one_date
+```
+
+```
+## [1] "2015-01-01"
+```
+
+```r
 class(one_date)
+```
+
+```
+## [1] "Date"
 ```
 
 To create a column called date that holds the date information in a human readable format, we can use mutate:
@@ -333,17 +485,34 @@ We can also split the date format out into its individual year/month/day compone
 
 ```r
 month(one_date)
+```
+
+```
+## [1] 1
+```
+
+```r
 day(one_date)
+```
+
+```
+## [1] 1
+```
+
+```r
 year(one_date)
 ```
 
-> ### Challenge {.challenge}
+```
+## [1] 2015
+```
+
+> ## Challenge 3
 >
 >  Create a new data frame from the `plant_phys` data has columns for 
 >  month and day
-> <div class="accordion">
-> <h3 class="toc-ignore">Answer</h3>
-> <div style="background: #fff;">
+>
+> > ## Solution to Challenge 3
 > 
 > ```r
 > plant_phys <- plant_phys %>%
@@ -351,23 +520,9 @@ year(one_date)
 >            Month = month(Date))%>%
 >     select(Date, Year, Month, Day, DOY, everything())
 > ```
-> 
-> </div>
-> </div>
+> {: .solution}
+{: .challenge}
 
-<div class="accordion">
-<h3 class="toc-ignore">Answer</h3>
-<div style="background: #fff;">
-
-```r
-plant_phys <- plant_phys %>%
-  mutate(Day = day(Date), 
-         Month = month(Date))%>%
-  select(Date, Year, Month, Day, DOY, everything())
-```
-
-</div>
-</div>
 # Exporting data
 
 Now that you have learned how to use **`dplyr`** to extract information from
@@ -386,7 +541,7 @@ it. In contrast, our script will generate the contents of the `data_output`
 directory, so even if the files it contains are deleted, we can always
 re-generate them.
 
-We can save it as a CSV file in our `data_output` folder.
+We can save it as a CSV file in a new folder called `data_output` folder.
 Let's save the dataset that that we created dates in.
 
 
@@ -409,6 +564,15 @@ iris %>%
   summarize(mean_sepal_length = mean(Sepal.Length))
 ```
 
+```
+## # A tibble: 3 x 2
+##   Species    mean_sepal_length
+##   <fct>                  <dbl>
+## 1 setosa                  5.01
+## 2 versicolor              5.94
+## 3 virginica               6.59
+```
+
 You can also group by multiple columns. For this, we'll need to use the `plant_phys` dataset:
 
 
@@ -418,6 +582,28 @@ plant_phys %>%
   summarize(mean_photo = mean(Photo))
 ```
 
+```
+## # A tibble: 16 x 3
+## # Groups:   Year [2]
+##     Year Species mean_photo
+##    <int> <chr>        <dbl>
+##  1  2014 AC            12.0
+##  2  2014 AG            18.8
+##  3  2014 CD            11.4
+##  4  2014 PV            19.3
+##  5  2014 RG            15.8
+##  6  2014 SC            11.0
+##  7  2014 SN            19.3
+##  8  2014 VB            10.7
+##  9  2015 AC            12.7
+## 10  2015 AG            18.1
+## 11  2015 CD            13.3
+## 12  2015 PV            24.7
+## 13  2015 RG            17.4
+## 14  2015 SC            19.8
+## 15  2015 SN            29.5
+## 16  2015 VB            12.2
+```
 
 If you want to display more data, you can use the `print()` function
 at the end of your chain with the argument `n` specifying the number of rows to display:
@@ -430,7 +616,30 @@ plant_phys %>%
   print(n = 15)
 ```
 
-Once the data are grouped, you can also summarize multiple variables at the same time (and not necessarily on the same variable). For instance, we could add a column indicating the minimum weight for each species for each sex:
+```
+## # A tibble: 16 x 3
+## # Groups:   Year [2]
+##     Year Species mean_photo
+##    <int> <chr>        <dbl>
+##  1  2014 AC            12.0
+##  2  2014 AG            18.8
+##  3  2014 CD            11.4
+##  4  2014 PV            19.3
+##  5  2014 RG            15.8
+##  6  2014 SC            11.0
+##  7  2014 SN            19.3
+##  8  2014 VB            10.7
+##  9  2015 AC            12.7
+## 10  2015 AG            18.1
+## 11  2015 CD            13.3
+## 12  2015 PV            24.7
+## 13  2015 RG            17.4
+## 14  2015 SC            19.8
+## 15  2015 SN            29.5
+## # … with 1 more row
+```
+
+Once the data are grouped, you can also summarize multiple variables at the same time (and not necessarily on the same variable). For instance, we could add a column indicating the minimum photosynthesis level by year and species:
 
 
 ```r
@@ -438,6 +647,29 @@ plant_phys %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo),
             min_photo = min(Photo))
+```
+
+```
+## # A tibble: 16 x 4
+## # Groups:   Year [2]
+##     Year Species mean_photo min_photo
+##    <int> <chr>        <dbl>     <dbl>
+##  1  2014 AC            12.0      6.60
+##  2  2014 AG            18.8     10.3 
+##  3  2014 CD            11.4      6.71
+##  4  2014 PV            19.3      6.56
+##  5  2014 RG            15.8      2.47
+##  6  2014 SC            11.0      1.82
+##  7  2014 SN            19.3      9.78
+##  8  2014 VB            10.7      3.13
+##  9  2015 AC            12.7      5.14
+## 10  2015 AG            18.1      8.24
+## 11  2015 CD            13.3      7.38
+## 12  2015 PV            24.7     10.6 
+## 13  2015 RG            17.4      8.35
+## 14  2015 SC            19.8      6.58
+## 15  2015 SN            29.5     11.7 
+## 16  2015 VB            12.2      1.08
 ```
 
 It is sometimes useful to rearrange the result of a query to inspect the values. For instance, we can sort on `min_photo` to put the less photosynthetic first:
@@ -452,7 +684,30 @@ plant_phys %>%
   arrange(min_photo)
 ```
 
-To sort in descending order, we need to add the `desc()` function. If we want to sort the results by decreasing order of mean weight:
+```
+## # A tibble: 16 x 4
+## # Groups:   Year [2]
+##     Year Species mean_photo min_photo
+##    <int> <chr>        <dbl>     <dbl>
+##  1  2015 VB            12.2      1.08
+##  2  2014 SC            11.0      1.82
+##  3  2014 RG            15.8      2.47
+##  4  2014 VB            10.7      3.13
+##  5  2015 AC            12.7      5.14
+##  6  2014 PV            19.3      6.56
+##  7  2015 SC            19.8      6.58
+##  8  2014 AC            12.0      6.60
+##  9  2014 CD            11.4      6.71
+## 10  2015 CD            13.3      7.38
+## 11  2015 AG            18.1      8.24
+## 12  2015 RG            17.4      8.35
+## 13  2014 SN            19.3      9.78
+## 14  2014 AG            18.8     10.3 
+## 15  2015 PV            24.7     10.6 
+## 16  2015 SN            29.5     11.7
+```
+
+To sort in descending order, we need to add the `desc()` function. If we want to sort the results by decreasing order of minimum photosynthesis:
 
 
 ```r
@@ -463,6 +718,28 @@ plant_phys %>%
   arrange(desc(min_photo))
 ```
 
+```
+## # A tibble: 16 x 4
+## # Groups:   Year [2]
+##     Year Species mean_photo min_photo
+##    <int> <chr>        <dbl>     <dbl>
+##  1  2015 SN            29.5     11.7 
+##  2  2015 PV            24.7     10.6 
+##  3  2014 AG            18.8     10.3 
+##  4  2014 SN            19.3      9.78
+##  5  2015 RG            17.4      8.35
+##  6  2015 AG            18.1      8.24
+##  7  2015 CD            13.3      7.38
+##  8  2014 CD            11.4      6.71
+##  9  2014 AC            12.0      6.60
+## 10  2015 SC            19.8      6.58
+## 11  2014 PV            19.3      6.56
+## 12  2015 AC            12.7      5.14
+## 13  2014 VB            10.7      3.13
+## 14  2014 RG            15.8      2.47
+## 15  2014 SC            11.0      1.82
+## 16  2015 VB            12.2      1.08
+```
 
 #### Counting
 
@@ -474,6 +751,15 @@ iris %>%
     count(Species) 
 ```
 
+```
+## # A tibble: 3 x 2
+##   Species        n
+##   <fct>      <int>
+## 1 setosa        50
+## 2 versicolor    50
+## 3 virginica     50
+```
+
 The `count()` function is shorthand for something we've already seen: grouping by a variable, and summarizing it by counting the number of observations in that group. In other words, `iris %>% count()` is equivalent to:  
 
 
@@ -483,6 +769,15 @@ iris %>%
     summarise(count = n())
 ```
 
+```
+## # A tibble: 3 x 2
+##   Species    count
+##   <fct>      <int>
+## 1 setosa        50
+## 2 versicolor    50
+## 3 virginica     50
+```
+
 
 Previous example shows the use of `count()` to count the number of rows/observations for *one* factor (i.e., `Species`).  If we wanted to count *combination of factors*, such as `Species` and `Year`, we would specify the first and the second factor as the arguments of `count()`:
 
@@ -490,6 +785,28 @@ Previous example shows the use of `count()` to count the number of rows/observat
 ```r
 plant_phys %>%
   count(Year, Species) 
+```
+
+```
+## # A tibble: 16 x 3
+##     Year Species     n
+##    <int> <chr>   <int>
+##  1  2014 AC         18
+##  2  2014 AG         18
+##  3  2014 CD         18
+##  4  2014 PV         18
+##  5  2014 RG         18
+##  6  2014 SC         18
+##  7  2014 SN         15
+##  8  2014 VB         18
+##  9  2015 AC         18
+## 10  2015 AG         18
+## 11  2015 CD         18
+## 12  2015 PV         18
+## 13  2015 RG         18
+## 14  2015 SC         18
+## 15  2015 SN         18
+## 16  2015 VB         18
 ```
 
 With the above code, we can proceed with `arrange()` to sort the table 
@@ -504,197 +821,113 @@ plant_phys %>%
   arrange(Species, desc(n))
 ```
 
-From the table above, we may learn that, for instance, there are 75 observations of  the *albigula* species that are not specified for its sex (i.e. `NA`).
+```
+## # A tibble: 16 x 3
+##     Year Species     n
+##    <int> <chr>   <int>
+##  1  2014 AC         18
+##  2  2015 AC         18
+##  3  2014 AG         18
+##  4  2015 AG         18
+##  5  2014 CD         18
+##  6  2015 CD         18
+##  7  2014 PV         18
+##  8  2015 PV         18
+##  9  2014 RG         18
+## 10  2015 RG         18
+## 11  2014 SC         18
+## 12  2015 SC         18
+## 13  2015 SN         18
+## 14  2014 SN         15
+## 15  2014 VB         18
+## 16  2015 VB         18
+```
 
-> ### Challenge {.challenge}
+> ## Challenge 4
 >
-> 1. How many plant species were measured in each `Year`?
+> How many plant species were measured in each `Year`?
 >
-> <div class="accordion">
-> <h3 class="toc-ignore">Answer</h3>
-> <div style="background: #fff;">
-> 
-> ```r
-> plant_phys %>%
->     count(Species) 
-> ```
-> 
-> </div>
-> </div>
+> > ## Solution to Challenge 4
+> > 
+> > ```r
+> > plant_phys %>%
+> >    count(Species) 
+> > ```
+> > 
+> > ```
+> > ## # A tibble: 8 x 2
+> > ##   Species     n
+> > ##   <chr>   <int>
+> > ## 1 AC         36
+> > ## 2 AG         36
+> > ## 3 CD         36
+> > ## 4 PV         36
+> > ## 5 RG         36
+> > ## 6 SC         36
+> > ## 7 SN         33
+> > ## 8 VB         36
+> > ```
+> {: .solution}
+{: .challenge}
+
+> ## Challenge 5
 >
-> 2. Use `group_by()` and `summarize()` to find the mean, min, and max
+> Use `group_by()` and `summarize()` to find the mean, min, and max
 > photosynthesis level for each species. Also add the number of
 > observations (hint: see `?n`).
 >
-> <div class="accordion">
-> <h3 class="toc-ignore">Answer</h3>
-> <div style="background: #fff;">
-> 
-> ```r
-> plant_phys %>%
->     group_by(Species) %>%
->     summarize(
->         mean_photo = mean(Photo),
->         max_photo = max(Photo),
->         min_photo = min(Photo),
->         n = n()
->     )
-> ```
-> 
-> </div>
-> </div>
 >
-> 3. What was the most photosynthetic plant measured in each year? Return the columns `Year`,
-> `Species`, and `Photo`.
+> > ## Solution to Challenge 5 
+> >
+> >```r
+> > plant_phys %>%
+> >    group_by(Species) %>%
+> >    summarize(
+> >        mean_photo = mean(Photo),
+> >        max_photo = max(Photo),
+> >        min_photo = min(Photo),
+> >        n = n()
+> >    )
+> >```
+> >
+> >```
+> >## # A tibble: 8 x 5
+> >##   Species mean_photo max_photo min_photo     n
+> >##   <chr>        <dbl>     <dbl>     <dbl> <int>
+> >## 1 AC            12.4      22.0      5.14    36
+> >## 2 AG            18.4      29.9      8.24    36
+> >## 3 CD            12.4      18.5      6.71    36
+> >## 4 PV            22.0      35.5      6.56    36
+> >## 5 RG            16.6      25.4      2.47    36
+> >## 6 SC            15.4      32.7      1.82    36
+> >## 7 SN            24.9      40.6      9.78    33
+> >## 8 VB            11.4      27.0      1.08    36
+> >```
+> {: .solution}
+{: .challenge}
+
+> ## Challenge 6
 >
-> <div class="accordion">
-> <h3 class="toc-ignore">Answer</h3>
-> <div style="background: #fff;">
-> 
-> ```r
-> plant_phys %>%
->     group_by(Year) %>%
->     filter(Photo == max(Photo)) %>%
->     select(Year, Species, Photo) %>%
->     arrange(Year)
-> ```
-> 
-> </div>
-> </div>
-
-
-
-
-### Reshaping with gather and spread
-
-There are four rules defining a tidy dataset:
-
-1. Each variable has its own column
-2. Each observation has its own row
-3. Each value must have its own cell
-4. Each type of observational unit forms a table
-
-Here we examine the fourth rule: Each type of observational unit forms a table.
-
-In `plant_phys` , the rows of `plant_phys` contain the values of variables associated with each record (the unit), values such the species or photosynthesis level of each plant associated with each record. What if instead of comparing records, we  wanted to compare the different mean photosynthesis level of each species between years?
-
-We'd need to create a new table where each row (the unit) is comprised of values of variables associated with each plot. In practical terms this means the values of the species would become the names of column variables and the cells would contain the values of the mean photosynthesis level observed in each year.
-
-Having created a new table, it is therefore straightforward to explore the relationship between the photosynthesis levels of different Species within, and between, the function groups. The key point here is that we are still following a tidy data structure, but we have **reshaped** the data according to the observations of interest: average Photosynthesis rate per year instead of recordings per date.
-
-The opposite transformation would be to transform column names into values of
-a variable.
-
-We can do both these of transformations with two `tidyr` functions, `spread()`
-and `gather()`.
-
-#### Spreading
-
-`spread()` takes three principal arguments:
-
-1. the data 
-2. the *key* column variable whose values will become new column names.  
-3. the *value* column variable whose values will fill the new column variables.
-
-Further arguments include `fill` which, if set, fills in missing values with the value provided.
-
-Let's use `spread()` to transform surveys to find the mean weight of each species in each plot over the entire survey period. We use `filter()`, `group_by()` and `summarise()` to filter our observations and variables of interest, and create a new variable for the `mean_photo`. We use the pipe as before too.
-
-
-```r
-phys_yp <- plant_phys %>%
-  group_by(Year, Species) %>%
-  summarize(mean_Photo = mean(Photo))
-
-str(phys_yp)
-```
-
-This yields `phys_yp` where the observations for each plot are spread across multiple rows, 196 observations of 3 variables. 
-Using `spread()` to key on `Species` with values from `mean_photo` this becomes 24 observations of 11 variables, one row for each plot. We again use pipes:
-
-
-```r
-phys_spread <- phys_yp %>%
-  spread(key = Species, value = mean_Photo)
-
-str(phys_spread)
-```
-
-![](fig/spread_data_R.png)
-
-#### Gathering
-
-The opposing situation could occur if we had been provided with data in the form of `phys_spread`, where the genus names are column names, but wewish to treat them as values of a genus variable instead.
-
-In this situation we are gathering the column names and turning them into apair of new variables. One variable represents the column names as values, and the other variable contains the values previously associated with the column names.
-
-`gather()` takes four principal arguments:
-
-1. the data
-2. the *key* column variable we wish to create from column names.
-3. the *values* column variable we wish to create and fill with values 
-associated with the key.
-4. the names of the columns we use to fill the key variable (or to drop).
-
-To recreate `surveys_gw` from `surveys_spread` we would create a key called `Species` and value called `mean_Photo` and use all columns except `Year` for the key variable. Here we drop `Year` column with a minus sign.
-
-
-```r
-phys_gather <- phys_spread %>%
-  gather(key = Species, value = mean_Photo, -Year)
-
-str(phys_gather)
-```
-
-![](fig/gather_data_R.png)
-
-Spreading and then gathering can be a useful way to balance out a dataset so every replicate has the same composition.
-
-We could also have used a specification for what columns to include. This can be useful if you have a large number of identifying columns, and it's easier to specify what to gather than what to leave alone. 
-
-> ### Challenge {.challenge}
+> What was the most photosynthetic plant measured in each year? 
+> Return the columns `Year`, `Species`, and `Photo`.
 >
-> 1. Spread the `plant_phys` data frame with `Fgroup` as columns, `Year` 
->   as rows, and the
->   number of species as the values. You will need to summarize before
->   reshaping, and use the function `n_distinct()` to get the number of unique
->   genera within a particular chunk of data. It's a powerful function! See
->   `?n_distinct` for more.
-> 
-> <div class="accordion">
-> <h3 class="toc-ignore">Answer</h3>
-> <div style="background: #fff;">
-> 
-> ```r
-> yr_fg <- plant_phys %>%
->   group_by(Fgroup, Year) %>%
->   summarize(n_Species = n_distinct(Species)) %>%
->   spread(Fgroup, n_Species)
-> ```
-> 
-> </div>
-> </div>
->
-> 2. Now take that data frame and `gather()` it again, so each row is a unique
->    `Fgroup` by `Year` combination.
->
-> <div class="accordion">
-> <h3 class="toc-ignore">Answer</h3>
-> <div style="background: #fff;">
-> 
-> ```r
-> # commenting this out for now to get the lesson to knit.
-> # 'Error.. object rich_time not found;
-> #> rich_time %>%
-> #>   gather(Fgroup, n_genera, -Year)
-> ```
-> 
-> </div>
-> </div>
->
-
->
-
-
-
-
+> > ## Solution to Challenge 6
+> > 
+> > ```r
+> > plant_phys %>%
+> >     group_by(Year) %>%
+> >     filter(Photo == max(Photo)) %>%
+> >     select(Year, Species, Photo) %>%
+> >     arrange(Year)
+> > ```
+> > 
+> > ```
+> > ## # A tibble: 2 x 3
+> > ## # Groups:   Year [2]
+> > ##    Year Species Photo
+> > ##   <int> <chr>   <dbl>
+> > ## 1  2014 SN       30.4
+> > ## 2  2015 SN       40.6
+> > ```
+> {: .solution}
+{: .challenge}
