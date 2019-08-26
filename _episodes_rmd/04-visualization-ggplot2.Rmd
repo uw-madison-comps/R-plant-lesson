@@ -65,16 +65,16 @@ ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) +  <GEOM_FUNCTION>()
 
 - use the `ggplot()` function and bind the plot to a specific data frame using the `data` argument
 
-```{r, eval=FALSE}
+```{r data-only, eval=FALSE}
 ggplot(data = iris)
 ```
 
 - define a mapping (using the aesthetic (`aes`) function), by selecting the variables to be plotted and specifying how to present them in the graph, e.g. as x/y positions or characteristics such as size, shape, color, etc.
 
-```{r, eval=FALSE}
+```{r data-map, eval = false}
 ggplot(data = iris, 
-       mapping = aes(x = sepal.length, 
-                     y = sepal.width))
+       mapping = aes(x = Sepal.Length, 
+                     y = Sepal.Width))
 ```
 
 - add 'geoms' – graphical representations of the data in the plot (points,
