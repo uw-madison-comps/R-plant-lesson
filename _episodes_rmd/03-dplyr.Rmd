@@ -17,10 +17,9 @@ iris<-as_tibble(iris)
 plant_phys <- read_csv("data/Physiology_Environmental_Data.csv")
 ```
 
-### Manipulating and analyzing data with dplyr
+## Manipulating and analyzing data with dplyr
 
 ------------
-
 > ### Learning Objectives
 >
 > * Describe the purpose of the **`dplyr`** and **`tidyr`** packages.
@@ -58,11 +57,10 @@ We have seen in our previous lesson that when building or importing a data frame
 
 This time we will use the **`tidyverse`** package to read the data and avoid having to set **`stringsAsFactors`** to **`FALSE`**
 
-To load the package type:
-
+#### To load the tidyverse package set, including dplyr, type:
 
 ```{r load-tidy}
-## load the tidyverse packages, incl. dplyr
+## load the tidyverse packages, including dplyr
 library("tidyverse")
 ```
 
@@ -88,11 +86,15 @@ data(iris)
 iris<-as_tibble(iris)
 ```
 
+To preview the data, you can click on the name of the tibble in your environment or use the `View` function. 
 
-```{r view-data, echo=FALSE}
+```{r view-data, eval=FALSE}
 ## preview the data
 View(plant_phys)
 ```
+Either of these methods will open a window with the dataset in the same area as your script file.
+
+#### Tibbles
 Notice that the class of the data is now `tbl_df`
 
 This is referred to as a "tibble". Tibbles tweak some of the behaviors of the data frame objects we introduced in the previous episode. The data structure is very similar to a data frame. For our purposes the only differences are that:
@@ -120,6 +122,7 @@ arguments are the columns to keep.
 ```{r select1}
 select(iris, Sepal.Length, Sepal.Width)
 ```
+
 
 To select all columns *except* certain ones, put a "-" in front of
 the variable to exclude it.
@@ -187,16 +190,19 @@ iris_sml
 
 Note that the final data frame is the leftmost part of this expression.
 
-> ### Challenge {.challenge}
+> ## Challenge 1
 >
 >  Using pipes, subset the `plant_phys` data to include animals collected in
 >  2014 and retain only the columns `year`, `Species`, and `Photo`.
 > 
 > 
-> ```{r, answer=TRUE, eval=FALSE, purl=FALSE}
->     filter(Year == 2014) %>%
->     select(Year, Species, Photo)
-> ```
+> > ## Solution to Challenge 1
+> > ```{r, answer=TRUE, eval=FALSE, purl=FALSE}
+> >    filter(Year == 2014) %>%
+> >    select(Year, Species, Photo)
+> > ```
+> {: .solution}
+{: .challenge}
 
 ### Mutate
 
@@ -217,7 +223,7 @@ You can also create a second new column based on the first new column within the
 ```
 #removed the NA example because iris doesn't have NAs
 
-> ## Challenge
+> ## Challenge 2 
 >  Instantaneous Water-Use Efficiency (WUE) is an efficiency measure of how much carbon is gained by photosynthesis per water lost through transpiration. A higher WUE indicates that the plant is losing less water, which is better for the plant. WUE is caluclated by dividing photosynthesis by transpiration. Often, different species and functional groups have distinct WUE.
 >  Create a new data frame from the `plant_phys` data that meets the following
 >  criteria: 
@@ -230,7 +236,7 @@ You can also create a second new column based on the first new column within the
 >
 >  **Hint**: think about how the commands should be ordered to produce this data frame!
 > 
-> > ## Solution to Challenge
+> > ## Solution to Challenge 2
 > > ```{r}
 > > phys_wue <- plant_phys %>%
 > >     mutate(wue_day = Cond_night/Cond_day) %>%
@@ -285,23 +291,21 @@ day(one_date)
 year(one_date)
 ```
 
-> ### Challenge {.challenge}
+> ## Challenge 3
 >
 >  Create a new data frame from the `plant_phys` data has columns for 
 >  month and day
+>
+> > ## Solution to Challenge 3
 > ```{r, answer=TRUE, eval=FALSE, purl=FALSE}
 > plant_phys <- plant_phys %>%
 >     mutate(Day = day(Date), 
 >            Month = month(Date))%>%
 >     select(Date, Year, Month, Day, DOY, everything())
 > ```
+> {: .solution}
+{: .challenge}
 
-```{r mutate-dates}
-plant_phys <- plant_phys %>%
-  mutate(Day = day(Date), 
-         Month = month(Date))%>%
-  select(Date, Year, Month, Day, DOY, everything())
-```
 # Exporting data
 
 Now that you have learned how to use **`dplyr`** to extract information from
@@ -425,37 +429,51 @@ plant_phys %>%
   arrange(Species, desc(n))
 ```
 
-> ### Challenge {.challenge}
+> ## Challenge 4
 >
-> 1. How many plant species were measured in each `Year`?
+> How many plant species were measured in each `Year`?
 >
-> ```{r, answer=TRUE, purl=FALSE}
-> plant_phys %>%
->     count(Species) 
-> ```
+> > ## Solution to Challenge 4
+> > ```{r, answer=TRUE, purl=FALSE}
+> > plant_phys %>%
+> >    count(Species) 
+> > ```
+> {: .solution}
+{: .challenge}
+
+> ## Challenge 5
 >
-> 2. Use `group_by()` and `summarize()` to find the mean, min, and max
+> Use `group_by()` and `summarize()` to find the mean, min, and max
 > photosynthesis level for each species. Also add the number of
 > observations (hint: see `?n`).
 >
-> ```{r, answer=TRUE, purl=FALSE}
-> plant_phys %>%
->     group_by(Species) %>%
->     summarize(
->         mean_photo = mean(Photo),
->         max_photo = max(Photo),
->         min_photo = min(Photo),
->         n = n()
->     )
-> ```
 >
-> 3. What was the most photosynthetic plant measured in each year? Return the columns `Year`,
-> `Species`, and `Photo`.
+> > ## Solution to Challenge 5 
+> >```{r}
+> > plant_phys %>%
+> >    group_by(Species) %>%
+> >    summarize(
+> >        mean_photo = mean(Photo),
+> >        max_photo = max(Photo),
+> >        min_photo = min(Photo),
+> >        n = n()
+> >    )
+> >```
+> {: .solution}
+{: .challenge}
+
+> ## Challenge 6
 >
-> ```{r, answer=TRUE, purl=FALSE}
-> plant_phys %>%
->     group_by(Year) %>%
->     filter(Photo == max(Photo)) %>%
->     select(Year, Species, Photo) %>%
->     arrange(Year)
-> ```
+> What was the most photosynthetic plant measured in each year? 
+> Return the columns `Year`, `Species`, and `Photo`.
+>
+> > ## Solution to Challenge 6
+> > ```{r, answer=TRUE, purl=FALSE}
+> > plant_phys %>%
+> >     group_by(Year) %>%
+> >     filter(Photo == max(Photo)) %>%
+> >     select(Year, Species, Photo) %>%
+> >     arrange(Year)
+> > ```
+> {: .solution}
+{: .challenge}

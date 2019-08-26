@@ -8,10 +8,9 @@ source: Rmd
 
 
 
-### Manipulating and analyzing data with dplyr
+## Manipulating and analyzing data with dplyr
 
 ------------
-
 > ### Learning Objectives
 >
 > * Describe the purpose of the **`dplyr`** and **`tidyr`** packages.
@@ -49,12 +48,11 @@ We have seen in our previous lesson that when building or importing a data frame
 
 This time we will use the **`tidyverse`** package to read the data and avoid having to set **`stringsAsFactors`** to **`FALSE`**
 
-To load the package type:
-
+#### To load the tidyverse package set, including dplyr, type:
 
 
 ```r
-## load the tidyverse packages, incl. dplyr
+## load the tidyverse packages, including dplyr
 library("tidyverse")
 ```
 
@@ -145,11 +143,16 @@ data(iris)
 iris<-as_tibble(iris)
 ```
 
+To preview the data, you can click on the name of the tibble in your environment or use the `View` function. 
 
 
+```r
+## preview the data
+View(plant_phys)
 ```
-## Error in check_for_XQuartz(): X11 library is missing: install XQuartz from xquartz.macosforge.org
-```
+Either of these methods will open a window with the dataset in the same area as your script file.
+
+#### Tibbles
 Notice that the class of the data is now `tbl_df`
 
 This is referred to as a "tibble". Tibbles tweak some of the behaviors of the data frame objects we introduced in the previous episode. The data structure is very similar to a data frame. For our purposes the only differences are that:
@@ -195,6 +198,7 @@ select(iris, Sepal.Length, Sepal.Width)
 ## 10          4.9         3.1
 ## # … with 140 more rows
 ```
+
 
 To select all columns *except* certain ones, put a "-" in front of
 the variable to exclude it.
@@ -336,17 +340,20 @@ iris_sml
 
 Note that the final data frame is the leftmost part of this expression.
 
-> ### Challenge {.challenge}
+> ## Challenge 1
 >
 >  Using pipes, subset the `plant_phys` data to include animals collected in
 >  2014 and retain only the columns `year`, `Species`, and `Photo`.
 > 
 > 
-> 
-> ```r
->     filter(Year == 2014) %>%
->     select(Year, Species, Photo)
-> ```
+> > ## Solution to Challenge 1
+> > 
+> > ```r
+> >    filter(Year == 2014) %>%
+> >    select(Year, Species, Photo)
+> > ```
+> {: .solution}
+{: .challenge}
 
 ### Mutate
 
@@ -390,7 +397,7 @@ You can also create a second new column based on the first new column within the
 ```
 #removed the NA example because iris doesn't have NAs
 
-> ## Challenge
+> ## Challenge 2 
 >  Instantaneous Water-Use Efficiency (WUE) is an efficiency measure of how much carbon is gained by photosynthesis per water lost through transpiration. A higher WUE indicates that the plant is losing less water, which is better for the plant. WUE is caluclated by dividing photosynthesis by transpiration. Often, different species and functional groups have distinct WUE.
 >  Create a new data frame from the `plant_phys` data that meets the following
 >  criteria: 
@@ -403,7 +410,7 @@ You can also create a second new column based on the first new column within the
 >
 >  **Hint**: think about how the commands should be ordered to produce this data frame!
 > 
-> > ## Solution to Challenge
+> > ## Solution to Challenge 2
 > > 
 > > ```r
 > > phys_wue <- plant_phys %>%
@@ -500,10 +507,12 @@ year(one_date)
 ## [1] 2015
 ```
 
-> ### Challenge {.challenge}
+> ## Challenge 3
 >
 >  Create a new data frame from the `plant_phys` data has columns for 
 >  month and day
+>
+> > ## Solution to Challenge 3
 > 
 > ```r
 > plant_phys <- plant_phys %>%
@@ -511,14 +520,9 @@ year(one_date)
 >            Month = month(Date))%>%
 >     select(Date, Year, Month, Day, DOY, everything())
 > ```
+> {: .solution}
+{: .challenge}
 
-
-```r
-plant_phys <- plant_phys %>%
-  mutate(Day = day(Date), 
-         Month = month(Date))%>%
-  select(Date, Year, Month, Day, DOY, everything())
-```
 # Exporting data
 
 Now that you have learned how to use **`dplyr`** to extract information from
@@ -839,77 +843,91 @@ plant_phys %>%
 ## 16  2015 VB         18
 ```
 
-> ### Challenge {.challenge}
+> ## Challenge 4
 >
-> 1. How many plant species were measured in each `Year`?
+> How many plant species were measured in each `Year`?
 >
-> 
-> ```r
-> plant_phys %>%
->     count(Species) 
-> ```
-> 
-> ```
-> ## # A tibble: 8 x 2
-> ##   Species     n
-> ##   <chr>   <int>
-> ## 1 AC         36
-> ## 2 AG         36
-> ## 3 CD         36
-> ## 4 PV         36
-> ## 5 RG         36
-> ## 6 SC         36
-> ## 7 SN         33
-> ## 8 VB         36
-> ```
+> > ## Solution to Challenge 4
+> > 
+> > ```r
+> > plant_phys %>%
+> >    count(Species) 
+> > ```
+> > 
+> > ```
+> > ## # A tibble: 8 x 2
+> > ##   Species     n
+> > ##   <chr>   <int>
+> > ## 1 AC         36
+> > ## 2 AG         36
+> > ## 3 CD         36
+> > ## 4 PV         36
+> > ## 5 RG         36
+> > ## 6 SC         36
+> > ## 7 SN         33
+> > ## 8 VB         36
+> > ```
+> {: .solution}
+{: .challenge}
+
+> ## Challenge 5
 >
-> 2. Use `group_by()` and `summarize()` to find the mean, min, and max
+> Use `group_by()` and `summarize()` to find the mean, min, and max
 > photosynthesis level for each species. Also add the number of
 > observations (hint: see `?n`).
 >
-> 
-> ```r
-> plant_phys %>%
->     group_by(Species) %>%
->     summarize(
->         mean_photo = mean(Photo),
->         max_photo = max(Photo),
->         min_photo = min(Photo),
->         n = n()
->     )
-> ```
-> 
-> ```
-> ## # A tibble: 8 x 5
-> ##   Species mean_photo max_photo min_photo     n
-> ##   <chr>        <dbl>     <dbl>     <dbl> <int>
-> ## 1 AC            12.4      22.0      5.14    36
-> ## 2 AG            18.4      29.9      8.24    36
-> ## 3 CD            12.4      18.5      6.71    36
-> ## 4 PV            22.0      35.5      6.56    36
-> ## 5 RG            16.6      25.4      2.47    36
-> ## 6 SC            15.4      32.7      1.82    36
-> ## 7 SN            24.9      40.6      9.78    33
-> ## 8 VB            11.4      27.0      1.08    36
-> ```
 >
-> 3. What was the most photosynthetic plant measured in each year? Return the columns `Year`,
-> `Species`, and `Photo`.
+> > ## Solution to Challenge 5 
+> >
+> >```r
+> > plant_phys %>%
+> >    group_by(Species) %>%
+> >    summarize(
+> >        mean_photo = mean(Photo),
+> >        max_photo = max(Photo),
+> >        min_photo = min(Photo),
+> >        n = n()
+> >    )
+> >```
+> >
+> >```
+> >## # A tibble: 8 x 5
+> >##   Species mean_photo max_photo min_photo     n
+> >##   <chr>        <dbl>     <dbl>     <dbl> <int>
+> >## 1 AC            12.4      22.0      5.14    36
+> >## 2 AG            18.4      29.9      8.24    36
+> >## 3 CD            12.4      18.5      6.71    36
+> >## 4 PV            22.0      35.5      6.56    36
+> >## 5 RG            16.6      25.4      2.47    36
+> >## 6 SC            15.4      32.7      1.82    36
+> >## 7 SN            24.9      40.6      9.78    33
+> >## 8 VB            11.4      27.0      1.08    36
+> >```
+> {: .solution}
+{: .challenge}
+
+> ## Challenge 6
 >
-> 
-> ```r
-> plant_phys %>%
->     group_by(Year) %>%
->     filter(Photo == max(Photo)) %>%
->     select(Year, Species, Photo) %>%
->     arrange(Year)
-> ```
-> 
-> ```
-> ## # A tibble: 2 x 3
-> ## # Groups:   Year [2]
-> ##    Year Species Photo
-> ##   <int> <chr>   <dbl>
-> ## 1  2014 SN       30.4
-> ## 2  2015 SN       40.6
-> ```
+> What was the most photosynthetic plant measured in each year? 
+> Return the columns `Year`, `Species`, and `Photo`.
+>
+> > ## Solution to Challenge 6
+> > 
+> > ```r
+> > plant_phys %>%
+> >     group_by(Year) %>%
+> >     filter(Photo == max(Photo)) %>%
+> >     select(Year, Species, Photo) %>%
+> >     arrange(Year)
+> > ```
+> > 
+> > ```
+> > ## # A tibble: 2 x 3
+> > ## # Groups:   Year [2]
+> > ##    Year Species Photo
+> > ##   <int> <chr>   <dbl>
+> > ## 1  2014 SN       30.4
+> > ## 2  2015 SN       40.6
+> > ```
+> {: .solution}
+{: .challenge}
