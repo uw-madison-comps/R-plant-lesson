@@ -390,9 +390,8 @@ You can also create a second new column based on the first new column within the
 ```
 #removed the NA example because iris doesn't have NAs
 
-> ### Challenge
+> ## Challenge
 >  Instantaneous Water-Use Efficiency (WUE) is an efficiency measure of how much carbon is gained by photosynthesis per water lost through transpiration. A higher WUE indicates that the plant is losing less water, which is better for the plant. WUE is caluclated by dividing photosynthesis by transpiration. Often, different species and functional groups have distinct WUE.
-
 >  Create a new data frame from the `plant_phys` data that meets the following
 >  criteria: 
 >  * is named phys_wue
@@ -404,13 +403,14 @@ You can also create a second new column based on the first new column within the
 >
 >  **Hint**: think about how the commands should be ordered to produce this data frame!
 > 
->> 
->> ```r
->> phys_wue <- plant_phys %>%
->>     mutate(wue_day = Cond_night/Cond_day) %>%
->>     filter(wue_day > 1) %>%
->>     select(Species, Fgroup, wue_day)
->> ```
+> > ## Solution to Challenge
+> > 
+> > ```r
+> > phys_wue <- plant_phys %>%
+> >     mutate(wue_day = Cond_night/Cond_day) %>%
+> >     filter(wue_day > 1) %>%
+> >     select(Species, Fgroup, wue_day)
+> > ```
 > {: .solution}
 {: .challenge}
 
