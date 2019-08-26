@@ -4,10 +4,14 @@ author: "Data Carpentry contributors"
 source: Rmd
 ---
 
-```{r, echo=FALSE, purl=FALSE, message = FALSE}
+```{r, echo=FALSE}
 source("setup.R")
 library(tidyverse)
 library(lubridate)
+library(knitr)
+
+knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+
 data(iris)
 iris<-as_tibble(iris)
 
@@ -58,7 +62,7 @@ This time we will use the **`tidyverse`** package to read the data and avoid hav
 To load the package type:
 
 
-```{r, message = FALSE, purl = FALSE}
+```{r load-tidy}
 ## load the tidyverse packages, incl. dplyr
 library("tidyverse")
 ```
@@ -76,7 +80,7 @@ To learn more about **`dplyr`** and **`tidyr`** after the workshop, you may want
 
 We'll read in our data using the `read_csv()` function, from the tidyverse package **`readr`**, instead of `read.csv()`.
 
-```{r readcsv, results = 'hide', purl = FALSE}
+```{r readcsv}
 plant_phys <- read_csv("data/Physiology_Environmental_Data.csv")
 
 ## inspect the data
@@ -85,13 +89,13 @@ str(plant_phys)
 
 We also need to load the iris data as a tibble for this lesson
 
-```{r astibble, message = FALSE}
+```{r astibble}
 data(iris)
 iris<-as_tibble(iris)
 ```
 
 
-```{r, eval=FALSE, purl=FALSE}
+```{r view-data, echo=FALSE}
 ## preview the data
 View(plant_phys)
 ```
@@ -119,14 +123,14 @@ To select columns of a data frame, use `select()`. The first argument
 to this function is the data frame (`iris`), and the subsequent
 arguments are the columns to keep.
 
-```{r, results = 'hide', purl = FALSE}
+```{r select1}
 select(iris, Sepal.Length, Sepal.Width)
 ```
 
 To select all columns *except* certain ones, put a "-" in front of
 the variable to exclude it.
 
-```{r, results = 'hide', purl = FALSE}
+```{r select2}
 select(iris, -Sepal.Length, -Sepal.Width)
 ```
 
@@ -135,7 +139,7 @@ and `Sepal.Width`.
 
 To choose rows based on a specific criteria, use `filter()`:
 
-```{r, purl = FALSE}
+```{r, filter1}
 filter(iris, Sepal.Length>5)
 ```
 
@@ -147,7 +151,7 @@ ways to do this: use intermediate steps, nested functions, or pipes.
 With intermediate steps, you create a temporary data frame and use
 that as input to the next function, like this:
 
-```{r, purl = FALSE}
+```{r, pipes1}
 iris2 <- filter(iris, Sepal.Length < 5)
 iris_small <- select(iris2, Species, Sepal.Length, Sepal.Width)
 ```
@@ -156,7 +160,7 @@ This is readable, but can clutter up your workspace with lots of objects that yo
 
 You can also nest functions (i.e. one function inside of another), like this:
 
-```{r, purl = FALSE}
+```{r, pipes2}
 iris_sml <- select(filter(iris, Sepal.Length < 5), Species, Sepal.Length, Sepal.Width)
 ```
 
@@ -167,7 +171,7 @@ the output of one function and send it directly to the next, which is useful whe
 + <kbd>Shift</kbd> + <kbd>M</kbd> if you have a PC or <kbd>Cmd</kbd> + 
 <kbd>Shift</kbd> + <kbd>M</kbd> if you have a Mac.
 
-```{r, purl = FALSE}
+```{r, pipes3}
 iris %>%
   filter(Sepal.Length < 5) %>%
   select(Species, Sepal.Length, Sepal.Width)
@@ -179,7 +183,7 @@ Some may find it helpful to read the pipe like the word "then". For instance, in
 
 If we want to create a new object with this smaller version of the data, we can assign it a new name:
 
-```{r, purl = FALSE}
+```{r, pipes4}
 iris_sml <- iris %>%
   filter(Sepal.Length < 5) %>%
   select(Species, Sepal.Length, Sepal.Width)
@@ -213,14 +217,14 @@ Frequently you'll want to create new columns based on the values in existing col
 
 To create a new column of weight in kg:
 
-```{r, purl = FALSE}
+```{r, mutate1}
 iris %>%
   mutate(Sepal.Ratio = Sepal.Length/Sepal.Width)
 ```
 
 You can also create a second new column based on the first new column within the same call of `mutate()`:
 
-```{r, purl = FALSE}
+```{r, mutate2}
 iris %>%
   mutate(Sepal.Ratio = Sepal.Length/Sepal.Width,
          Petal.Ratio = Petal.Length/Petal.Width)
@@ -252,7 +256,7 @@ This is a great, compact way to represent the date: it only takes 2 columns, and
 
 R has a package called `lubridate` that can convert to and from various date formats. Let's install and load the package:
 
-```{r eval = FALSE}
+```{r dates1}
 install.packages("lubridate")
 library(lubridate)
 ```
@@ -260,7 +264,7 @@ library(lubridate)
 The as.Date function converts other data types (such as the integers in the `Year` and `DOY` columns) into date format. 
 
 For example, we could use the following syntax to get the date for DOY = 1 and Year = 2015.
-```{r}
+```{r dates2}
 one_date<-as.Date(paste(1,2015), format="%j %Y")
 one_date
 class(one_date)
@@ -268,7 +272,7 @@ class(one_date)
 
 To create a column called date that holds the date information in a human readable format, we can use mutate:
 
-```{r}
+```{r dates3}
 plant_phys<-plant_phys%>%
   mutate(Date = as.Date(paste(DOY,Year), format="%j %Y"))
 ```
@@ -276,14 +280,14 @@ plant_phys<-plant_phys%>%
 This puts the newly created column at the end. To reorder the columns, we 
 can use select:
 
-```{r}
+```{r dates4}
 plant_phys<-plant_phys%>%
   select(Date, everything())
 ```
 
 We can also split the date format out into its individual year/month/day components using the `month`, `day` and `year` functions:
 
-```{r}
+```{r dates5}
 month(one_date)
 day(one_date)
 year(one_date)
@@ -300,7 +304,7 @@ year(one_date)
 >     select(Date, Year, Month, Day, DOY, everything())
 > ```
 
-```{r, answer=TRUE, eval=FALSE, purl=FALSE}
+```{r mutate-dates}
 plant_phys <- plant_phys %>%
   mutate(Day = day(Date), 
          Month = month(Date))%>%
@@ -327,7 +331,7 @@ re-generate them.
 We can save it as a CSV file in our `data_output` folder.
 Let's save the dataset that that we created dates in.
 
-```{r, purl=FALSE, eval=FALSE}
+```{r export, eval=FALSE}
 write_csv(plant_phys, path = "data_output/phys_dates.csv")
 ```
 
@@ -339,7 +343,7 @@ Many data analysis tasks can be approached using the *split-apply-combine* parad
 
 `group_by()` is often used together with `summarize()`, which collapses each group into a single-row summary of that group.  `group_by()` takes as arguments the column names that contain the **categorical** variables for which you want to calculate the summary statistics. So to compute the mean `Sepal.Length` by `Species`:
 
-```{r, purl = FALSE}
+```{r split-apply-combine}
 iris %>%
   group_by(Species) %>%
   summarize(mean_sepal_length = mean(Sepal.Length))
@@ -347,7 +351,7 @@ iris %>%
 
 You can also group by multiple columns. For this, we'll need to use the `plant_phys` dataset:
 
-```{r, purl = FALSE}
+```{r split-apply-combine2}
 plant_phys %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo))
@@ -357,7 +361,7 @@ plant_phys %>%
 If you want to display more data, you can use the `print()` function
 at the end of your chain with the argument `n` specifying the number of rows to display:
 
-```{r, purl = FALSE}
+```{r, split-apply-combine3}
 plant_phys %>%  
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo)) %>% 
@@ -366,7 +370,7 @@ plant_phys %>%
 
 Once the data are grouped, you can also summarize multiple variables at the same time (and not necessarily on the same variable). For instance, we could add a column indicating the minimum weight for each species for each sex:
 
-```{r, purl = FALSE}
+```{r split-apply-combine4}
 plant_phys %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo),
@@ -376,7 +380,7 @@ plant_phys %>%
 It is sometimes useful to rearrange the result of a query to inspect the values. For instance, we can sort on `min_photo` to put the less photosynthetic first:
 
 
-```{r, purl = FALSE}
+```{r split-apply-combine5}
 plant_phys %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo),
@@ -386,7 +390,7 @@ plant_phys %>%
 
 To sort in descending order, we need to add the `desc()` function. If we want to sort the results by decreasing order of mean weight:
 
-```{r, purl = FALSE}
+```{r split-apply-combine6}
 plant_phys %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo),
@@ -399,14 +403,14 @@ plant_phys %>%
 
 When working with data, we often want to know the number of observations found for each factor or combination of factors. For this task, **`dplyr`** provides `count()`. For example, if we wanted to count the number of rows of data for each sex, we would do:
 
-```{r, purl = FALSE}
+```{r count}
 iris %>%
     count(Species) 
 ```
 
 The `count()` function is shorthand for something we've already seen: grouping by a variable, and summarizing it by counting the number of observations in that group. In other words, `iris %>% count()` is equivalent to:  
 
-```{r, purl = FALSE}
+```{r count2}
 iris %>%
     group_by(Species) %>%
     summarise(count = n())
@@ -415,7 +419,7 @@ iris %>%
 
 Previous example shows the use of `count()` to count the number of rows/observations for *one* factor (i.e., `Species`).  If we wanted to count *combination of factors*, such as `Species` and `Year`, we would specify the first and the second factor as the arguments of `count()`:
 
-```{r purl = FALSE}
+```{r count3}
 plant_phys %>%
   count(Year, Species) 
 ```
@@ -425,7 +429,7 @@ according to a number of criteria so that we have a better comparison.
 For instance, we might want to arrange the table above in (i) an alphabetical order of 
 the levels of the species and (ii) in descending order of the count:
 
-```{r purl = FALSE}
+```{r arrange}
 plant_phys %>%
   count(Year, Species) %>%
   arrange(Species, desc(n))
@@ -468,19 +472,6 @@ From the table above, we may learn that, for instance, there are 75 observations
 >     arrange(Year)
 > ```
 
-
-```{r, eval=FALSE, purl=TRUE, echo=FALSE}
-## Count Challenges:
-##  1. How many animals were caught in each `plot_type` surveyed?
-
-##  2. Use `group_by()` and `summarize()` to find the mean, min, and max
-## hindfoot length for each species (using `species_id`). Also add the number of
-## observations (hint: see `?n`).
-
-##  3. What was the heaviest animal measured in each year? Return the
-##  columns `year`, `genus`, `species_id`, and `weight`.
-```
-
 ### Reshaping with gather and spread
 
 There are four rules defining a tidy dataset:
@@ -516,7 +507,7 @@ Further arguments include `fill` which, if set, fills in missing values with the
 
 Let's use `spread()` to transform surveys to find the mean weight of each species in each plot over the entire survey period. We use `filter()`, `group_by()` and `summarise()` to filter our observations and variables of interest, and create a new variable for the `mean_photo`. We use the pipe as before too.
 
-```{r, purl=FALSE}
+```{r spread}
 phys_yp <- plant_phys %>%
   group_by(Year, Species) %>%
   summarize(mean_Photo = mean(Photo))
@@ -527,7 +518,7 @@ str(phys_yp)
 This yields `phys_yp` where the observations for each plot are spread across multiple rows, 196 observations of 3 variables. 
 Using `spread()` to key on `Species` with values from `mean_photo` this becomes 24 observations of 11 variables, one row for each plot. We again use pipes:
 
-```{r, purl=FALSE}
+```{r spread2}
 phys_spread <- phys_yp %>%
   spread(key = Species, value = mean_Photo)
 
@@ -552,7 +543,7 @@ associated with the key.
 
 To recreate `surveys_gw` from `surveys_spread` we would create a key called `Species` and value called `mean_Photo` and use all columns except `Year` for the key variable. Here we drop `Year` column with a minus sign.
 
-```{r, purl=FALSE}
+```{r gather}
 phys_gather <- phys_spread %>%
   gather(key = Species, value = mean_Photo, -Year)
 
@@ -591,17 +582,3 @@ We could also have used a specification for what columns to include. This can be
 #> rich_time %>%
 #>   gather(Fgroup, n_genera, -Year)
 > ```
->
-
->
-
-```{r, eval=FALSE, purl=TRUE, echo=FALSE}
-## Reshaping challenges
-
-## 1. Make a wide data frame with `year` as columns, `plot_id`` as rows, and where the values are the number of genera per plot. You will need to summarize before reshaping, and use the function `n_distinct` to get the number of unique genera within a chunk of data. It's a powerful function! See `?n_distinct` for more.
-
-## 2. Now take that data frame, and make it long again, so each row is a unique `plot_id` `year` combination
-
-```
-
-
