@@ -1,23 +1,24 @@
 ---
 title: "Before we start"
 author: "Data Carpentry contributors"
+teaching: 
+exercises: 
+questions:
+- "What is R?"
+- "What is RStudio?"
+objectives: 
+- "Describe the purpose of the RStudio Script, Console, Environment, and Plots panes."
+- "Organize files and directories for a set of analyses as an R"
+- "Project, and understand the purpose of the working directory."
+- "Use the built-in RStudio help interface to search for more information on R functions."
+- "Demonstrate how to provide sufficient information for troubleshooting with the R user community."
+keypoints:
+- "R is a programming language. RStudio is a user-friendly interface for coding in R."
+- "R projects help you organize your work and keep file paths simple"
+- "You can get help in the RStudio interface"
+- "There are many resources available online for R help"
 source: Rmd
-minutes: 15
 ---
-
-> ### Learning Objectives
->
-> * Describe the purpose of the RStudio Script, Console, Environment, and Plots
->   panes.
-> * Organize files and directories for a set of analyses as an R
->   Project, and understand the purpose of the working directory.
-> * Use the built-in RStudio help interface to search for more information on R
->   functions.
->  * Demonstrate how to provide sufficient information for
->   troubleshooting with the R user community.
-
-------------
-
 
 ## What is R? What is RStudio?
 
