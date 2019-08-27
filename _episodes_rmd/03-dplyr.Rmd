@@ -1,6 +1,30 @@
 ---
 title: "Manipulating, analyzing and exporting data with tidyverse"
-author: "Data Carpentry contributors"
+author: "Tobin Magle"
+teaching: 
+exercises: 
+questions:
+- "What is the tidyverse? Why should I use it to manipulate data?"
+objectives:
+- "Describe the purpose of the **`dplyr`** and **`tidyr`** packages."
+- "Select certain columns in a data frame with the **`dplyr`** function `select`."
+- "Select certain rows in a data frame according to filtering conditions with the **`dplyr`** function `filter`."
+- "Link the output of one **`dplyr`** function to the input of another function with the 'pipe' operator `%>%`."
+- "Add new columns to a data frame that are functions of existing columns with `mutate`."
+- "Use the split-apply-combine concept for data analysis."
+- "Use `summarize`, `group_by`, and `count` to split a data frame into groups of observations, apply summary statistics for each group, and then combine the results."
+- "Describe the concept of a wide and a long table format and for which purpose those formats are useful."
+- "Describe what key-value pairs are."
+- "Reshape a data frame from long to wide format and back with the `spread` and `gather` commands from the **`tidyr`** package."
+- "Export a data frame to a .csv file."
+keypoints:
+- "the tidyverse is built for data manipulation"
+- "read_csv creates tibbles instead of data frames"
+- "select picks particular columns based on names"
+- "filter picks rows based on values"
+- "mutate creates new columns based on the value of other columns"
+- "group by and summarize can be used to create summary tables"
+- "write_csv exports tibbles into a .csv file"
 source: Rmd
 ---
 
@@ -17,25 +41,6 @@ iris<-as_tibble(iris)
 
 plant_phys <- read_csv("data/Physiology_Environmental_Data.csv")
 ```
-
-## Manipulating and analyzing data with dplyr
-
-------------
-> ### Learning Objectives
->
-> * Describe the purpose of the **`dplyr`** and **`tidyr`** packages.
-> * Select certain columns in a data frame with the **`dplyr`** function `select`.
-> * Select certain rows in a data frame according to filtering conditions with the **`dplyr`** function `filter` .
-> * Link the output of one **`dplyr`** function to the input of another function with the 'pipe' operator `%>%`.
-> * Add new columns to a data frame that are functions of existing columns with `mutate`.
-> * Use the split-apply-combine concept for data analysis.
-> * Use `summarize`, `group_by`, and `count` to split a data frame into groups of observations, apply summary statistics for each group, and then combine the results.
-> * Describe the concept of a wide and a long table format and for which purpose those formats are useful.
-> * Describe what key-value pairs are.
-> * Reshape a data frame from long to wide format and back with the `spread` and `gather` commands from the **`tidyr`** package.
-> * Export a data frame to a .csv file.
-
-------------
 
 # Data Manipulation using **`dplyr`** and **`tidyr`**
 

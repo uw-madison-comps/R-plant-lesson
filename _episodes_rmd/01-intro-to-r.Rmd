@@ -1,31 +1,37 @@
 ---
-source: Rmd
 title: "Introduction to R"
-author: "Data Carpentry contributors"
-minutes: 45
+author: "Steve Goldstein"
+teaching: 
+exercises: 
+questions:
+- "How can I use R to store values in variables?"
+- "How do I find and use functions in R"
+- "How can I remove missing data?"
+objectives:
+- "Define the following terms as they relate to R: object, assign, call, function, arguments, options."
+- "Assign values to objects in R."
+- "Learn how to _name_ objects"
+- "Use comments to inform script."
+- "Solve simple arithmetic operations in R."
+- "Call functions and use arguments to change their default options."
+- "Inspect the content of vectors and manipulate their content."
+- "Subset and extract values from vectors."
+- "Analyze vectors with missing data."
+keypoints:
+- "Arithmetic operators can do math on numbers"
+- "The assignment operator assigns values to objects"
+- "Objects have types like numeric, character, or logical"
+- "R has built in functions that do basic functions"
+- "The subset operator lets you select data by position or value"
+- "NAs represent missing values"
+source: Rmd
+
 ---
 
 
 ```{r, echo = FALSE, purl = FALSE, message = FALSE}
 source("../bin/chunk-options.R")
 ```
-
-------------
-
-> ### Learning Objectives
->
-> * Define the following terms as they relate to R: object, assign, call,
->   function, arguments, options.
-> * Assign values to objects in R.
-> * Learn how to _name_ objects
-> * Use comments to inform script.
-> * Solve simple arithmetic operations in R.
-> * Call functions and use arguments to change their default options.
-> * Inspect the content of vectors and manipulate their content.
-> * Subset and extract values from vectors.
-> * Analyze vectors with missing data.
-
-------------
 
 ## Creating objects in R
 
