@@ -1,36 +1,49 @@
 ---
-source: Rmd
 title: Data visualization with ggplot2
-author: Data Carpentry contributors
-minutes: 60
+author: Tobin Magle
+teaching: 
+exercises: 
+questions:
+- "What is ggplot2? How can I use it to make publication quality graphics?"
+objectives:
+- "Produce scatter plots, boxplots, and time series plots using ggplot."
+- "Set universal plot settings."
+- "Describe what faceting is and apply faceting in ggplot."
+- "Modify the aesthetics of an existing ggplot plot (including axis labels and color)."
+- "Build complex and customized plots from data in a data frame."
+keypoints:
+- "ggplot require 3 things to make a plot: data, aesthetics, and geoms"
+- "ggplots are highly customizable"
+- "faceting lets you make smaller graphs with cleaner plot areas"
+- "custom and premade themesthemes can applied to any plot"
+source: Rmd
 ---
 
-```{r setup}
+---
+
+```{r setup, message = FALSE, warning = FALSE, echo = FALSE}
 library(tidyverse)
-iris <- read_csv(file = "data/iris.csv")
+library(knitr)
+
+source("../bin/chunk-options.R")
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+knitr_fig_path("04-")
+
+data(iris)
+iris<-as_tibble(iris)
 plant_phys<-read_csv("data_output/phys_dates.csv")
 ```
 
-> ### Learning Objectives
->
-> * Produce scatter plots, boxplots, and time series plots using ggplot.
-> * Set universal plot settings.
-> * Describe what faceting is and apply faceting in ggplot.
-> * Modify the aesthetics of an existing ggplot plot (including axis labels and color).
-> * Build complex and customized plots from data in a data frame.
-
---------------
-
 We start by loading the required packages. **`ggplot2`** is included in the **`tidyverse`** package.
 
-```{r load-package, message=FALSE, purl=FALSE}
+```{r load-package}
 library(tidyverse)
 ```
 
 If not still in the workspace, load the data we saved in the previous lesson.
 
-```{r load-data, eval=FALSE, purl=FALSE}
-iris <- read_csv(file = "data/iris.csv")
+```{r load-data, eval=FALSE}
+#iris <- read_csv(file = "data/iris.csv")
 plant_phys<-read_csv("data_output/phys_dates.csv")
 ```
 
@@ -56,19 +69,18 @@ To build a ggplot, we will use the following basic template that can be used for
 ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) +  <GEOM_FUNCTION>()
 ```
 
-- use the `ggplot()` function and bind the plot to a specific data frame using the
-      `data` argument
+- use the `ggplot()` function and bind the plot to a specific data frame using the `data` argument
 
-```{r, eval=FALSE, purl=FALSE}
+```{r data-only, eval=FALSE}
 ggplot(data = iris)
 ```
 
 - define a mapping (using the aesthetic (`aes`) function), by selecting the variables to be plotted and specifying how to present them in the graph, e.g. as x/y positions or characteristics such as size, shape, color, etc.
 
-```{r, eval=FALSE, purl=FALSE}
+```{r data-map, eval = FALSE}
 ggplot(data = iris, 
-       mapping = aes(x = sepal.length, 
-                     y = sepal.width))
+       mapping = aes(x = Sepal.Length, 
+                     y = Sepal.Width))
 ```
 
 - add 'geoms' – graphical representations of the data in the plot (points,
@@ -82,10 +94,10 @@ ggplot(data = iris,
 To add a geom to the plot use the `+` operator. Because we have two continuous variables,
 let's use `geom_point()` first:
 
-```{r first-ggplot, purl=FALSE}
+```{r first-ggplot}
 ggplot(data = iris, 
-       mapping = aes(x = sepal_length, 
-                     y = sepal_width))+
+       mapping = aes(x = Sepal.Length, 
+                     y = Sepal.Width))+
   geom_point()
 ```
 
@@ -94,11 +106,11 @@ to modify existing `ggplot` objects. This means you can easily set up plot
 templates and conveniently explore different types of plots, so the above
 plot can also be generated with code like this:
 
-```{r, first-ggplot-with-plus, eval=FALSE, purl=FALSE}
+```{r, first-ggplot-with-plus}
 # Assign plot to a variable
 iris_plot <- ggplot(data = iris, 
-       mapping = aes(x = sepal_length, 
-                     y = sepal_width))
+       mapping = aes(x = Sepal.Length, 
+                     y = Sepal.Width))
 
 # Draw the plot
 iris_plot + 
@@ -117,7 +129,7 @@ the *previous* layer. If, instead, the `+` sign is added at the beginning of the
 containing the new layer, **`ggplot2`** will not add the new layer and will return an 
 error message.
 
-```{r, ggplot-with-plus-position, eval=FALSE, purl=FALSE}
+```{r, ggplot-with-plus-position, eval = FALSE}
 # This is the correct syntax for adding layers
 iris_plot +
   geom_point()
@@ -132,78 +144,85 @@ iris_plot
 Building plots with **`ggplot2`** is typically an iterative process. We start by
 defining the dataset we'll use, lay out the axes, and choose a geom:
 
-```{r create-ggplot-object, purl=FALSE}
+```{r create-ggplot-object}
 ggplot(data = iris, 
-       mapping = aes(x = sepal_width, 
-                     y = sepal_length))+
+       mapping = aes(x = Sepal.Width, 
+                     y = Sepal.Length))+
     geom_point()
 ```
 
 We can also add colors for all the points:
 
-```{r adding-colors, purl=FALSE}
+```{r adding-colors}
 ggplot(data = iris, 
-       mapping = aes(x = sepal_width, 
-                     y = sepal_length))+
+       mapping = aes(x = Sepal.Width, 
+                     y = Sepal.Length))+
     geom_point(color = "blue")
 ```
 
 Or to color each species in the plot differently, you could use a vector as an input to the argument **color**. **`ggplot2`** will provide a different color corresponding to different values in the vector. Here is an example where we color with **`species`**:
 
 
-```{r color-by-species-1, purl=FALSE}
+```{r color-by-species-1}
 ggplot(data = iris, 
-       mapping = aes(x = sepal_width, 
-                     y = sepal_length))+
-    geom_point(aes(color = species))
+       mapping = aes(x = Sepal.Width, 
+                     y = Sepal.Length))+
+    geom_point(aes(color = Species))
 ```
 
 We can also specify the colors directly inside the mapping provided in the `ggplot()` function. This will be seen by any geom layers and the mapping will be determined by the x- and y-axis set up in `aes()`.
 
-```{r color-by-species-2, purl=FALSE}
+```{r color-by-species-2}
 ggplot(data = iris, 
-       mapping = aes(x = sepal_width, 
-                     y = sepal_length, 
-                     color = species))+
+       mapping = aes(x = Sepal.Width, 
+                     y = Sepal.Length, 
+                     color = Species))+
     geom_point()
 ```
 
 Notice that we can change the geom layer and colors will be still determined by **`species`**
 
-```{r color-by-species-3, purl=FALSE}
+```{r color-by-species-3}
 ggplot(data = iris, 
-       mapping = aes(x = sepal_width, 
-                     y = sepal_length, 
-                     color = species))+
+       mapping = aes(x = Sepal.Width, 
+                     y = Sepal.Length, 
+                     color = Species))+
     geom_jitter()
 ```
 
-> ### Challenge
+> ## Challenge 1
 >
-> Use what you just learned to create a scatter plot of the `plant_phys` dataset. Plot `Cond_day` over
-> `Cond_night` with the species showing in different colors. Is this a good
-> way to show this type of data?
-> ```{r scatter-challenge, answer=TRUE, purl=FALSE}
-> ggplot(data = plant_phys, mapping = aes(x = Cond_day, y = Cond_night)) +
->    geom_point(aes(color = species))
-> ```
+> Use what you just learned to create a scatter plot. Use these skills to plot the of the `plant_phys` dataset. 
+> Plot `Cond_day` over `Cond_night` with the species showing in different colors. Is this a good way to show this type of data?
+>
+> > ## Solution to Challenge 1
+> > ```{r ch1-soln}
+> > ggplot(data = plant_phys, 
+> >        mapping = aes(x = Cond_day, 
+> >                      y = Cond_night)) +
+> >    geom_point(aes(color = Species))
+> > ```
+> {: .solution}
+{: .challenge}
 
 ## Boxplot
 
 We can use boxplots to visualize the distribution of sepal length within each species:
 
-```{r boxplot, purl=FALSE}
-ggplot(data = iris, mapping = aes(x = species, y = sepal_length)) +
+```{r boxplot}
+ggplot(data = iris, 
+       mapping = aes(x = Species, 
+                     y = Sepal.Length)) +
     geom_boxplot()
 ```
 
 By adding points to boxplot, we can have a better idea of the number of
 measurements and of their distribution:
 
-```{r boxplot-with-points, purl=FALSE}
+```{r boxplot-with-points}
 ggplot(data = iris, 
-       mapping = aes(x = species, 
-                     y = sepal_length)) +
+       mapping = aes(x = Species, 
+                     y = Sepal.Length)) +
     geom_boxplot()+
     geom_jitter(color = "tomato")
 ```
@@ -212,77 +231,65 @@ Notice how the boxplot layer is behind the jitter layer? What do you need to
 change in the code to put the boxplot in front of the points such that it's not
 hidden?
 
-> ### Challenges
->
-> Boxplots are useful summaries, but hide the *shape* of the distribution. For
-> example, if the distribution is bimodal, we would not see it in a
-> boxplot. An alternative to the boxplot is the violin plot, where the shape 
-(of the density of points) is drawn.
->
-> - Replace the box plot with a violin plot; see `geom_violin()`.
->
-> In many types of data, it is important to consider the *scale* of the
-> observations.  For example, it may be worth changing the scale of the axis to
-> better distribute the observations in the space of the plot.  Changing the scale
-> of the axes is done similarly to adding/modifying other components (i.e., by
-> incrementally adding commands). Try making these modifications:
->
-> - Represent weight on the log~10~ scale; see `scale_y_log10()`.
->
-> So far, we've looked at the distribution of weight within species. Try making a
-> new plot to explore the distribution of another variable within each species.
->
-> - Create a boxplot for `petal_length`. Overlay the boxplot layer on a jitter
->   layer to show actual measurements.
->
-> - Add color to the data points on your boxplot according to `species`.
->
+### The violin plot: an alternative to the boxplot
 
-```{r boxplot-challenge, eval=FALSE, purl=TRUE, echo=FALSE}
-## Challenge with boxplots:
-##  Start with the boxplot we created:
-ggplot(data = iris, 
-       mapping = aes(x = species, 
-                     y = sepal_length)) +
-    geom_boxplot()+
-    geom_jitter(color = "tomato")
+Boxplots are useful summaries, but hide the *shape* of the distribution. For example, if the distribution is bimodal, we would not see it in a boxplot. An alternative to the boxplot is the violin plot, where the shape (of the density of points) is drawn.
 
-##  1. Replace the box plot with a violin plot; see `geom_violin()`.
+> ## Challenge 2
+>
+> Try replacing the box plot with a violin plot with `geom_violin()`.
+>
+> > ## Solution to Challenge 2
+> > ```{r, ch2-soln}
+> >       ggplot(data = iris, 
+> >              mapping = aes(x = Species, 
+> >                            y = Sepal.Length)) +
+> >       geom_violin()
+> > ```
+> {: .solution}
+{: .challenge}
 
-##  2. Represent weight on the log10 scale; see `scale_y_log10()`.
+Now, let's try a box plot with some new data.
 
-##  3. Create boxplot for `hindfoot_length` overlaid on a jitter layer.
-
-##  4. Add color to the data points on your boxplot according to the
-##  plot from which the sample was taken (`plot_id`).
-
-```
+> ## Challenge 3
+>
+> * Create a boxplot for `Petal.Length`. 
+> * Overlay the boxplot layer on a jitter layer to show actual measurements.
+> *  Add color to the data points on your boxplot according to `species`.
+>
+> > Solution to Challenge 3
+> > ```{r ch3-soln}
+> >      ggplot(data = iris, 
+> >             mapping = aes(x = Species, 
+> >                           y = Petal.Length)) +
+> >      geom_boxplot()+
+> >      geom_jitter(color = "tomato")
+> > ```
+> {: .solution}
+{: .challenge}
 
 ## Plotting time series data
 
 Let's calculate the average photosynthesis rate per month for each Functional group (`Fgroup`). First we need to group the data and count records within each group:
 
-```{r, purl=FALSE}
+```{r}
 monthly_photo_fg <- plant_phys %>%
   group_by(Month, Fgroup)%>%
   summarize(mean_phot = mean(Photo))
 ```
 
-Time series data can be visualized as a line plot with years on the x axis and counts
-on the y axis:
+Time series data can be visualized as a line plot with years on the x axis and counts on the y axis:
 
-```{r first-time-series, purl=FALSE}
+```{r first-time-series}
 ggplot(data = monthly_photo_fg, 
        mapping = aes(x = Month, 
                      y = mean_phot)) +
      geom_line()
 ```
 
-Unfortunately, this does not work because we plotted data for all the functional
-groups together. We need to tell ggplot to draw a line for each species by
-modifying the aesthetic function to include `group = Species`:
+Unfortunately, this does not work because we plotted data for all the functional groups together. We need to tell ggplot to draw a line for each species by modifying the aesthetic function to include `group = Species`:
 
-```{r time-series-by-species, purl=FALSE}
+```{r time-series-by-species}
 ggplot(data = monthly_photo_fg, 
        mapping = aes(x = Month, 
                      y = mean_phot, 
@@ -292,7 +299,7 @@ ggplot(data = monthly_photo_fg,
 
 We will be able to distinguish species in the plot if we add colors (using `color` also automatically groups the data):
 
-```{r time-series-with-colors, purl=FALSE}
+```{r time-series-with-colors}
 ggplot(data = monthly_photo_fg, 
        mapping = aes(x = Month, 
                      y = mean_phot, 
@@ -306,7 +313,7 @@ ggplot(data = monthly_photo_fg,
 plot into multiple plots based on a factor included in the dataset. We will use it to
 make a time series plot for each species:
 
-```{r first-facet, purl=FALSE}
+```{r first-facet}
 ggplot(data = monthly_photo_fg, 
        mapping = aes(x = Month, 
                      y = mean_phot)) +
@@ -317,7 +324,7 @@ ggplot(data = monthly_photo_fg,
 Now we would like to split the line in each plot by the functional group 
 of each individual measured. To do that we need to make counts in the data frame grouped by `month`, `Species`, and `Fgroup`:
 
-```{r, purl=FALSE}
+```{r create-phot-mean-df}
 mo_sp_fg <- plant_phys %>%
   group_by(Month, Species, Fgroup)%>%
   summarize(mean_phot = mean(Photo))
@@ -325,7 +332,7 @@ mo_sp_fg <- plant_phys %>%
 
 We can now make the faceted plot by splitting further by sex using `color` (within a single plot):
 
-```{r facet-by-species-and-sex, purl=FALSE}
+```{r facet-by}
 ggplot(data = mo_sp_fg, 
        mapping = aes(x = Month, 
                      y = mean_phot, 
@@ -338,7 +345,7 @@ Usually plots with white background look more readable when printed.  We can set
 the background to white using the function `theme_bw()`. Additionally, you can remove
 the grid:
 
-```{r facet-by-species-and-sex-white-bg, purl=FALSE}
+```{r facet-by-white-bg}
 ggplot(data = mo_sp_fg, 
        mapping = aes(x = Month, 
                      y = mean_phot, 
@@ -364,24 +371,29 @@ provides a wide variety of options (including an Excel 2003 theme).
 The [**`ggplot2`** extensions website](https://www.ggplot2-exts.org) provides a list
 of packages that extend the capabilities of **`ggplot2`**, including additional
 themes.
+ 
 
-
-> ### Challenge
-
+> ## Challenge 4
+>
 > Use what you just learned to create a plot that depicts how the average `PD`
-> of each species changes over a season. Color the lines by functional group
+> of each species changes over a season. Color the lines by functional group.
 > 
-> ```{r average-weight-time-series, answer=TRUE, purl=FALSE}
-> seasonPD <- plant_phys %>%
->                 group_by(Month, Species, Fgroup) %>%
->                  summarize(avg_PD = mean(PD))
-> ggplot(data = seasonPD, 
->    mapping = aes(x=Month, 
->                  y=avg_PD, 
->                  color = Fgroup)) +
->    geom_line() +
->    facet_wrap(~ Species) +
->    theme_bw()
+> > ## Solution to Challenge 4
+> > ```{r average-weight-time-series}
+> >          seasonPD <- plant_phys %>%
+> >                group_by(Month, Species, Fgroup) %>%
+> >                summarize(avg_PD = mean(PD))
+> >
+> >         ggplot(data = seasonPD, 
+> >                mapping = aes(x=Month, 
+> >                              y=avg_PD, 
+> >                              color = Fgroup)) +
+> >         geom_line() +
+> >         facet_wrap(~ Species) +
+> >         theme_bw()
+> > ```
+> {: .solution}
+{: .challenge}
 
 The `facet_wrap` geometry extracts plots into an arbitrary number of dimensions
 to allow them to cleanly fit on one page. On the other hand, the `facet_grid`
@@ -392,7 +404,7 @@ a placeholder that indicates only one row or column).
 Let's modify the previous plot to compare how the photosynthesis rate of functional
 groups have changed through time:
 
-```{r average-weight-time-facet-sex-rows, purl=FALSE}
+```{r average-photo-time-facet-Fgroup-rows}
 
 ggplot(data = mo_sp_fg, 
        mapping = aes(x = Month, 
@@ -402,7 +414,7 @@ ggplot(data = mo_sp_fg,
     facet_grid(Fgroup ~ .)
 ```
 
-```{r average-weight-time-facet-sex-columns, purl=FALSE}
+```{r average-photo-time-facet-Fgroup-columns}
 # One row, facet by column
 ggplot(data = mo_sp_fg, 
        mapping = aes(x = Month, 
@@ -420,7 +432,7 @@ think of ways you could improve the plot.
 Now, let's change names of axes to something more informative than 'year'
 and 'n' and add a title to the figure:
 
-```{r number-species-year-with-right-labels, purl=FALSE}
+```{r number-species-month-with-right-labels}
 ggplot(data = mo_sp_fg, 
        mapping = aes(x = Month, 
                      y = mean_phot, 
@@ -436,7 +448,7 @@ ggplot(data = mo_sp_fg,
 The axes have more informative names, but their readability can be improved by
 increasing the font size:
 
-```{r number-species-year-with-right-labels-xfont-size, purl=FALSE}
+```{r number-species-year-with-right-labels-xfont-size}
 ggplot(data = mo_sp_fg, 
        mapping = aes(x = Month, 
                      y = mean_phot, 
@@ -461,7 +473,7 @@ vertically and horizontally so they don't overlap. You can use a 90-degree
 angle, or experiment to find the appropriate angle for diagonally oriented
 labels:
 
-```{r number-species-year-with-theme, purl=FALSE}
+```{r number-Fgroup-month-with-theme}
 ggplot(data = mo_sp_fg, 
        mapping = aes(x = Month, 
                      y = mean_phot, 
@@ -483,7 +495,7 @@ If you like the changes you created better than the default theme, you can save 
 an object to be able to easily apply them to other plots you may create:
 
 
-```{r number-species-year-with-right-labels-xfont-orientation, purl=FALSE}
+```{r number-Fgroup-month-with-right-labels-xfont-orientation}
 grey_theme <- theme(axis.text.x = element_text(colour = "grey20", size = 12, angle = 90, hjust = 0.5, vjust = 0.5),
                           axis.text.y = element_text(colour = "grey20", size = 12),
                           text = element_text(size = 16))
@@ -494,27 +506,15 @@ ggplot(plant_phys,
     grey_theme
 ```
 
-> ### Challenge
-> 
-> With all of this information in hand, please take another five minutes to
-> either improve one of the plots generated in this exercise or create a
-> beautiful graph of your own. Use the RStudio [**`ggplot2`** cheat sheet](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)
-> for inspiration. Here are some ideas:
->
-> * See if you can change the thickness of the lines.
-> * Can you find a way to change the name of the legend? What about its labels?
-> * Try using a different color palette (see
->   http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/).
-
 ## Arranging and exporting plots
 
 Faceting is a great tool for splitting one plot into multiple plots, but sometimes you may want to produce a single figure that contains multiple plots using different variables or even different data frames. The **`gridExtra`** package allows us to combine separate ggplots into a single figure using `grid.arrange()`:
 
-```{r install-gridextra, message=FALSE, purl=TRUE, eval=FALSE}
+```{r install-gridextra, eval=FALSE}
 install.packages("gridExtra")
 ```
 
-```{r gridarrange-example, message=FALSE, purl=FALSE, fig.width=10}
+```{r gridarrange-example, fig.width=10}
 library(gridExtra)
 
 sp_photo_boxplot <- ggplot(plant_phys, 
@@ -546,7 +546,7 @@ Instead, use the `ggsave()` function, which allows you easily change the dimensi
 
 Make sure you have the `fig_output/` folder in your working directory.
 
-```{r ggsave-example, eval=FALSE, purl=FALSE}
+```{r ggsave-example, eval=FALSE}
 my_plot <- ggplot(plant_phys, 
        aes(x = Species, 
            y = Photo)) +
@@ -564,12 +564,15 @@ ggsave("fig_output/combo_plot.png", combo_plot, width = 10, dpi = 300)
 
 Note: The parameters `width` and `height` also determine the font size in the saved plot.
 
-
-```{r final-challenge, eval=FALSE, purl=TRUE, echo=FALSE}
-### Final plotting challenge:
-##  With all of this information in hand, please take another five
-##  minutes to either improve one of the plots generated in this
-##  exercise or create a beautiful graph of your own. Use the RStudio
-##  ggplot2 cheat sheet for inspiration:
-##  https://www.rstudio.com/wp-content/uploads/2015/08/ggplot2-cheatsheet.pdf
-```
+> ## Final Plotting Challenge
+> With all of this information in hand, please take another five
+> minutes to either improve one of the plots generated in this
+> exercise or create a beautiful graph of your own. Use the RStudio
+> ggplot2 cheat sheet for inspiration:
+> https://www.rstudio.com/wp-content/uploads/2015/08/ggplot2-cheatsheet.pdf
+> Here are some ideas:
+> * See if you can change the thickness of the lines.
+> * Can you find a way to change the name of the legend? What about its labels?
+> * Try using a different color palette (see
+>   http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/).
+{: .challenge}

@@ -3,23 +3,24 @@
 # Instead, please edit 00-before-we-start.md in _episodes_rmd/
 title: "Before we start"
 author: "Data Carpentry contributors"
+teaching: 
+exercises: 
+questions:
+- "What is R?"
+- "What is RStudio?"
+objectives: 
+- "Describe the purpose of the RStudio Script, Console, Environment, and Plots panes."
+- "Organize files and directories for a set of analyses as an R"
+- "Project, and understand the purpose of the working directory."
+- "Use the built-in RStudio help interface to search for more information on R functions."
+- "Demonstrate how to provide sufficient information for troubleshooting with the R user community."
+keypoints:
+- "R is a programming language. RStudio is a user-friendly interface for coding in R."
+- "R projects help you organize your work and keep file paths simple"
+- "You can get help in the RStudio interface"
+- "There are many resources available online for R help"
 source: Rmd
-minutes: 15
 ---
-
-> ### Learning Objectives
->
-> * Describe the purpose of the RStudio Script, Console, Environment, and Plots
->   panes.
-> * Organize files and directories for a set of analyses as an R
->   Project, and understand the purpose of the working directory.
-> * Use the built-in RStudio help interface to search for more information on R
->   functions.
->  * Demonstrate how to provide sufficient information for
->   troubleshooting with the R user community.
-
-------------
-
 
 ## What is R? What is RStudio?
 
@@ -431,7 +432,7 @@ sessionInfo()
 ```
 ## R version 3.5.1 (2018-07-02)
 ## Platform: x86_64-apple-darwin15.6.0 (64-bit)
-## Running under: macOS  10.14.5
+## Running under: macOS  10.14.6
 ## 
 ## Matrix products: default
 ## BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
@@ -444,10 +445,10 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] knitr_1.20              requirements_0.0.0.9000 remotes_2.0.4          
+## [1] knitr_1.20              requirements_0.0.0.9000 remotes_2.1.0          
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.1      digest_0.6.18   rprojroot_1.3-2 backports_1.1.2
+##  [1] Rcpp_1.0.2      digest_0.6.18   rprojroot_1.3-2 backports_1.1.2
 ##  [5] magrittr_1.5    evaluate_0.12   highr_0.7       rlang_0.4.0    
 ##  [9] stringi_1.2.4   rmarkdown_1.10  tools_3.5.1     stringr_1.3.1  
 ## [13] yaml_2.2.0      compiler_3.5.1  htmltools_0.3.6
