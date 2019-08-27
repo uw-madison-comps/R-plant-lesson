@@ -9,7 +9,8 @@ library(tidyverse)
 library(lubridate)
 library(knitr)
 
-knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
+source("../bin/chunk-options.R")
+#knitr::opts_chunk$set(message = FALSE, warnings = FALSE)
 
 data(iris)
 iris<-as_tibble(iris)

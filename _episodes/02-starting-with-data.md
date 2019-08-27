@@ -27,16 +27,13 @@ minutes: 20
 
 ## Presentation of the Workshop Data
 
-
 In this workshop, we will be working with two sets of data: one is the
-`iris` data  from the classic paper by Fisher (ref?  1934?) and the
+`iris` data  from the classic paper by Fisher "The use of multiple measurements in taxonomic problems" (1936) and the
 other is from a recent paper on ??? by OKeefe and Nippert (ref).  Each dataset is stored
 as comma separated value (CSV) file.
 
 The `iris` data have morphological measures from more than 100 samples of 3 species of irises.
 Each row holds information for a single sample (plant?  specimen?), and the columns represent:
-
-
 
 | Column          |  Description               |
 |-----------------|----------------------------|
@@ -50,6 +47,7 @@ Each row holds information for a single sample (plant?  specimen?), and the colu
 ... measurements (in units) of sepal and petal lengths and widths, and
 the species  --> 
 
+<!-- replace this with download and unzip the data dir -->
 We are going to use the R function `download.file()` to download the CSV file
 that contains the survey data from figshare, and we will use `read.csv()` to
 load into memory the content of the CSV file as an object of class `data.frame`. 
@@ -61,19 +59,13 @@ file on your local machine. You'll need to have a folder on your machine called 
 you'll download the file. So this command downloads a file from figshare, names it 
 "iris.csv," and adds it to a preexisting folder named "data."
 
-
-
-```r
-download.file(url="https://ndownloader.figshare.com/files????",
-              destfile = "data/iris.csv")
-```
-
 You are now ready to load the data:
 
 
-```r
+~~~
 iris <- read.csv("data/iris.csv")
-```
+~~~
+{: .language-r}
 
 This statement doesn't produce any output because, as you might recall,
 assignments don't display anything. If we want to check that our data has been
@@ -84,25 +76,30 @@ Let's check the top (the first 6 lines) of this data frame using the
 function `head()`:
 
 
-```r
+~~~
 head(iris)
-```
-
-```
-##   sepal_length sepal_width petal_length petal_width species
-## 1          5.1         3.5          1.4         0.2  setosa
-## 2          4.9         3.0          1.4         0.2  setosa
-## 3          4.7         3.2          1.3         0.2  setosa
-## 4          4.6         3.1          1.5         0.2  setosa
-## 5          5.0         3.6          1.4         0.2  setosa
-## 6          5.4         3.9          1.7         0.4  setosa
-```
+~~~
+{: .language-r}
 
 
-```r
+
+~~~
+  sepal_length sepal_width petal_length petal_width species
+1          5.1         3.5          1.4         0.2  setosa
+2          4.9         3.0          1.4         0.2  setosa
+3          4.7         3.2          1.3         0.2  setosa
+4          4.6         3.1          1.5         0.2  setosa
+5          5.0         3.6          1.4         0.2  setosa
+6          5.4         3.9          1.7         0.4  setosa
+~~~
+{: .output}
+
+
+~~~
 ## Try also
 View(iris)
-```
+~~~
+{: .language-r}
 
 > ### Note
 >
@@ -136,25 +133,29 @@ vectors, each column must contain a single type of data (e.g., characters, integ
 factors). For example, here is a figure depicting a data frame comprising a
 numeric, a character, and a logical vector.
 
-![](/fig/data-frame.svg)
+![](../fig/data-frame.svg)
 
 
 We can see this when inspecting the <b>str</b>ucture of a data frame
 with the function `str()`:
 
 
-```r
+~~~
 str(iris)
-```
+~~~
+{: .language-r}
 
-```
-## 'data.frame':	150 obs. of  5 variables:
-##  $ sepal_length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
-##  $ sepal_width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
-##  $ petal_length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
-##  $ petal_width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
-##  $ species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
-```
+
+
+~~~
+'data.frame':	150 obs. of  5 variables:
+ $ sepal_length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+ $ sepal_width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+ $ petal_length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+ $ petal_width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+ $ species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+~~~
+{: .output}
 
 ## Inspecting `data.frame` Objects
 
@@ -187,7 +188,7 @@ Note: most of these functions are "generic", they can be used on other types of
 objects besides `data.frame`.
 
 
-> ### Challenge
+> ## Challenge 1
 >
 > Based on the output of `str(iris)`, can you answer the following questions?
 >
@@ -195,35 +196,37 @@ objects besides `data.frame`.
 > * How many rows and how many columns are in this object?
 > * How many species have been recorded during these iris?
 >
-> 
-> ```r
-> str(iris)
-> ```
-> 
-> ```
-> ## 'data.frame':	150 obs. of  5 variables:
-> ##  $ sepal_length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
-> ##  $ sepal_width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
-> ##  $ petal_length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
-> ##  $ petal_width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
-> ##  $ species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
-> ```
-> 
-> ```r
-> ## * class: data frame
-> ## * how many rows: 150,  how many columns: 5
-> ## * how many species: 3
-> ```
-
-
-
-
-
+> > ## Solution to Challenge 1
+> > 
+> > ~~~
+> > str(iris)
+> > ~~~
+> > {: .language-r}
+> > 
+> > 
+> > 
+> > ~~~
+> > 'data.frame':	150 obs. of  5 variables:
+> >  $ sepal_length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+> >  $ sepal_width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+> >  $ petal_length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+> >  $ petal_width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+> >  $ species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+> > ~~~
+> > {: .output}
+> > 
+> > 
+> > 
+> > ~~~
+> > ## * class: data frame
+> > ## * how many rows: 150,  how many columns: 5
+> > ## * how many species: 3
+> > ~~~
+> > {: .language-r}
+> {: .solution}
+{: .challenge}
 
 ## Indexing and subsetting data frames
-
-
-
 
 Our survey data frame has rows and columns (it has 2 dimensions), if we want to
 extract some specific data from it, we need to specify the "coordinates" we
@@ -232,224 +235,23 @@ that different ways of specifying these coordinates lead to results with
 different classes.
 
 
-
-```r
+~~~
 # first element in the first column of the data frame (as a vector)
 iris[1, 1]   
-```
-
-```
-## [1] 5.1
-```
-
-```r
 # first element in the 3rd column (as a vector)
 iris[1, 3]   
-```
-
-```
-## [1] 1.4
-```
-
-```r
 # first column of the data frame (as a vector)
 iris[, 1]    
-```
-
-```
-##   [1] 5.1 4.9 4.7 4.6 5.0 5.4 4.6 5.0 4.4 4.9 5.4 4.8 4.8 4.3 5.8 5.7 5.4
-##  [18] 5.1 5.7 5.1 5.4 5.1 4.6 5.1 4.8 5.0 5.0 5.2 5.2 4.7 4.8 5.4 5.2 5.5
-##  [35] 4.9 5.0 5.5 4.9 4.4 5.1 5.0 4.5 4.4 5.0 5.1 4.8 5.1 4.6 5.3 5.0 7.0
-##  [52] 6.4 6.9 5.5 6.5 5.7 6.3 4.9 6.6 5.2 5.0 5.9 6.0 6.1 5.6 6.7 5.6 5.8
-##  [69] 6.2 5.6 5.9 6.1 6.3 6.1 6.4 6.6 6.8 6.7 6.0 5.7 5.5 5.5 5.8 6.0 5.4
-##  [86] 6.0 6.7 6.3 5.6 5.5 5.5 6.1 5.8 5.0 5.6 5.7 5.7 6.2 5.1 5.7 6.3 5.8
-## [103] 7.1 6.3 6.5 7.6 4.9 7.3 6.7 7.2 6.5 6.4 6.8 5.7 5.8 6.4 6.5 7.7 7.7
-## [120] 6.0 6.9 5.6 7.7 6.3 6.7 7.2 6.2 6.1 6.4 7.2 7.4 7.9 6.4 6.3 6.1 7.7
-## [137] 6.3 6.4 6.0 6.9 6.7 6.9 5.8 6.8 6.7 6.7 6.3 6.5 6.2 5.9
-```
-
-```r
 # first column of the data frame (as a data.frame)
 iris[1]      
-```
-
-```
-##     sepal_length
-## 1            5.1
-## 2            4.9
-## 3            4.7
-## 4            4.6
-## 5            5.0
-## 6            5.4
-## 7            4.6
-## 8            5.0
-## 9            4.4
-## 10           4.9
-## 11           5.4
-## 12           4.8
-## 13           4.8
-## 14           4.3
-## 15           5.8
-## 16           5.7
-## 17           5.4
-## 18           5.1
-## 19           5.7
-## 20           5.1
-## 21           5.4
-## 22           5.1
-## 23           4.6
-## 24           5.1
-## 25           4.8
-## 26           5.0
-## 27           5.0
-## 28           5.2
-## 29           5.2
-## 30           4.7
-## 31           4.8
-## 32           5.4
-## 33           5.2
-## 34           5.5
-## 35           4.9
-## 36           5.0
-## 37           5.5
-## 38           4.9
-## 39           4.4
-## 40           5.1
-## 41           5.0
-## 42           4.5
-## 43           4.4
-## 44           5.0
-## 45           5.1
-## 46           4.8
-## 47           5.1
-## 48           4.6
-## 49           5.3
-## 50           5.0
-## 51           7.0
-## 52           6.4
-## 53           6.9
-## 54           5.5
-## 55           6.5
-## 56           5.7
-## 57           6.3
-## 58           4.9
-## 59           6.6
-## 60           5.2
-## 61           5.0
-## 62           5.9
-## 63           6.0
-## 64           6.1
-## 65           5.6
-## 66           6.7
-## 67           5.6
-## 68           5.8
-## 69           6.2
-## 70           5.6
-## 71           5.9
-## 72           6.1
-## 73           6.3
-## 74           6.1
-## 75           6.4
-## 76           6.6
-## 77           6.8
-## 78           6.7
-## 79           6.0
-## 80           5.7
-## 81           5.5
-## 82           5.5
-## 83           5.8
-## 84           6.0
-## 85           5.4
-## 86           6.0
-## 87           6.7
-## 88           6.3
-## 89           5.6
-## 90           5.5
-## 91           5.5
-## 92           6.1
-## 93           5.8
-## 94           5.0
-## 95           5.6
-## 96           5.7
-## 97           5.7
-## 98           6.2
-## 99           5.1
-## 100          5.7
-## 101          6.3
-## 102          5.8
-## 103          7.1
-## 104          6.3
-## 105          6.5
-## 106          7.6
-## 107          4.9
-## 108          7.3
-## 109          6.7
-## 110          7.2
-## 111          6.5
-## 112          6.4
-## 113          6.8
-## 114          5.7
-## 115          5.8
-## 116          6.4
-## 117          6.5
-## 118          7.7
-## 119          7.7
-## 120          6.0
-## 121          6.9
-## 122          5.6
-## 123          7.7
-## 124          6.3
-## 125          6.7
-## 126          7.2
-## 127          6.2
-## 128          6.1
-## 129          6.4
-## 130          7.2
-## 131          7.4
-## 132          7.9
-## 133          6.4
-## 134          6.3
-## 135          6.1
-## 136          7.7
-## 137          6.3
-## 138          6.4
-## 139          6.0
-## 140          6.9
-## 141          6.7
-## 142          6.9
-## 143          5.8
-## 144          6.8
-## 145          6.7
-## 146          6.7
-## 147          6.3
-## 148          6.5
-## 149          6.2
-## 150          5.9
-```
-
-```r
 # first three elements in the 4th column (as a vector)
 iris[1:3, 4] 
-```
-
-```
-## [1] 0.2 0.2 0.2
-```
-
-```r
 # the 3rd row of the data frame (as a data.frame)
 iris[3, ]    
-```
-
-```
-##   sepal_length sepal_width petal_length petal_width species
-## 3          4.7         3.2          1.3         0.2  setosa
-```
-
-```r
 # equivalent to head_iris <- head(iris)
 head_iris <- iris[1:6, ] 
-```
+~~~
+{: .language-r}
 
 `:` is a special function that creates numeric vectors of integers in increasing
 or decreasing order, test `1:10` and `10:1` for instance.
@@ -457,191 +259,26 @@ or decreasing order, test `1:10` and `10:1` for instance.
 You can also exclude certain indices of a data frame using the "`-`" sign:
 
 
-```r
+~~~
 iris[, -1]          # The whole data frame, except the first column
-```
-
-```
-##     sepal_width petal_length petal_width    species
-## 1           3.5          1.4         0.2     setosa
-## 2           3.0          1.4         0.2     setosa
-## 3           3.2          1.3         0.2     setosa
-## 4           3.1          1.5         0.2     setosa
-## 5           3.6          1.4         0.2     setosa
-## 6           3.9          1.7         0.4     setosa
-## 7           3.4          1.4         0.3     setosa
-## 8           3.4          1.5         0.2     setosa
-## 9           2.9          1.4         0.2     setosa
-## 10          3.1          1.5         0.1     setosa
-## 11          3.7          1.5         0.2     setosa
-## 12          3.4          1.6         0.2     setosa
-## 13          3.0          1.4         0.1     setosa
-## 14          3.0          1.1         0.1     setosa
-## 15          4.0          1.2         0.2     setosa
-## 16          4.4          1.5         0.4     setosa
-## 17          3.9          1.3         0.4     setosa
-## 18          3.5          1.4         0.3     setosa
-## 19          3.8          1.7         0.3     setosa
-## 20          3.8          1.5         0.3     setosa
-## 21          3.4          1.7         0.2     setosa
-## 22          3.7          1.5         0.4     setosa
-## 23          3.6          1.0         0.2     setosa
-## 24          3.3          1.7         0.5     setosa
-## 25          3.4          1.9         0.2     setosa
-## 26          3.0          1.6         0.2     setosa
-## 27          3.4          1.6         0.4     setosa
-## 28          3.5          1.5         0.2     setosa
-## 29          3.4          1.4         0.2     setosa
-## 30          3.2          1.6         0.2     setosa
-## 31          3.1          1.6         0.2     setosa
-## 32          3.4          1.5         0.4     setosa
-## 33          4.1          1.5         0.1     setosa
-## 34          4.2          1.4         0.2     setosa
-## 35          3.1          1.5         0.1     setosa
-## 36          3.2          1.2         0.2     setosa
-## 37          3.5          1.3         0.2     setosa
-## 38          3.1          1.5         0.1     setosa
-## 39          3.0          1.3         0.2     setosa
-## 40          3.4          1.5         0.2     setosa
-## 41          3.5          1.3         0.3     setosa
-## 42          2.3          1.3         0.3     setosa
-## 43          3.2          1.3         0.2     setosa
-## 44          3.5          1.6         0.6     setosa
-## 45          3.8          1.9         0.4     setosa
-## 46          3.0          1.4         0.3     setosa
-## 47          3.8          1.6         0.2     setosa
-## 48          3.2          1.4         0.2     setosa
-## 49          3.7          1.5         0.2     setosa
-## 50          3.3          1.4         0.2     setosa
-## 51          3.2          4.7         1.4 versicolor
-## 52          3.2          4.5         1.5 versicolor
-## 53          3.1          4.9         1.5 versicolor
-## 54          2.3          4.0         1.3 versicolor
-## 55          2.8          4.6         1.5 versicolor
-## 56          2.8          4.5         1.3 versicolor
-## 57          3.3          4.7         1.6 versicolor
-## 58          2.4          3.3         1.0 versicolor
-## 59          2.9          4.6         1.3 versicolor
-## 60          2.7          3.9         1.4 versicolor
-## 61          2.0          3.5         1.0 versicolor
-## 62          3.0          4.2         1.5 versicolor
-## 63          2.2          4.0         1.0 versicolor
-## 64          2.9          4.7         1.4 versicolor
-## 65          2.9          3.6         1.3 versicolor
-## 66          3.1          4.4         1.4 versicolor
-## 67          3.0          4.5         1.5 versicolor
-## 68          2.7          4.1         1.0 versicolor
-## 69          2.2          4.5         1.5 versicolor
-## 70          2.5          3.9         1.1 versicolor
-## 71          3.2          4.8         1.8 versicolor
-## 72          2.8          4.0         1.3 versicolor
-## 73          2.5          4.9         1.5 versicolor
-## 74          2.8          4.7         1.2 versicolor
-## 75          2.9          4.3         1.3 versicolor
-## 76          3.0          4.4         1.4 versicolor
-## 77          2.8          4.8         1.4 versicolor
-## 78          3.0          5.0         1.7 versicolor
-## 79          2.9          4.5         1.5 versicolor
-## 80          2.6          3.5         1.0 versicolor
-## 81          2.4          3.8         1.1 versicolor
-## 82          2.4          3.7         1.0 versicolor
-## 83          2.7          3.9         1.2 versicolor
-## 84          2.7          5.1         1.6 versicolor
-## 85          3.0          4.5         1.5 versicolor
-## 86          3.4          4.5         1.6 versicolor
-## 87          3.1          4.7         1.5 versicolor
-## 88          2.3          4.4         1.3 versicolor
-## 89          3.0          4.1         1.3 versicolor
-## 90          2.5          4.0         1.3 versicolor
-## 91          2.6          4.4         1.2 versicolor
-## 92          3.0          4.6         1.4 versicolor
-## 93          2.6          4.0         1.2 versicolor
-## 94          2.3          3.3         1.0 versicolor
-## 95          2.7          4.2         1.3 versicolor
-## 96          3.0          4.2         1.2 versicolor
-## 97          2.9          4.2         1.3 versicolor
-## 98          2.9          4.3         1.3 versicolor
-## 99          2.5          3.0         1.1 versicolor
-## 100         2.8          4.1         1.3 versicolor
-## 101         3.3          6.0         2.5  virginica
-## 102         2.7          5.1         1.9  virginica
-## 103         3.0          5.9         2.1  virginica
-## 104         2.9          5.6         1.8  virginica
-## 105         3.0          5.8         2.2  virginica
-## 106         3.0          6.6         2.1  virginica
-## 107         2.5          4.5         1.7  virginica
-## 108         2.9          6.3         1.8  virginica
-## 109         2.5          5.8         1.8  virginica
-## 110         3.6          6.1         2.5  virginica
-## 111         3.2          5.1         2.0  virginica
-## 112         2.7          5.3         1.9  virginica
-## 113         3.0          5.5         2.1  virginica
-## 114         2.5          5.0         2.0  virginica
-## 115         2.8          5.1         2.4  virginica
-## 116         3.2          5.3         2.3  virginica
-## 117         3.0          5.5         1.8  virginica
-## 118         3.8          6.7         2.2  virginica
-## 119         2.6          6.9         2.3  virginica
-## 120         2.2          5.0         1.5  virginica
-## 121         3.2          5.7         2.3  virginica
-## 122         2.8          4.9         2.0  virginica
-## 123         2.8          6.7         2.0  virginica
-## 124         2.7          4.9         1.8  virginica
-## 125         3.3          5.7         2.1  virginica
-## 126         3.2          6.0         1.8  virginica
-## 127         2.8          4.8         1.8  virginica
-## 128         3.0          4.9         1.8  virginica
-## 129         2.8          5.6         2.1  virginica
-## 130         3.0          5.8         1.6  virginica
-## 131         2.8          6.1         1.9  virginica
-## 132         3.8          6.4         2.0  virginica
-## 133         2.8          5.6         2.2  virginica
-## 134         2.8          5.1         1.5  virginica
-## 135         2.6          5.6         1.4  virginica
-## 136         3.0          6.1         2.3  virginica
-## 137         3.4          5.6         2.4  virginica
-## 138         3.1          5.5         1.8  virginica
-## 139         3.0          4.8         1.8  virginica
-## 140         3.1          5.4         2.1  virginica
-## 141         3.1          5.6         2.4  virginica
-## 142         3.1          5.1         2.3  virginica
-## 143         2.7          5.1         1.9  virginica
-## 144         3.2          5.9         2.3  virginica
-## 145         3.3          5.7         2.5  virginica
-## 146         3.0          5.2         2.3  virginica
-## 147         2.5          5.0         1.9  virginica
-## 148         3.0          5.2         2.0  virginica
-## 149         3.4          5.4         2.3  virginica
-## 150         3.0          5.1         1.8  virginica
-```
-
-```r
 iris[-c(7:150), ] # Equivalent to head(iris)
-```
-
-```
-##   sepal_length sepal_width petal_length petal_width species
-## 1          5.1         3.5          1.4         0.2  setosa
-## 2          4.9         3.0          1.4         0.2  setosa
-## 3          4.7         3.2          1.3         0.2  setosa
-## 4          4.6         3.1          1.5         0.2  setosa
-## 5          5.0         3.6          1.4         0.2  setosa
-## 6          5.4         3.9          1.7         0.4  setosa
-```
+~~~
+{: .language-r}
 
 Data frames can be subset by calling indices (as shown previously), but also by calling their column names directly:
 
 
-```r
+~~~
 iris["species"]       # Result is a data.frame
 iris[, "species"]     # Result is a vector
 iris[["species"]]     # Result is a vector
 iris$species          # Result is a vector
-```
+~~~
+{: .language-r}
 
 In RStudio, you can use the autocompletion feature to get the full and correct names of the columns.
 
-> ### Challenge
+> ## Challenge 2
 >
 > 1. Create a `data.frame` (`iris_100`) containing only the data in
 >    row 100 of the `iris` dataset.
@@ -661,26 +298,25 @@ In RStudio, you can use the autocompletion feature to get the full and correct n
 >    `head(iris)`, keeping just the first through 6th rows of the iris
 >    dataset.
 >
-> 
-> ```r
-> ## 1.
-> iris_100 <- iris[100, ]
-> ## 2.
-> # Saving `n_rows` to improve readability and reduce duplication
-> n_rows <- nrow(iris)
-> iris_last <- iris[n_rows, ]
-> ## 3.
-> iris_middle <- iris[n_rows / 2, ]
-> ## 4.
-> iris_head <- iris[-(7:n_rows), ]
-> ```
-
-
-
+> > ## Solution for challenge 2
+> > 
+> > ~~~
+> > ## 1.
+> > iris_100 <- iris[100, ]
+> > ## 2.
+> > # Saving `n_rows` to improve readability and reduce duplication
+> > n_rows <- nrow(iris)
+> > iris_last <- iris[n_rows, ]
+> > ## 3.
+> > iris_middle <- iris[n_rows / 2, ]
+> > ## 4.
+> > iris_head <- iris[-(7:n_rows), ]
+> > ~~~
+> > {: .language-r}
+> {: .solution}
+{: .challenge}
 
 ## Factors
-
-
 
 When we did `str(iris)` we saw that four of the columns consist of
 numbers. The column `species`, ... however, is
@@ -696,9 +332,10 @@ instance, if you have a factor with 2 levels:
 
 <!-- should we have a factor like monicot and dicot or coniferous and decidous? -->
 
-```r
+~~~
 sex <- factor(c("male", "female", "female", "male"))
-```
+~~~
+{: .language-r}
 
 R will assign `1` to the level `"female"` and `2` to the level `"male"` (because
 `f` comes before `m`, even though the first element in this vector is
@@ -706,21 +343,31 @@ R will assign `1` to the level `"female"` and `2` to the level `"male"` (because
 number of levels using `nlevels()`:
 
 
-```r
+~~~
 levels(sex)
-```
+~~~
+{: .language-r}
 
-```
-## [1] "female" "male"
-```
 
-```r
+
+~~~
+[1] "female" "male"  
+~~~
+{: .output}
+
+
+
+~~~
 nlevels(sex)
-```
+~~~
+{: .language-r}
 
-```
-## [1] 2
-```
+
+
+~~~
+[1] 2
+~~~
+{: .output}
 
 Sometimes, the order of the factors does not matter, other times you might want
 to specify the order because it is meaningful (e.g., "low", "medium", "high"),
@@ -728,24 +375,34 @@ it improves your visualization, or it is required by a particular type of
 analysis. Here, one way to reorder our levels in the `sex` vector would be:
 
 
-```r
+~~~
 sex # current order
-```
+~~~
+{: .language-r}
 
-```
-## [1] male   female female male  
-## Levels: female male
-```
 
-```r
+
+~~~
+[1] male   female female male  
+Levels: female male
+~~~
+{: .output}
+
+
+
+~~~
 sex <- factor(sex, levels = c("male", "female"))
 sex # after re-ordering
-```
+~~~
+{: .language-r}
 
-```
-## [1] male   female female male  
-## Levels: male female
-```
+
+
+~~~
+[1] male   female female male  
+Levels: male female
+~~~
+{: .output}
 
 In R's memory, these factors are represented by integers (1, 2, 3), but are more
 informative than integers because factors are self describing: `"female"`,
@@ -760,13 +417,17 @@ If you need to convert a factor to a character vector, you use
 `as.character(x)`.
 
 
-```r
+~~~
 as.character(sex)
-```
+~~~
+{: .language-r}
 
-```
-## [1] "male"   "female" "female" "male"
-```
+
+
+~~~
+[1] "male"   "female" "female" "male"  
+~~~
+{: .output}
 
 In some cases, you may have to convert factors where the levels appear as
 numbers (such as concentration levels or years) to a numeric vector. For
@@ -782,30 +443,46 @@ and then to numbers.
 Another method is to use the `levels()` function. Compare:
 
 
-```r
+~~~
 year_fct <- factor(c(1990, 1983, 1977, 1998, 1990))
 as.numeric(year_fct)               # Wrong! And there is no warning...
-```
+~~~
+{: .language-r}
 
-```
-## [1] 3 2 1 4 3
-```
 
-```r
+
+~~~
+[1] 3 2 1 4 3
+~~~
+{: .output}
+
+
+
+~~~
 as.numeric(as.character(year_fct)) # Works...
-```
+~~~
+{: .language-r}
 
-```
-## [1] 1990 1983 1977 1998 1990
-```
 
-```r
+
+~~~
+[1] 1990 1983 1977 1998 1990
+~~~
+{: .output}
+
+
+
+~~~
 as.numeric(levels(year_fct))[year_fct]    # The recommended way.
-```
+~~~
+{: .language-r}
 
-```
-## [1] 1990 1983 1977 1998 1990
-```
+
+
+~~~
+[1] 1990 1983 1977 1998 1990
+~~~
+{: .output}
 
 Notice that in the `levels()` approach, three important steps occur:
 
@@ -822,12 +499,13 @@ level. Let's look at the number of males and females captured over the course of
 the experiment:
 
 
-```r
-## bar plot of the number of females and males captured during the experiment:
+~~~
+## bar plot of the number of each species captured during the experiment:
 plot(iris$species)
-```
+~~~
+{: .language-r}
 
-![plot of chunk unnamed-chunk-22](figure/unnamed-chunk-22-1.png)
+<img src="../fig/rmd-plot-1.png" title="plot of chunk plot" alt="plot of chunk plot" width="612" style="display: block; margin: auto;" />
 
 <!--  should we just leave this out and do something else here?  -->
 <!-- introduce the other dataset?      -->
@@ -840,46 +518,74 @@ the data on sex and work with that data, so we're not modifying the working copy
 of the data frame:
 
 
-```r
+~~~
 sex <- iris$sex
 head(sex)
-```
+~~~
+{: .language-r}
 
-```
-## NULL
-```
 
-```r
+
+~~~
+NULL
+~~~
+{: .output}
+
+
+
+~~~
 levels(sex)
-```
+~~~
+{: .language-r}
 
-```
-## NULL
-```
 
-```r
+
+~~~
+NULL
+~~~
+{: .output}
+
+
+
+~~~
 levels(sex)[1] <- "undetermined"
-```
+~~~
+{: .language-r}
 
-```
-## Error in levels(sex)[1] <- "undetermined": attempt to set an attribute on NULL
-```
 
-```r
+
+~~~
+Error in levels(sex)[1] <- "undetermined": attempt to set an attribute on NULL
+~~~
+{: .error}
+
+
+
+~~~
 levels(sex)
-```
+~~~
+{: .language-r}
 
-```
-## NULL
-```
 
-```r
+
+~~~
+NULL
+~~~
+{: .output}
+
+
+
+~~~
 head(sex)
-```
+~~~
+{: .language-r}
 
-```
-## NULL
-```
+
+
+~~~
+NULL
+~~~
+{: .output}
 
 
 > ### Challenge
@@ -888,25 +594,30 @@ head(sex)
 > * Now that we have renamed the factor level to "undetermined", can you recreate the
 >  barplot such that "undetermined" is last (after "male")?
 >
-> 
-> ```r
-> levels(sex)[2:3] <- c("female", "male")
-> ```
-> 
-> ```
-> ## Error in levels(sex)[2:3] <- c("female", "male"): attempt to set an attribute on NULL
-> ```
-> 
-> ```r
-> sex <- factor(sex, levels = c("female", "male", "undetermined"))
-> plot(sex)
-> ```
-> 
-> ![plot of chunk unnamed-chunk-24](figure/unnamed-chunk-24-1.png)
-
-
-
-
+> > 
+> > ~~~
+> > levels(sex)[2:3] <- c("female", "male")
+> > ~~~
+> > {: .language-r}
+> > 
+> > 
+> > 
+> > ~~~
+> > Error in levels(sex)[2:3] <- c("female", "male"): attempt to set an attribute on NULL
+> > ~~~
+> > {: .error}
+> > 
+> > 
+> > 
+> > ~~~
+> > sex <- factor(sex, levels = c("female", "male", "undetermined"))
+> > plot(sex)
+> > ~~~
+> > {: .language-r}
+> > 
+> > <img src="../fig/rmd-unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="612" style="display: block; margin: auto;" />
+> {: .solution}
+{: .challenge}
 
 ### Using `stringsAsFactors=FALSE`
 
@@ -921,43 +632,81 @@ type.
 
 
 
-```r
+~~~
 ## Compare the difference between our data read as `factor` vs `character`.
 iris <- read.csv("data/iris.csv", stringsAsFactors = TRUE)
 str(iris)
+~~~
+{: .language-r}
+
+
+
+~~~
+'data.frame':	150 obs. of  5 variables:
+ $ sepal_length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+ $ sepal_width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+ $ petal_length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+ $ petal_width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+ $ species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+~~~
+{: .output}
+
+
+
+~~~
 iris <- read.csv("data/iris.csv", stringsAsFactors = FALSE)
 str(iris)
+~~~
+{: .language-r}
+
+
+
+~~~
+'data.frame':	150 obs. of  5 variables:
+ $ sepal_length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+ $ sepal_width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+ $ petal_length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+ $ petal_width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+ $ species     : chr  "setosa" "setosa" "setosa" "setosa" ...
+~~~
+{: .output}
+
+
+
+~~~
 ## Convert the column "species" into a factor
 iris$species <- factor(iris$species)
-```
+~~~
+{: .language-r}
 
 
-> ### Challenge
+> ## Challenge 3
 >
-> 1. We have seen how data frames are created when using `read.csv()`, but
+> Part 1. We have seen how data frames are created when using `read.csv()`, but
 >   they can also be created by hand with the `data.frame()` function.  There are
 >   a few mistakes in this hand-crafted `data.frame`. Can you spot and fix them?
 >   Don't hesitate to experiment!
 >
->     
->     ```r
+> 
+> ~~~
 >     animal_data <- data.frame(
 >               animal = c(dog, cat, sea cucumber, sea urchin),
 >               feel = c("furry", "squishy", "spiny"),
 >               weight = c(45, 8 1.1, 0.8)
 >               )
->     ```
+> ~~~
+> {: .language-r}
 >
->     
->
-> 2. Can you predict the class for each of the columns in the following example?
->    Check your guesses using `str(country_climate)`:
+> Part 2. Can you predict the class for each of the columns in the following 
+> example? Check your guesses using `str(country_climate)`:
 >      * Are they what you expected?  Why? Why not?
->      * What would have been different if we had added `stringsAsFactors = FALSE` when creating the data frame?
->      * What would you need to change to ensure that each column had the accurate data type?
+>      * What would have been different if we had added 
+>           `stringsAsFactors = FALSE` when creating the data frame?
+>      * What would you need to change to ensure that each column had the 
+>         accurate data type?
 >
->     
->     ```r
+> 
+> ~~~
 >     country_climate <- data.frame(
 >            country = c("Canada", "Panama", "South Africa", "Australia"),
 >            climate = c("cold", "hot", "temperate", "hot/temperate"),
@@ -965,12 +714,27 @@ iris$species <- factor(iris$species)
 >            northern_hemisphere = c(TRUE, TRUE, FALSE, "FALSE"),
 >            has_kangaroo = c(FALSE, FALSE, FALSE, 1)
 >            )
->     ```
+> ~~~
+> {: .language-r}
 >
->    
->
->    
->
+> > ## Solutions to Challenge # 3
+> >
+> > ### Part 1
+> >   * missing quotations around the names of the animals
+> >   * missing one entry in the `feel` column (probably for one of the 
+> >     furry animals)
+> >   * missing one comma in the `weight` column
+> > 
+> > ### Part 2
+> >   * `country`, `climate`, `temperature`, and `northern_hemisphere` are     > > factors; `has_kangaroo` is numeric
+> >   * using `stringsAsFactors = FALSE` would have made character vectors 
+> >instead of factors
+> >   * removing the quotes in `temperature` and `northern_hemisphere` and
+> >     replacing 1
+> >     by TRUE in the `has_kangaroo` column would give what was probably 
+> > intended
+> {: .solution}
+{: .challenge}
 
 The automatic conversion of data type is sometimes a blessing, sometimes an
 annoyance. Be aware that it exists, learn the rules, and double check that data
@@ -979,141 +743,3 @@ to your advantage to detect mistakes that might have been introduced during data
 entry (for instance, a letter in a column that should only contain numbers).
 
 Learn more in this [RStudio tutorial](https://support.rstudio.com/hc/en-us/articles/218611977-Importing-Data-with-RStudio)
-
-## Formatting Dates
-
-One of the most common issues that new (and experienced!) R users have is
-converting date and time information into a variable that is appropriate and
-usable during analyses. As a reminder from earlier in this lesson, the best
-practice for dealing with date data is to ensure that each component of your
-date is stored as a separate variable. Using `str()`, We can confirm that our
-data frame has a separate column for day, month, and year, and that each contains
-integer values.
-
-
-```r
-str(iris)
-```
-We are going to use the `ymd()` function from the package **`lubridate`** (which belongs to the **`tidyverse`**; learn more [here](https://www.tidyverse.org/)). . **`lubridate`** gets installed as part as the **`tidyverse`** installation. When you load  the **`tidyverse`** (`library(tidyverse)`), the core packages (the packages used in most data analyses) get loaded. **`lubridate`** however does not belong to the core tidyverse, so you have to load it explicitly with `library(lubridate)`
-
-Start by loading the required package:
-
-
-```r
-library(lubridate)
-```
-
-`ymd()` takes a vector representing year, month, and day, and converts it to a
-`Date` vector. `Date` is a class of data recognized by R as being a date and can
-be manipulated as such. The argument that the function requires is flexible,
-but, as a best practice, is a character vector formatted as "YYYY-MM-DD".
-
-
-Let's create a date object and inspect the structure:
-
-
-```r
-my_date <- ymd("2015-01-01")
-str(my_date)
-```
-
-```
-##  Date[1:1], format: "2015-01-01"
-```
-
-Now let's paste the year, month, and day separately - we get the same result:
-
-
-```r
-# sep indicates the character to use to separate each component
-my_date <- ymd(paste("2015", "1", "1", sep = "-")) 
-str(my_date)
-```
-
-```
-##  Date[1:1], format: "2015-01-01"
-```
-
-Now we apply this function to the iris dataset. Create a character vector from the `year`, `month`, and `day` columns of
-`iris` using `paste()`:
-
-
-```r
-paste(iris$year, iris$month, iris$day, sep = "-")
-```
-
-```
-## character(0)
-```
-
-This character vector can be used as the argument for `ymd()`:
-
-
-```r
-ymd(paste(iris$year, iris$month, iris$day, sep = "-"))
-```
-
-```
-## Date of length 0
-```
-
-The resulting `Date` vector can be added to `iris` as a new column called `date`:
-
-
-```r
-iris$date <- ymd(paste(iris$year, iris$month, iris$day, sep = "-"))
-```
-
-```
-## Error in `$<-.data.frame`(`*tmp*`, date, value = structure(numeric(0), class = "Date")): replacement has 0 rows, data has 150
-```
-
-```r
-str(iris) # notice the new column, with 'date' as the class
-```
-
-```
-## 'data.frame':	150 obs. of  5 variables:
-##  $ sepal_length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
-##  $ sepal_width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
-##  $ petal_length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
-##  $ petal_width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
-##  $ species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
-```
-
-Let's make sure everything worked correctly. One way to inspect the new column is to use `summary()`:
-
-
-```r
-summary(iris$date)
-```
-
-```
-## Length  Class   Mode 
-##      0   NULL   NULL
-```
-
-Something went wrong: some dates have missing values. Let's investigate where they are coming from.
-
-We can use the functions we saw previously to deal with missing data to identify
-the rows in our data frame that are failing. If we combine them with what we learned about subsetting data frames earlier, we can extract the columns "year, "month", "day" from the records that have `NA` in our new column `date`. We will also use `head()` so we don't clutter the output:
-
-
-```r
-missing_dates <- iris[is.na(iris$date), c("year", "month", "day")]
-```
-
-```
-## Error in `[.data.frame`(iris, is.na(iris$date), c("year", "month", "day")): undefined columns selected
-```
-
-```r
-head(missing_dates)
-```
-
-```
-## Error in head(missing_dates): object 'missing_dates' not found
-```
-
-Why did these dates fail to parse? If you had to use these data for your
-analyses, how would you deal with this situation?
