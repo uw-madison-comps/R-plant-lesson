@@ -513,13 +513,13 @@ year(one_date)
 >  month and day
 >
 > > ## Solution to Challenge 3
-> 
-> ```r
-> plant_phys <- plant_phys %>%
->     mutate(Day = day(Date), 
->            Month = month(Date))%>%
->     select(Date, Year, Month, Day, DOY, everything())
-> ```
+> > 
+> > ```r
+> > plant_phys <- plant_phys %>%
+> >     mutate(Day = day(Date), 
+> >            Month = month(Date))%>%
+> >     select(Date, Year, Month, Day, DOY, everything())
+> > ```
 > {: .solution}
 {: .challenge}
 
@@ -867,6 +867,7 @@ plant_phys %>%
 > > ## 7 SN         33
 > > ## 8 VB         36
 > > ```
+> >
 > {: .solution}
 {: .challenge}
 
