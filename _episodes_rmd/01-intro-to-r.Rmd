@@ -45,7 +45,7 @@ _objects_. To create an object, we need to give it a name followed by the
 assignment operator `<-`, and the value we want to give it:
 
 ```{r, purl = FALSE}
-sepal_length <- 5.1
+Sepal.Length <- 5.1
 ```
 
 `<-` is the assignment operator. It assigns values on the right to objects on
@@ -60,10 +60,10 @@ In RStudio, typing <kbd>Alt</kbd> + <kbd>-</kbd> (push <kbd>Alt</kbd> at the
 same time as the <kbd>-</kbd> key) will write ` <- ` in a single keystroke in a PC, while typing <kbd>Option</kbd> + <kbd>-</kbd> (push <kbd>Option</kbd> at the
 same time as the <kbd>-</kbd> key) does the same in a Mac.
 
-Objects can be given any name such as `x`, `species`, or
+Objects can be given any name such as `x`, `Species`, or
 `sample_id`. You want your object names to be explicit and not too long. They
 cannot start with a number (`2x` is not valid, but `x2` is). R is case sensitive
-(e.g., `sepal_length` is different from `Sepal_length`). There are some names that
+(e.g., `Sepal.Length` is different from `Sepal_length`). There are some names that
 cannot be used because they are the names of fundamental functions in R (e.g.,
 `if`, `else`, `for`, see
 [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html)
@@ -97,40 +97,40 @@ for issues in the styling of your code.
 When assigning a value to an object, R does not print anything. You can force R to print the value by using parentheses or by typing the object name:
 
 ```{r, purl = FALSE}
-sepal_length <- 5.1    # doesn't print anything
-(sepal_length <- 5.1)  # but putting parenthesis around the call prints the value of `sepal_length`
-sepal_length          # and so does typing the name of the object
+Sepal.Length <- 5.1    # doesn't print anything
+(Sepal.Length <- 5.1)  # but putting parenthesis around the call prints the value of `Sepal.Length`
+Sepal.Length          # and so does typing the name of the object
 ```
 
-Now that R has `sepal_length` in memory, we can do arithmetic with it. For
+Now that R has `Sepal.Length` in memory, we can do arithmetic with it. For
 instance, we may want to convert this measurement into inches ( `1 inch = 2.54 cm`):
 
 ```{r, purl = FALSE}
-sepal_length/2.54
+Sepal.Length/2.54
 ```
 
 We can also change an object's value by assigning it a new one:
 
 ```{r, purl = FALSE}
-sepal_length <- 4.9
-sepal_length/2.54
+Sepal.Length <- 4.9
+Sepal.Length/2.54
 ```
 
 This means that assigning a value to one object does not change the values of
 other objects  For example, let's store the observation in inches in a new
-object, `sepal_length_inch`:
+object, `Sepal.Length.inches`:
 
 ```{r, purl = FALSE}
-sepal_length_inch <- sepal_length/2.54
+Sepal.Length.inches <- Sepal.Length/2.54
 ```
 
-and then change `sepal_length` to 100.
+and then change `Sepal.Length` to 2.54.
 
 ```{r, purl = FALSE}
-sepal_length <- 2.54
+Sepal.Length <- 2.54
 ```
 
-What do you think is the current content of the object `sepal_length_inch`? 1 or 1.93 ?
+What do you think is the current content of the object `Sepal.Length.inches`? 1 or 1.93 ?
 
 ### Comments
 
@@ -272,8 +272,8 @@ widths
 A vector can also contain characters:
 
 ```{r, purl = FALSE}  
-species <- c("setosa", "versicolor", "virginica")
-species
+Species <- c("setosa", "versicolor", "virginica")
+Species
 ```
 
 The quotes around "setosa", "versicolor", and "virginica" are essential here. Without the quotes R
@@ -285,7 +285,7 @@ vector. `length()` tells you how many elements are in a particular vector:
 
 ```{r, purl = FALSE}
 length(widths)
-length(species)
+length(Species)
 ```
 
 An important feature of a vector, is that all of the elements are the same type of data.
@@ -293,7 +293,7 @@ The function `class()` indicates the class (the type of element) of an object:
 
 ```{r, purl = FALSE}
 class(widths)
-class(species)
+class(Species)
 ```
 
 The function `str()` provides an overview of the structure of an object and its
@@ -302,7 +302,7 @@ objects:
 
 ```{r, purl = FALSE}
 str(widths)
-str(species)
+str(Species)
 ```
 
 You can use the `c()` function to add other elements to your vector:
@@ -427,16 +427,16 @@ If we want to extract one or several values from a vector, we must provide one
 or several indices in square brackets. For instance:
 
 ```{r, results = 'show', purl = FALSE}
-species <- c("setosa", "versicolor", "virginica", "sibirica")
-species[2]
-species[c(3, 2)]
+Species <- c("setosa", "versicolor", "virginica", "sibirica")
+Species[2]
+Species[c(3, 2)]
 ```
 
 We can also repeat the indices to create an object with more elements than the
 original one:
 
 ```{r, results = 'show', purl = FALSE}
-more_species <- species[c(1, 2, 3, 2, 1, 4)]
+more_species <- Species[c(1, 2, 3, 2, 1, 4)]
 more_species
 ```
 
@@ -485,13 +485,10 @@ become tedious. The function `%in%` allows you to test if any of the elements of
 a search vector are found:
 
 ```{r, results = 'show', purl = FALSE}
-species <- c("setosa", "versicolor", "virginica", "sibirica")
-#species <- c("mouse", "rat", "dog", "cat")
-species[species == "sibirica" | species == "versicolor"] # returns both sibirica and versicolor
-#species %in% c("rat", "cat", "dog", "duck", "goat")
-species %in% c("versicolor", "virginica", "sibirica","cristata","spuria")
-species[#species %in% c("rat", "cat", "dog", "duck", "goat")
-species %in% c("versicolor", "virginica", "sibirica","cristata","spuria")]
+Species <- c("setosa", "versicolor", "virginica", "sibirica")
+Species[Species == "sibirica" | Species == "versicolor"] # returns both sibirica and versicolor
+Species %in% c("versicolor", "virginica", "sibirica","cristata","spuria")
+Species %in% c("versicolor", "virginica", "sibirica","cristata","spuria")]
 ```
 
 > ### Challenge (optional){.challenge}
