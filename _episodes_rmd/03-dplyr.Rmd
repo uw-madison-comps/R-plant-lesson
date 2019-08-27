@@ -380,7 +380,6 @@ plant_phys %>%
 
 It is sometimes useful to rearrange the result of a query to inspect the values. For instance, we can sort on `min_photo` to put the less photosynthetic first:
 
-
 ```{r split-apply-combine5}
 plant_phys %>%
   group_by(Year, Species) %>%
@@ -398,6 +397,40 @@ plant_phys %>%
             min_photo = min(Photo)) %>%
   arrange(desc(min_photo))
 ```
+
+> ## Challenge 4
+> 
+> The original paper containing the iris dataset distinguished the three
+> types of irises based on the sepal and petal length and width, as well
+> as the ratio of length to width for sepals and petals. 
+> 
+> For this challenge, let's replicate their analysis. 
+> * Calculate the mean sepal length and sepal width for each species
+> * Calculate the mean petal lengths and petal widths for each species
+> * Calculate the ratio of Sepal.Length to Sepal.Width
+> * Calculate the ratio of Petal.Length to Petal.Width 
+> 
+> Which of these values does the best job of differentiating the setsosa
+> species from the others?
+> 
+> > ## Solution to Challenge 4
+> > 
+> > ```{r}
+> > iris %>% group_by(Species) %>% 
+> >     summarize(meanSepal.Length = mean(Sepal.Length),
+> >               meanSepal.Width = mean(Sepal.Width),
+> >               Sepal.ratio=mean(Sepal.Length/Sepal.Width), 
+> >               meanPetal.Length=mean(Petal.Length),
+> >               meanPetal.Width=mean(Petal.Width),
+> >               Petal.ratio = mean(Petal.Length/Petal.Width)
+> >               )
+> > 
+> > ```
+> > Petal ratio has the largest difference between setsosa and the other 
+> > species.
+> > 
+> {: .solution}
+{: .challenge}
 
 #### Counting
 
@@ -435,11 +468,11 @@ plant_phys %>%
   arrange(Species, desc(n))
 ```
 
-> ## Challenge 4
+> ## Challenge 5
 >
 > How many plant species were measured in each `Year`?
 >
-> > ## Solution to Challenge 4
+> > ## Solution to Challenge 5
 > > ```{r, answer=TRUE, purl=FALSE}
 > > plant_phys %>%
 > >    count(Species) 
@@ -448,14 +481,14 @@ plant_phys %>%
 > {: .solution}
 {: .challenge}
 
-> ## Challenge 5
+> ## Challenge 6
 >
 > Use `group_by()` and `summarize()` to find the mean, min, and max
 > photosynthesis level for each species. Also add the number of
 > observations (hint: see `?n`).
 >
 >
-> > ## Solution to Challenge 5 
+> > ## Solution to Challenge 6 
 > >```{r}
 > > plant_phys %>%
 > >    group_by(Species) %>%
@@ -469,12 +502,12 @@ plant_phys %>%
 > {: .solution}
 {: .challenge}
 
-> ## Challenge 6
+> ## Challenge 7
 >
 > What was the most photosynthetic plant measured in each year? 
 > Return the columns `Year`, `Species`, and `Photo`.
 >
-> > ## Solution to Challenge 6
+> > ## Solution to Challenge 7
 > > ```{r, answer=TRUE, purl=FALSE}
 > > plant_phys %>%
 > >     group_by(Year) %>%
