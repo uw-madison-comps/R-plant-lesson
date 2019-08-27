@@ -29,24 +29,44 @@ minutes: 45
 
 ## Creating objects in R
 
-
-
 You can get output from R simply by typing math in the console:
 
 
-```r
+~~~
 3 + 5
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 8
+~~~
+{: .output}
+
+
+
+~~~
 12 / 7
-```
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 1.714286
+~~~
+{: .output}
 
 However, to do useful and interesting things, we need to assign _values_ to
 _objects_. To create an object, we need to give it a name followed by the
 assignment operator `<-`, and the value we want to give it:
 
 
-```r
+~~~
 sepal_length <- 5.1
-```
+~~~
+{: .language-r}
 
 `<-` is the assignment operator. It assigns values on the right to objects on
 the left. So, after executing `x <- 3`, the value of `x` is `3`. The arrow can
@@ -97,43 +117,82 @@ for issues in the styling of your code.
 When assigning a value to an object, R does not print anything. You can force R to print the value by using parentheses or by typing the object name:
 
 
-```r
-sepal_length <- 55    # doesn't print anything
-(sepal_length <- 55)  # but putting parenthesis around the call prints the value of `sepal_length`
+~~~
+sepal_length <- 5.1    # doesn't print anything
+(sepal_length <- 5.1)  # but putting parenthesis around the call prints the value of `sepal_length`
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 5.1
+~~~
+{: .output}
+
+
+
+~~~
 sepal_length          # and so does typing the name of the object
-```
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 5.1
+~~~
+{: .output}
 
 Now that R has `sepal_length` in memory, we can do arithmetic with it. For
 instance, we may want to convert this measurement into inches ( `1 inch = 2.54 cm`):
 
 
-```r
-sepal_length / 2.54
-```
+~~~
+sepal_length/2.54
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 2.007874
+~~~
+{: .output}
 
 We can also change an object's value by assigning it a new one:
 
 
-```r
+~~~
 sepal_length <- 4.9
-sepal_length / 2.54
-```
+sepal_length/2.54
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 1.929134
+~~~
+{: .output}
 
 This means that assigning a value to one object does not change the values of
 other objects  For example, let's store the observation in inches in a new
 object, `sepal_length_inch`:
 
 
-```r
-sepal_length_inch <- sepal_length / 2.54
-```
+~~~
+sepal_length_inch <- sepal_length/2.54
+~~~
+{: .language-r}
 
 and then change `sepal_length` to 100.
 
 
-```r
-sepal_length <- 2.54
-```
+~~~
+sepal_length <- 100
+~~~
+{: .language-r}
 
 What do you think is the current content of the object `sepal_length_inch`? 1 or 1.93 ?
 
@@ -149,21 +208,32 @@ out one line, you can put the cursor at any location of that line (i.e. no need
 to select the whole line), then press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + 
 <kbd>C</kbd>.
 
-<!-- to do:  change this to petal width and length -->
+<!-- 
+  like the example in the mutate() section of https://rpubs.com/moeransm/intro-iris
+-->
 
-> ### Challenge
+> ## Challenge 1
 >
 > What are the values after each statement in the following?
 >
 > 
-> ```r
-> mass <- 47.5            # mass?
-> age  <- 122             # age?
-> mass <- mass * 2.0      # mass?
-> age  <- age - 20        # age?
-> mass_index <- mass/age  # mass_index?
-> ```
-
+> ~~~
+> petal_length <- 1.5					                  # petal_length?
+> petal_width  <- 0.2                       		# petal_width?
+> petal_length <- petal_length - 0.5        		# petal_length?
+> petal_width  <- petal_width * 5           		# petal_width?
+> petal_ratio  <- petal_length/petal_width  		# petal_ratio?
+> ~~~
+> {: .language-r}
+>
+> > ## Solution to Challenge 1
+> > petal_length <- 1.5					                  # 1.5 
+> > petal_width  <- 0.2                       		# 0.2
+> > petal_length <- petal_length - 0.5        		# 1
+> > petal_width  <- petal_width * 5           		# 1
+> > petal_ratio  <- petal_length/petal_width  		# 1
+> {: .solution}
+{: .challenge}
 
 
 ### Functions and their arguments
@@ -178,9 +248,10 @@ output) is the square root of that number. Executing a function ('running it')
 is called *calling* the function. An example of a function call is:
 
 
-```r
+~~~
 b <- sqrt(a)
-```
+~~~
+{: .language-r}
 
 Here, the value of `a` is given to the `sqrt()` function, the `sqrt()` function
 calculates the square root, and returns the value which is then assigned to
@@ -202,13 +273,17 @@ of your choice which will be used instead of the default.
 Let's try a function that can take multiple arguments: `round()`.
 
 
-```r
+~~~
 round(3.14159)
-```
+~~~
+{: .language-r}
 
-```
-#> [1] 3
-```
+
+
+~~~
+[1] 3
+~~~
+{: .output}
 
 Here, we've called `round()` with just one argument, `3.14159`, and it has
 returned the value `3`.  That's because the default is to round to the nearest
@@ -218,54 +293,71 @@ arguments it takes, or look at the
 help for this function using `?round`.
 
 
-```r
+~~~
 args(round)
-```
-
-```
-#> function (x, digits = 0) 
-#> NULL
-```
+~~~
+{: .language-r}
 
 
-```r
+
+~~~
+function (x, digits = 0) 
+NULL
+~~~
+{: .output}
+
+
+~~~
 ?round
-```
+~~~
+{: .language-r}
 
 We see that if we want a different number of digits, we can
 type `digits = 2` or however many we want.
 
 
-```r
+~~~
 round(3.14159, digits = 2)
-```
+~~~
+{: .language-r}
 
-```
-#> [1] 3.14
-```
+
+
+~~~
+[1] 3.14
+~~~
+{: .output}
 
 If you provide the arguments in the exact same order as they are defined you
 don't have to name them:
 
 
-```r
+~~~
 round(3.14159, 2)
-```
+~~~
+{: .language-r}
 
-```
-#> [1] 3.14
-```
+
+
+~~~
+[1] 3.14
+~~~
+{: .output}
 
 And if you do name the arguments, you can switch their order:
 
 
-```r
+~~~
 round(digits = 2, x = 3.14159)
-```
+~~~
+{: .language-r}
 
-```
-#> [1] 3.14
-```
+
+
+~~~
+[1] 3.14
+~~~
+{: .output}
 
 It's good practice to put the non-optional arguments (like the number you're
 rounding) first in your function call, and to then specify the names of all optional
@@ -276,8 +368,6 @@ doing.
 
 ## Vectors and data types
 
-
-
 A vector is the most common and basic data type in R, and is pretty much
 the workhorse of R. A vector is composed by a series of values, which can be
 either numbers or characters. We can assign a series of values to a vector using
@@ -285,63 +375,150 @@ the `c()` function. For example we can create a vector of animal weights and ass
 it to a new object `weight_g`:
 
 
-```r
-weight_g <- c(50, 60, 65, 82)
-weight_g
-```
+~~~
+widths  <- c(0.12, 0.23, 0.41, 0.33)
+widths
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 0.12 0.23 0.41 0.33
+~~~
+{: .output}
 
 A vector can also contain characters:
 
 
-```r
-animals <- c("mouse", "rat", "dog")
-animals
-```
+~~~
+species <- c("setosa", "versicolor", "virginica")
+species
+~~~
+{: .language-r}
 
-The quotes around "mouse", "rat", etc. are essential here. Without the quotes R
-will assume objects have been created called `mouse`, `rat` and `dog`. As these objects
+
+
+~~~
+[1] "setosa"     "versicolor" "virginica" 
+~~~
+{: .output}
+
+The quotes around "setosa", "versicolor", and "virginica" are essential here. Without the quotes R
+will assume objects have been created called `setosa`, `versicolor`, and `virginica`.As these objects
 don't exist in R's memory, there will be an error message.
 
 There are many functions that allow you to inspect the content of a
 vector. `length()` tells you how many elements are in a particular vector:
 
 
-```r
-length(weight_g)
-length(animals)
-```
+~~~
+length(widths)
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 4
+~~~
+{: .output}
+
+
+
+~~~
+length(species)
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 3
+~~~
+{: .output}
 
 An important feature of a vector, is that all of the elements are the same type of data.
 The function `class()` indicates the class (the type of element) of an object:
 
 
-```r
-class(weight_g)
-class(animals)
-```
+~~~
+class(widths)
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] "numeric"
+~~~
+{: .output}
+
+
+
+~~~
+class(species)
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] "character"
+~~~
+{: .output}
 
 The function `str()` provides an overview of the structure of an object and its
 elements. It is a useful function when working with large and complex
 objects:
 
 
-```r
-str(weight_g)
-str(animals)
-```
+~~~
+str(widths)
+~~~
+{: .language-r}
+
+
+
+~~~
+ num [1:4] 0.12 0.23 0.41 0.33
+~~~
+{: .output}
+
+
+
+~~~
+str(species)
+~~~
+{: .language-r}
+
+
+
+~~~
+ chr [1:3] "setosa" "versicolor" "virginica"
+~~~
+{: .output}
 
 You can use the `c()` function to add other elements to your vector:
 
-```r
-weight_g <- c(weight_g, 90) # add to the end of the vector
-weight_g <- c(30, weight_g) # add to the beginning of the vector
-weight_g
-```
+~~~
+widths <- c(widths, 0.22) # add to the end of the vector
+widths <- c(0.3, widths) # add to the beginning of the vector
+widths
+~~~
+{: .language-r}
 
-In the first line, we take the original vector `weight_g`,
-add the value `90` to the end of it, and save the result back into
-`weight_g`. Then we add the value `30` to the beginning, again saving the result
-back into `weight_g`.
+
+
+~~~
+[1] 0.30 0.12 0.23 0.41 0.33 0.22
+~~~
+{: .output}
+
+In the first line, we take the original vector `widths`,
+add the value `0.22` to the end of it, and save the result back into
+`widths`. Then we add the value `0.3` to the beginning, again saving the result
+back into `widths`.
 
 We can do this over and over again to grow a vector, or assemble a dataset.
 As we program, this may be useful to add results that we are collecting or
@@ -365,51 +542,55 @@ ones are lists (`list`), matrices (`matrix`), data frames (`data.frame`),
 factors (`factor`) and arrays (`array`).
 
 
-> ### Challenge
+> ## Challenge 2
 >
->
-> * We’ve seen that atomic vectors can be of type character,
->   numeric (or double), integer, and logical. But what happens if we try to mix these types in
->   a single vector?
-> 
+> 1. We’ve seen that atomic vectors can be of type character, numeric (or 
+> double), integer, and logical. But what happens if we try to mix these types 
+> in a single vector?
 > 
 >
-> * What will happen in each of these examples? (hint: use `class()`
+> 2.  What will happen in each of these examples? (hint: use `class()`
 >   to check the data type of your objects):
 >
->     ```r
+>     
+>     ~~~
 >     num_char <- c(1, 2, 3, "a")
 >     num_logical <- c(1, 2, 3, TRUE)
 >     char_logical <- c("a", "b", "c", TRUE)
 >     tricky <- c(1, 2, 3, "4")
->     ```
+>     ~~~
+>     {: .language-r}
+>     Why do you think it happens?
 >
-> * Why do you think it happens?
+> 3.  How many values in `combined_logical` are `"TRUE"` (as a character) in 
+>     the following example:
 >
-> 
->
-> * How many values in `combined_logical` are `"TRUE"` (as a character) in the
->   following example:
->
->     ```r
+>     
+>     ~~~
 >     num_logical <- c(1, 2, 3, TRUE)
 >     char_logical <- c("a", "b", "c", TRUE)
 >     combined_logical <- c(num_logical, char_logical)
->     ```
+>     ~~~
+>     {: .language-r}
 >
-> 
->
-> * You've probably noticed that objects of different types get
->   converted into a single, shared type within a vector. In R, we
->   call converting objects from one class into another class
->   _coercion_. These conversions happen according to a hierarchy,
->   whereby some types get preferentially coerced into other
->   types. Can you draw a diagram that represents the hierarchy of how
->   these data types are coerced?
->
-> 
-
-
+> > ## Solution to Challenge 2
+> > 
+> > 1. Vectors can be of only one data type. R tries to convert (coerce) the 
+> >    content of this vector to find a "common denominator" that doesn't lose 
+> >    any information.
+> > 
+> > 2. num_char is character
+> >    num_logical is numeric
+> >    char_logical is character
+> >    tricky is character
+> > 
+> > 3. Only one. There is no memory of past data types, and the coercion
+> >    happens the first time the vector is evaluated. Therefore, the `TRUE` 
+> >    in `num_logical` gets converted into a `1` before it gets converted into
+> >    `"1"` in `combined_logical`.
+> > 
+> {: .solution}
+{: .challenge}
 
 ## Subsetting vectors
 
@@ -417,35 +598,50 @@ If we want to extract one or several values from a vector, we must provide one
 or several indices in square brackets. For instance:
 
 
-```r
-animals <- c("mouse", "rat", "dog", "cat")
-animals[2]
-```
+~~~
+species <- c("setosa", "versicolor", "virginica", "sibirica")
+species[2]
+~~~
+{: .language-r}
 
-```
-#> [1] "rat"
-```
 
-```r
-animals[c(3, 2)]
-```
 
-```
-#> [1] "dog" "rat"
-```
+~~~
+[1] "versicolor"
+~~~
+{: .output}
+
+
+
+~~~
+species[c(3, 2)]
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] "virginica"  "versicolor"
+~~~
+{: .output}
 
 We can also repeat the indices to create an object with more elements than the
 original one:
 
 
-```r
-more_animals <- animals[c(1, 2, 3, 2, 1, 4)]
-more_animals
-```
+~~~
+more_species <- species[c(1, 2, 3, 2, 1, 4)]
+more_species
+~~~
+{: .language-r}
 
-```
-#> [1] "mouse" "rat"   "dog"   "rat"   "mouse" "cat"
-```
+
+
+~~~
+[1] "setosa"     "versicolor" "virginica"  "versicolor" "setosa"    
+[6] "sibirica"  
+~~~
+{: .output}
 
 R indices start at 1. Programming languages like Fortran, MATLAB, Julia, and R start
 counting at 1, because that's what human beings typically do. Languages in the C
@@ -458,56 +654,79 @@ Another common way of subsetting is by using a logical vector. `TRUE` will
 select the element with the same index, while `FALSE` will not:
 
 
-```r
-weight_g <- c(21, 34, 39, 54, 55)
-weight_g[c(TRUE, FALSE, TRUE, TRUE, FALSE)]
-```
+~~~
+widths <- c(0.21, 0.34, 0.39, 0.54, 0.55)
+widths[c(TRUE, FALSE, TRUE, TRUE, FALSE)]
+~~~
+{: .language-r}
 
-```
-#> [1] 21 39 54
-```
+
+
+~~~
+[1] 0.21 0.39 0.54
+~~~
+{: .output}
 
 Typically, these logical vectors are not typed by hand, but are the output of
-other functions or logical tests. For instance, if you wanted to select only the
-values above 50:
+other functions or logical tests. For instance, if you wanted to select only the values above 0.5:
 
 
-```r
-weight_g > 50    # will return logicals with TRUE for the indices that meet the condition
-```
+~~~
+widths > 0.5    # will return logicals with TRUE for the indices that meet the condition
+~~~
+{: .language-r}
 
-```
-#> [1] FALSE FALSE FALSE  TRUE  TRUE
-```
 
-```r
-## so we can use this to select only the values above 50
-weight_g[weight_g > 50]
-```
 
-```
-#> [1] 54 55
-```
+~~~
+[1] FALSE FALSE FALSE  TRUE  TRUE
+~~~
+{: .output}
+
+
+
+~~~
+## so we can use this to select only the values above 0.5
+widths[widths > 0.5]
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 0.54 0.55
+~~~
+{: .output}
 
 You can combine multiple tests using `&` (both conditions are true, AND) or `|`
 (at least one of the conditions is true, OR):
 
 
-```r
-weight_g[weight_g < 30 | weight_g > 50]
-```
+~~~
+widths[widths < 0.3 | widths > 0.5]
+~~~
+{: .language-r}
 
-```
-#> [1] 21 54 55
-```
 
-```r
-weight_g[weight_g >= 30 & weight_g == 21]
-```
 
-```
-#> numeric(0)
-```
+~~~
+[1] 0.21 0.54 0.55
+~~~
+{: .output}
+
+
+
+~~~
+widths[widths >= 0.3 & widths == 0.21]
+~~~
+{: .language-r}
+
+
+
+~~~
+numeric(0)
+~~~
+{: .output}
 
 Here, `<` stands for "less than", `>` for "greater than", `>=` for "greater than
 or equal to", and `==` for "equal to". The double equal sign `==` is a test for
@@ -521,39 +740,38 @@ become tedious. The function `%in%` allows you to test if any of the elements of
 a search vector are found:
 
 
-```r
-animals <- c("mouse", "rat", "dog", "cat")
-animals[animals == "cat" | animals == "rat"] # returns both rat and cat
-```
+~~~
+species <- c("setosa", "versicolor", "virginica", "sibirica")
 
-```
-#> [1] "rat" "cat"
-```
+species[species == "sibirica" | species == "versicolor"] # returns both sibirica and versicolor
 
-```r
-animals %in% c("rat", "cat", "dog", "duck", "goat")
-```
+species %in% c("versicolor", "virginica", "sibirica","cristata","spuria")
 
-```
-#> [1] FALSE  TRUE  TRUE  TRUE
-```
+species %in% c("versicolor", "virginica", "sibirica","cristata","spuria")]
+~~~
+{: .language-r}
 
-```r
-animals[animals %in% c("rat", "cat", "dog", "duck", "goat")]
-```
 
-```
-#> [1] "rat" "dog" "cat"
-```
 
-> ### Challenge (optional){.challenge}
+~~~
+Error: <text>:7:74: unexpected ']'
+6: 
+7: species %in% c("versicolor", "virginica", "sibirica","cristata","spuria")]
+                                                                            ^
+~~~
+{: .error}
+
+> ## Challenge 3
 >
 > * Can you figure out why `"four" > "five"` returns `TRUE`?
 > 
-> 
+> > ## Solution to Challenge 3
+> > When using ">" or "<" on strings, R compares their alphabetical order. 
+> > Here "four" comes after "five", and therefore is "greater than" it.
+> {: .solution}
+{: .challenge}
 
-
-
+<!-- Should heights be replaced by something like temperature or a feature in the physiology data set? -->
 
 ## Missing data
 
@@ -568,70 +786,173 @@ You can add the argument `na.rm = TRUE` to calculate the result while ignoring
 the missing values.
 
 
-```r
+~~~
 heights <- c(2, 4, 4, NA, 6)
 mean(heights)
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] NA
+~~~
+{: .output}
+
+
+
+~~~
 max(heights)
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] NA
+~~~
+{: .output}
+
+
+
+~~~
 mean(heights, na.rm = TRUE)
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 4
+~~~
+{: .output}
+
+
+
+~~~
 max(heights, na.rm = TRUE)
-```
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 6
+~~~
+{: .output}
 
 If your data include missing values, you may want to become familiar with the
 functions `is.na()`, `na.omit()`, and `complete.cases()`. See below for
 examples.
 
 
-
-```r
+~~~
 ## Extract those elements which are not missing values.
 heights[!is.na(heights)]
+~~~
+{: .language-r}
 
+
+
+~~~
+[1] 2 4 4 6
+~~~
+{: .output}
+
+
+
+~~~
 ## Returns the object with incomplete cases removed. The returned object is an atomic vector of type `"numeric"` (or `"double"`).
 na.omit(heights)
+~~~
+{: .language-r}
 
+
+
+~~~
+[1] 2 4 4 6
+attr(,"na.action")
+[1] 4
+attr(,"class")
+[1] "omit"
+~~~
+{: .output}
+
+
+
+~~~
 ## Extract those elements which are complete cases. The returned object is an atomic vector of type `"numeric"` (or `"double"`).
 heights[complete.cases(heights)]
-```
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 2 4 4 6
+~~~
+{: .output}
 Recall that you can use the `typeof()` function to find the type of your atomic vector.
 
-> ### Challenge
+> ## Challenge 4
 >
-> 1. Using this vector of heights in inches, create a new vector, `heights_no_na`, with the NAs removed.
+> 1. Using this vector of heights in inches, create a new vector, 
+> `heights_no_na`, with the NAs removed.
 >
->     ```r
->     heights <- c(63, 69, 60, 65, NA, 68, 61, 70, 61, 59, 64, 69, 63, 63, NA, 72, 65, 64, 70, 63, 65)
->     ```
-> 2. Use the function `median()` to calculate the median of the `heights` vector.
+>  
+>  ~~~
+>     heights <- c(63, 69, 60, 65, NA, 68, 61, 70, 61, 59, 64, 69, 63, 
+>                  63, NA, 72, 65, 64, 70, 63, 65)
+>  ~~~
+>  {: .language-r}
+> 
+> 2. Use the function `median()` to calculate the median of the `heights` 
+> vector.
 >
-> 3. Use R to figure out how many people in the set are taller than 67 inches.
+> 3. Use R to figure out how many samples in the set are taller than 67 inches.
 >
-> <div class="accordion">
-> <h3 class="toc-ignore">Answer</h3>
-> <div style="background: #fff;">
-> 
-> ```r
-> heights <- c(63, 69, 60, 65, NA, 68, 61, 70, 61, 59, 64, 69, 63, 63, NA, 72, 65, 64, 70, 63, 65)
-> 
-> # 1.
-> heights_no_na <- heights[!is.na(heights)] 
-> # or
-> heights_no_na <- na.omit(heights)
-> # or
-> heights_no_na <- heights[complete.cases(heights)]
-> 
-> # 2.
-> median(heights, na.rm = TRUE)
-> 
-> # 3.
-> heights_above_67 <- heights_no_na[heights_no_na > 67]
-> length(heights_above_67)
-> ```
-> 
-> </div>
-> </div>
-
-
-
+> > ## Solution to Challege 4
+> >
+> > 1. Remove missing values: 
+> > 
+> > ~~~
+> > heights_no_na <- heights[!is.na(heights)] 
+> > # or
+> > heights_no_na <- na.omit(heights)
+> > # or
+> > heights_no_na <- heights[complete.cases(heights)]
+> > ~~~
+> > {: .language-r}
+> > 
+> >  2.
+> >  
+> >  ~~~
+> >      median(heights, na.rm = TRUE)
+> >  ~~~
+> >  {: .language-r}
+> >  
+> >  
+> >  
+> >  ~~~
+> >  [1] 64
+> >  ~~~
+> >  {: .output}
+> >  3.
+> > 
+> > ~~~
+> >   heights_above_67 <- heights_no_na[heights_no_na > 67]
+> >   length(heights_above_67)
+> > ~~~
+> > {: .language-r}
+> > 
+> > 
+> > 
+> > ~~~
+> > [1] 6
+> > ~~~
+> > {: .output}
+> {: .solution}
+{: .challenge}
 
 Now that we have learned how to write scripts, and the basics of R's data
 structures, we are ready to start working with the Portal dataset we have been

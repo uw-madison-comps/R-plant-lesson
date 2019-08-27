@@ -5,8 +5,8 @@ author: "Data Carpentry contributors"
 minutes: 20
 ---
 
-```{r, echo=FALSE, purl=FALSE, message = FALSE}
-#source("setup.R")
+```{r, echo=FALSE, message = FALSE, warning = FALSE}
+source("../bin/chunk-options.R")
 ```
 
 ------------
@@ -27,9 +27,6 @@ minutes: 20
 
 ## Presentation of the Workshop Data
 
-```{r, echo=FALSE, purl=TRUE}
-### Presentation of the workshop data
-```
 In this workshop, we will be working with two sets of data: one is the
 `iris` data  from the classic paper by Fisher "The use of multiple measurements in taxonomic problems" (1936) and the
 other is from a recent paper on ??? by OKeefe and Nippert (ref).  Each dataset is stored
@@ -37,8 +34,6 @@ as comma separated value (CSV) file.
 
 The `iris` data have morphological measures from more than 100 samples of 3 species of irises.
 Each row holds information for a single sample (plant?  specimen?), and the columns represent:
-
-
 
 | Column          |  Description               |
 |-----------------|----------------------------|
@@ -64,15 +59,9 @@ file on your local machine. You'll need to have a folder on your machine called 
 you'll download the file. So this command downloads a file from figshare, names it 
 "iris.csv," and adds it to a preexisting folder named "data."
 
-
-```{r, eval=FALSE, purl=TRUE}
-# download.file(url="https://ndownloader.figshare.com/files????",
-              #destfile = "data/iris.csv")
-```
-
 You are now ready to load the data:
 
-```{r, eval=TRUE,  purl=FALSE}
+```{r read-csv}
 iris <- read.csv("data/iris.csv")
 ```
 
@@ -84,11 +73,11 @@ Wow... that was a more than a screenful of output.
 Let's check the top (the first 6 lines) of this data frame using the
 function `head()`:
 
-```{r, results='show', purl=FALSE}
+```{r head}
 head(iris)
 ```
 
-```{r, eval = FALSE, purl = FALSE}
+```{r view, eval = FALSE}
 ## Try also
 View(iris)
 ```
@@ -131,7 +120,7 @@ numeric, a character, and a logical vector.
 We can see this when inspecting the <b>str</b>ucture of a data frame
 with the function `str()`:
 
-```{r, purl=FALSE}
+```{r str}
 str(iris)
 ```
 
@@ -166,7 +155,7 @@ Note: most of these functions are "generic", they can be used on other types of
 objects besides `data.frame`.
 
 
-> ### Challenge
+> ## Challenge 1
 >
 > Based on the output of `str(iris)`, can you answer the following questions?
 >
@@ -174,36 +163,20 @@ objects besides `data.frame`.
 > * How many rows and how many columns are in this object?
 > * How many species have been recorded during these iris?
 >
-> ```{r, answer=TRUE, results="markup", purl=FALSE}
->
-> str(iris)
->
-> ## * class: data frame
-> ## * how many rows: 150,  how many columns: 5
-> ## * how many species: 3
->
-> ```
-
-
-```{r, echo=FALSE, purl=TRUE}
-
-## Challenge
-## Based on the output of `str(iris)`, can you answer the following questions?
-## * What is the class of the object `iris`?
-## * How many rows and how many columns are in this object?
-## * How many species are represented in the data?
-
-```
-
-
+> > ## Solution to Challenge 1
+> > ```{r ch1-soln}
+> >
+> > str(iris)
+> >
+> > ## * class: data frame
+> > ## * how many rows: 150,  how many columns: 5
+> > ## * how many species: 3
+> > 
+> > ```
+> {: .solution}
+{: .challenge}
 
 ## Indexing and subsetting data frames
-
-```{r, echo=FALSE, purl=TRUE}
-
-## Indexing and subsetting data frames
-```
-
 
 Our survey data frame has rows and columns (it has 2 dimensions), if we want to
 extract some specific data from it, we need to specify the "coordinates" we
@@ -211,8 +184,7 @@ want from it. Row numbers come first, followed by column numbers. However, note
 that different ways of specifying these coordinates lead to results with
 different classes.
 
-
-```{r, purl=FALSE}
+```{r bracket-subsetting, eval = FALSE}
 # first element in the first column of the data frame (as a vector)
 iris[1, 1]   
 # first element in the 3rd column (as a vector)
@@ -234,14 +206,14 @@ or decreasing order, test `1:10` and `10:1` for instance.
 
 You can also exclude certain indices of a data frame using the "`-`" sign:
 
-```{r, purl=FALSE}
+```{r bracket-subsetting-2, eval = FALSE}
 iris[, -1]          # The whole data frame, except the first column
 iris[-c(7:150), ] # Equivalent to head(iris)
 ```
 
 Data frames can be subset by calling indices (as shown previously), but also by calling their column names directly:
 
-```{r, eval = FALSE, purl=FALSE}
+```{r bracket-subsetting-name, eval = FALSE}
 iris["species"]       # Result is a data.frame
 iris[, "species"]     # Result is a vector
 iris[["species"]]     # Result is a vector
@@ -250,7 +222,7 @@ iris$species          # Result is a vector
 
 In RStudio, you can use the autocompletion feature to get the full and correct names of the columns.
 
-> ### Challenge
+> ## Challenge 2
 >
 > 1. Create a `data.frame` (`iris_100`) containing only the data in
 >    row 100 of the `iris` dataset.
@@ -270,49 +242,23 @@ In RStudio, you can use the autocompletion feature to get the full and correct n
 >    `head(iris)`, keeping just the first through 6th rows of the iris
 >    dataset.
 >
-> ```{r, answer=TRUE, purl=FALSE}
-> ## 1.
-> iris_100 <- iris[100, ]
-> ## 2.
-> # Saving `n_rows` to improve readability and reduce duplication
-> n_rows <- nrow(iris)
-> iris_last <- iris[n_rows, ]
-> ## 3.
-> iris_middle <- iris[n_rows / 2, ]
-> ## 4.
-> iris_head <- iris[-(7:n_rows), ]
-> ```
-
-
-```{r, echo=FALSE, purl=TRUE}
-### Challenges:
-###
-### 1. Create a `data.frame` (`iris_100`) containing only the
-###    data in row 100 of the `iris` dataset.
-###
-### 2. Notice how `nrow()` gave you the number of rows in a `data.frame`?
-###
-###      * Use that number to pull out just that last row in the data frame
-###      * Compare that with what you see as the last row using `tail()` to make
-###        sure it's meeting expectations.
-###      * Pull out that last row using `nrow()` instead of the row number
-###      * Create a new data frame object (`iris_last`) from that last row
-###
-### 3. Use `nrow()` to extract the row that is in the middle of the
-###    data frame. Store the content of this row in an object named
-###    `iris_middle`.
-###
-### 4. Combine `nrow()` with the `-` notation above to reproduce the behavior of
-###    `head(iris)`, keeping just the first through 6th rows of the iris
-###    dataset.
-
-```
+> > ## Solution for challenge 2
+> > ```{r ch2-soln}
+> > ## 1.
+> > iris_100 <- iris[100, ]
+> > ## 2.
+> > # Saving `n_rows` to improve readability and reduce duplication
+> > n_rows <- nrow(iris)
+> > iris_last <- iris[n_rows, ]
+> > ## 3.
+> > iris_middle <- iris[n_rows / 2, ]
+> > ## 4.
+> > iris_head <- iris[-(7:n_rows), ]
+> > ```
+> {: .solution}
+{: .challenge}
 
 ## Factors
-
-```{r, echo=FALSE, purl=TRUE}
-### Factors
-```
 
 When we did `str(iris)` we saw that four of the columns consist of
 numbers. The column `species`, ... however, is
@@ -327,7 +273,7 @@ Once created, factors can only contain a pre-defined set of values, known as
 instance, if you have a factor with 2 levels:
 
 <!-- should we have a factor like monicot and dicot or coniferous and decidous? -->
-```{r, purl=TRUE}
+```{r factors}
 sex <- factor(c("male", "female", "female", "male"))
 ```
 
@@ -336,7 +282,7 @@ R will assign `1` to the level `"female"` and `2` to the level `"male"` (because
 `"male"`). You can see this by using the function `levels()` and you can find the
 number of levels using `nlevels()`:
 
-```{r, purl=FALSE}
+```{r levels}
 levels(sex)
 nlevels(sex)
 ```
@@ -346,7 +292,7 @@ to specify the order because it is meaningful (e.g., "low", "medium", "high"),
 it improves your visualization, or it is required by a particular type of
 analysis. Here, one way to reorder our levels in the `sex` vector would be:
 
-```{r, results=TRUE, purl=FALSE}
+```{r relevel}
 sex # current order
 sex <- factor(sex, levels = c("male", "female"))
 sex # after re-ordering
@@ -364,7 +310,7 @@ this information built in. It is particularly helpful when there are many levels
 If you need to convert a factor to a character vector, you use
 `as.character(x)`.
 
-```{r, purl=FALSE}
+```{r as-char}
 as.character(sex)
 ```
 
@@ -381,7 +327,7 @@ and then to numbers.
 
 Another method is to use the `levels()` function. Compare:
 
-```{r, purl=TRUE}
+```{r coersion}
 year_fct <- factor(c(1990, 1983, 1977, 1998, 1990))
 as.numeric(year_fct)               # Wrong! And there is no warning...
 as.numeric(as.character(year_fct)) # Works...
@@ -402,8 +348,8 @@ quick glance at the number of observations represented by each factor
 level. Let's look at the number of males and females captured over the course of
 the experiment:
 
-```{r, purl=TRUE}
-## bar plot of the number of females and males captured during the experiment:
+```{r plot}
+## bar plot of the number of each species captured during the experiment:
 plot(iris$species)
 ```
 
@@ -417,7 +363,7 @@ label to something more meaningful. Before doing that, we're going to pull out
 the data on sex and work with that data, so we're not modifying the working copy
 of the data frame:
 
-```{r, results=TRUE, purl=FALSE}
+```{r recode}
 sex <- iris$sex
 head(sex)
 levels(sex)
@@ -433,21 +379,13 @@ head(sex)
 > * Now that we have renamed the factor level to "undetermined", can you recreate the
 >  barplot such that "undetermined" is last (after "male")?
 >
-> ```{r, answer=TRUE, purl=FALSE}
-> levels(sex)[2:3] <- c("female", "male")
-> sex <- factor(sex, levels = c("female", "male", "undetermined"))
-> plot(sex)
-> ``` 
-
-
-```{r wrong-order, results='show', echo=FALSE, purl=TRUE}
-## Challenges
-##
-## * Rename "F" and "M" to "female" and "male" respectively.
-## * Now that we have renamed the factor level to "undetermined", can you recreate the
-##   barplot such that "undetermined" is last (after "male")
-```
-
+> > ```{r}
+> > levels(sex)[2:3] <- c("female", "male")
+> > sex <- factor(sex, levels = c("female", "male", "undetermined"))
+> > plot(sex)
+> > ``` 
+> {: .solution}
+{: .challenge}
 
 ### Using `stringsAsFactors=FALSE`
 
@@ -461,7 +399,7 @@ data and to convert as a factor only the columns that require this data
 type.
 
 
-```{r, eval=FALSE, purl=TRUE}
+```{r strings-as-factor}
 ## Compare the difference between our data read as `factor` vs `character`.
 iris <- read.csv("data/iris.csv", stringsAsFactors = TRUE)
 str(iris)
@@ -472,39 +410,30 @@ iris$species <- factor(iris$species)
 ```
 
 
-> ### Challenge
+> ## Challenge 3
 >
-> 1. We have seen how data frames are created when using `read.csv()`, but
+> Part 1. We have seen how data frames are created when using `read.csv()`, but
 >   they can also be created by hand with the `data.frame()` function.  There are
 >   a few mistakes in this hand-crafted `data.frame`. Can you spot and fix them?
 >   Don't hesitate to experiment!
 >
->     ```{r, eval=FALSE, purl=FALSE}
+> ```{r, eval = FALSE }
 >     animal_data <- data.frame(
 >               animal = c(dog, cat, sea cucumber, sea urchin),
 >               feel = c("furry", "squishy", "spiny"),
 >               weight = c(45, 8 1.1, 0.8)
 >               )
->     ```
+> ```
 >
->     ```{r, eval=FALSE, purl=TRUE, echo=FALSE}
->     ## Challenge:
->     ##  There are a few mistakes in this hand-crafted `data.frame`,
->     ##  can you spot and fix them? Don't hesitate to experiment!
->     animal_data <- data.frame(
->           animal = c(dog, cat, sea cucumber, sea urchin),
->           feel = c("furry", "squishy", "spiny"),
->           weight = c(45, 8 1.1, 0.8)
->           )
->     ```
->
-> 2. Can you predict the class for each of the columns in the following example?
->    Check your guesses using `str(country_climate)`:
+> Part 2. Can you predict the class for each of the columns in the following 
+> example? Check your guesses using `str(country_climate)`:
 >      * Are they what you expected?  Why? Why not?
->      * What would have been different if we had added `stringsAsFactors = FALSE` when creating the data frame?
->      * What would you need to change to ensure that each column had the accurate data type?
+>      * What would have been different if we had added 
+>           `stringsAsFactors = FALSE` when creating the data frame?
+>      * What would you need to change to ensure that each column had the 
+>         accurate data type?
 >
->     ```{r, eval=FALSE, purl=FALSE}
+> ```{r, eval = FALSE}
 >     country_climate <- data.frame(
 >            country = c("Canada", "Panama", "South Africa", "Australia"),
 >            climate = c("cold", "hot", "temperate", "hot/temperate"),
@@ -512,38 +441,26 @@ iris$species <- factor(iris$species)
 >            northern_hemisphere = c(TRUE, TRUE, FALSE, "FALSE"),
 >            has_kangaroo = c(FALSE, FALSE, FALSE, 1)
 >            )
->     ```
+> ```
 >
->    ```{r, eval=FALSE, purl=TRUE, echo=FALSE}
->    ## Challenge:
->    ##   Can you predict the class for each of the columns in the following
->    ##   example?
->    ##   Check your guesses using `str(country_climate)`:
->    ##   * Are they what you expected? Why? why not?
->    ##   * What would have been different if we had added `stringsAsFactors = FALSE`
->    ##     when we created this data frame?
->    ##   * What would you need to change to ensure that each column had the
->    ##     accurate data type?
->    country_climate <- data.frame(country = c("Canada", "Panama", "South Africa", "Australia"),
->                                   climate = c("cold", "hot", "temperate", "hot/temperate"),
->                                   temperature = c(10, 30, 18, "15"),
->                                   northern_hemisphere = c(TRUE, TRUE, FALSE, "FALSE"),
->                                   has_kangaroo = c(FALSE, FALSE, FALSE, 1))
->    ```
->
->    ```{text_answer, echo=FALSE, purl=FALSE}
->    * missing quotations around the names of the animals
->    * missing one entry in the `feel` column (probably for one of the furry animals)
->    * missing one comma in the `weight` column
->    * `country`, `climate`, `temperature`, and `northern_hemisphere` are
->       factors; `has_kangaroo` is numeric
->    * using `stringsAsFactors = FALSE` would have made character vectors instead of
->      factors
->    * removing the quotes in `temperature` and `northern_hemisphere` and replacing 1
->      by TRUE in the `has_kangaroo` column would give what was probably 
->      intended
->    ```
->
+> > ## Solutions to Challenge # 3
+> >
+> > ### Part 1
+> >   * missing quotations around the names of the animals
+> >   * missing one entry in the `feel` column (probably for one of the 
+> >     furry animals)
+> >   * missing one comma in the `weight` column
+> > 
+> > ### Part 2
+> >   * `country`, `climate`, `temperature`, and `northern_hemisphere` are     > > factors; `has_kangaroo` is numeric
+> >   * using `stringsAsFactors = FALSE` would have made character vectors 
+> >instead of factors
+> >   * removing the quotes in `temperature` and `northern_hemisphere` and
+> >     replacing 1
+> >     by TRUE in the `has_kangaroo` column would give what was probably 
+> > intended
+> {: .solution}
+{: .challenge}
 
 The automatic conversion of data type is sometimes a blessing, sometimes an
 annoyance. Be aware that it exists, learn the rules, and double check that data
