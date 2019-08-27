@@ -17,8 +17,6 @@ minutes: 60
 > * Modify the aesthetics of an existing ggplot plot (including axis labels and color).
 > * Build complex and customized plots from data in a data frame.
 
---------------
-
 We start by loading the required packages. **`ggplot2`** is included in the **`tidyverse`** package.
 
 
@@ -31,7 +29,7 @@ If not still in the workspace, load the data we saved in the previous lesson.
 
 
 ~~~
-iris <- read_csv(file = "data/iris.csv")
+#iris <- read_csv(file = "data/iris.csv")
 plant_phys<-read_csv("data_output/phys_dates.csv")
 ~~~
 {: .language-r}
@@ -71,8 +69,8 @@ ggplot(data = iris)
 
 ~~~
 ggplot(data = iris, 
-       mapping = aes(x = sepal.length, 
-                     y = sepal.width))
+       mapping = aes(x = Sepal.Length, 
+                     y = Sepal.Width))
 ~~~
 {: .language-r}
 
@@ -135,30 +133,12 @@ error message.
 # This is the correct syntax for adding layers
 iris_plot +
   geom_point()
-~~~
-{: .language-r}
 
-<img src="../fig/rmd-04-ggplot-with-plus-position-1.png" title="plot of chunk ggplot-with-plus-position" alt="plot of chunk ggplot-with-plus-position" width="612" style="display: block; margin: auto;" />
-
-~~~
 # This will not add the new layer and will return an error message
 iris_plot
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-04-ggplot-with-plus-position-2.png" title="plot of chunk ggplot-with-plus-position" alt="plot of chunk ggplot-with-plus-position" width="612" style="display: block; margin: auto;" />
-
-~~~
   + geom_point()
 ~~~
 {: .language-r}
-
-
-
-~~~
-Error: Cannot use `+.gg()` with a single argument. Did you accidentally put + on a new line?
-~~~
-{: .error}
 
 ## Building your plots iteratively
 
@@ -239,7 +219,9 @@ ggplot(data = iris,
 > > ## Solution to Challenge 1
 > > 
 > > ~~~
-> > ggplot(data = plant_phys, mapping = aes(x = Cond_day, y = Cond_night)) +
+> > ggplot(data = plant_phys, 
+> >        mapping = aes(x = Cond_day, 
+> >                      y = Cond_night)) +
 > >    geom_point(aes(color = Species))
 > > ~~~
 > > {: .language-r}
@@ -289,14 +271,14 @@ Boxplots are useful summaries, but hide the *shape* of the distribution. For exa
 > ## Challenge 2
 >
 > Try replacing the box plot with a violin plot with `geom_violin()`.
-
+>
 > > ## Solution to Challenge 2
 > > 
 > > ~~~
 > >       ggplot(data = iris, 
 > >              mapping = aes(x = Species, 
 > >                            y = Sepal.Length)) +
-> >       geom_boxplot()
+> >       geom_violin()
 > > ~~~
 > > {: .language-r}
 > > 
@@ -304,21 +286,22 @@ Boxplots are useful summaries, but hide the *shape* of the distribution. For exa
 > {: .solution}
 {: .challenge}
 
+Now, let's try a box plot with some new data.
 
 > ## Challenge 3
 >
-> - Create a boxplot for `Petal.Length`. 
-> - Overlay the boxplot layer on a jitter layer to show actual measurements.
-> - Add color to the data points on your boxplot according to `species`.
+> * Create a boxplot for `Petal.Length`. 
+> * Overlay the boxplot layer on a jitter layer to show actual measurements.
+> *  Add color to the data points on your boxplot according to `species`.
 >
 > > Solution to Challenge 3
 > > 
 > > ~~~
-> > ggplot(data = iris, 
-> >        mapping = aes(x = Species, 
-> >                      y = Petal.Length)) +
-> >     geom_boxplot()+
-> >     geom_jitter(color = "tomato")
+> >      ggplot(data = iris, 
+> >             mapping = aes(x = Species, 
+> >                           y = Petal.Length)) +
+> >      geom_boxplot()+
+> >      geom_jitter(color = "tomato")
 > > ~~~
 > > {: .language-r}
 > > 
@@ -457,49 +440,43 @@ provides a wide variety of options (including an Excel 2003 theme).
 The [**`ggplot2`** extensions website](https://www.ggplot2-exts.org) provides a list
 of packages that extend the capabilities of **`ggplot2`**, including additional
 themes.
-
+ 
 
 > ## Challenge 4
-
+>
 > Use what you just learned to create a plot that depicts how the average `PD`
-> of each species changes over a season. Color the lines by functional group
+> of each species changes over a season. Color the lines by functional group.
 > 
-> > Solution to Challenge 4
+> > ## Solution to Challenge 4
 > > 
 > > ~~~
-> > seasonPD <- plant_phys %>%
+> >          seasonPD <- plant_phys %>%
 > >                group_by(Month, Species, Fgroup) %>%
 > >                summarize(avg_PD = mean(PD))
-> > ggplot(data = seasonPD, 
-> >    mapping = aes(x=Month, 
-> >                  y=avg_PD, 
-> >                  color = Fgroup)) +
-> > geom_line() +
-> > facet_wrap(~ Species) +
-> > theme_bw()
-> > > {: .solution}
-> > {: .challenge}
 > > 
-> > The `facet_wrap` geometry extracts plots into an arbitrary number of dimensions
-> > to allow them to cleanly fit on one page. On the other hand, the `facet_grid`
-> > geometry allows you to explicitly specify how you want your plots to be
-> > arranged via formula notation (`rows ~ columns`; a `.` can be used as
-> > a placeholder that indicates only one row or column).
-> > 
-> > Let's modify the previous plot to compare how the photosynthesis rate of functional
-> > groups have changed through time:
+> >         ggplot(data = seasonPD, 
+> >                mapping = aes(x=Month, 
+> >                              y=avg_PD, 
+> >                              color = Fgroup)) +
+> >         geom_line() +
+> >         facet_wrap(~ Species) +
+> >         theme_bw()
 > > ~~~
 > > {: .language-r}
 > > 
-> > 
-> > 
-> > ~~~
-> > Error: <text>:11:1: unexpected '>'
-> > 10: theme_bw()
-> > 11: >
-> >     ^
-> > ~~~
-> > {: .error}
+> > <img src="../fig/rmd-04-average-weight-time-series-1.png" title="plot of chunk average-weight-time-series" alt="plot of chunk average-weight-time-series" width="612" style="display: block; margin: auto;" />
+> {: .solution}
+{: .challenge}
+
+The `facet_wrap` geometry extracts plots into an arbitrary number of dimensions
+to allow them to cleanly fit on one page. On the other hand, the `facet_grid`
+geometry allows you to explicitly specify how you want your plots to be
+arranged via formula notation (`rows ~ columns`; a `.` can be used as
+a placeholder that indicates only one row or column).
+
+Let's modify the previous plot to compare how the photosynthesis rate of functional
+groups have changed through time:
+
 
 ~~~
 ggplot(data = mo_sp_fg, 
@@ -625,18 +602,6 @@ ggplot(plant_phys,
 
 <img src="../fig/rmd-04-number-Fgroup-month-with-right-labels-xfont-orientation-1.png" title="plot of chunk number-Fgroup-month-with-right-labels-xfont-orientation" alt="plot of chunk number-Fgroup-month-with-right-labels-xfont-orientation" width="612" style="display: block; margin: auto;" />
 
-> ## Challenge 5
-> 
-> With all of this information in hand, please take another five minutes to
-> either improve one of the plots generated in this exercise or create a
-> beautiful graph of your own. Use the RStudio [**`ggplot2`** cheat sheet](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)
-> for inspiration. Here are some ideas:
->
-> * See if you can change the thickness of the lines.
-> * Can you find a way to change the name of the legend? What about its labels?
-> * Try using a different color palette (see
->   http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/).
-
 ## Arranging and exporting plots
 
 Faceting is a great tool for splitting one plot into multiple plots, but sometimes you may want to produce a single figure that contains multiple plots using different variables or even different data frames. The **`gridExtra`** package allows us to combine separate ggplots into a single figure using `grid.arrange()`:
@@ -708,4 +673,9 @@ Note: The parameters `width` and `height` also determine the font size in the sa
 > exercise or create a beautiful graph of your own. Use the RStudio
 > ggplot2 cheat sheet for inspiration:
 > https://www.rstudio.com/wp-content/uploads/2015/08/ggplot2-cheatsheet.pdf
+> Here are some ideas:
+> * See if you can change the thickness of the lines.
+> * Can you find a way to change the name of the legend? What about its labels?
+> * Try using a different color palette (see
+>   http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/).
 {: .challenge}

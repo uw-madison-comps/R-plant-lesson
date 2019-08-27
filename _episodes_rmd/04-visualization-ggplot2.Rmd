@@ -26,8 +26,6 @@ plant_phys<-read_csv("data_output/phys_dates.csv")
 > * Modify the aesthetics of an existing ggplot plot (including axis labels and color).
 > * Build complex and customized plots from data in a data frame.
 
---------------
-
 We start by loading the required packages. **`ggplot2`** is included in the **`tidyverse`** package.
 
 ```{r load-package}
@@ -37,7 +35,7 @@ library(tidyverse)
 If not still in the workspace, load the data we saved in the previous lesson.
 
 ```{r load-data, eval=FALSE}
-iris <- read_csv(file = "data/iris.csv")
+#iris <- read_csv(file = "data/iris.csv")
 plant_phys<-read_csv("data_output/phys_dates.csv")
 ```
 
@@ -71,7 +69,7 @@ ggplot(data = iris)
 
 - define a mapping (using the aesthetic (`aes`) function), by selecting the variables to be plotted and specifying how to present them in the graph, e.g. as x/y positions or characteristics such as size, shape, color, etc.
 
-```{r data-map, eval = false}
+```{r data-map, eval = FALSE}
 ggplot(data = iris, 
        mapping = aes(x = Sepal.Length, 
                      y = Sepal.Width))
@@ -123,7 +121,7 @@ the *previous* layer. If, instead, the `+` sign is added at the beginning of the
 containing the new layer, **`ggplot2`** will not add the new layer and will return an 
 error message.
 
-```{r, ggplot-with-plus-position}
+```{r, ggplot-with-plus-position, eval = FALSE}
 # This is the correct syntax for adding layers
 iris_plot +
   geom_point()
@@ -191,7 +189,9 @@ ggplot(data = iris,
 >
 > > ## Solution to Challenge 1
 > > ```{r ch1-soln}
-> > ggplot(data = plant_phys, mapping = aes(x = Cond_day, y = Cond_night)) +
+> > ggplot(data = plant_phys, 
+> >        mapping = aes(x = Cond_day, 
+> >                      y = Cond_night)) +
 > >    geom_point(aes(color = Species))
 > > ```
 > {: .solution}
@@ -230,31 +230,32 @@ Boxplots are useful summaries, but hide the *shape* of the distribution. For exa
 > ## Challenge 2
 >
 > Try replacing the box plot with a violin plot with `geom_violin()`.
-
+>
 > > ## Solution to Challenge 2
 > > ```{r, ch2-soln}
 > >       ggplot(data = iris, 
 > >              mapping = aes(x = Species, 
 > >                            y = Sepal.Length)) +
-> >       geom_boxplot()
+> >       geom_violin()
 > > ```
 > {: .solution}
 {: .challenge}
 
+Now, let's try a box plot with some new data.
 
 > ## Challenge 3
 >
-> - Create a boxplot for `Petal.Length`. 
-> - Overlay the boxplot layer on a jitter layer to show actual measurements.
-> - Add color to the data points on your boxplot according to `species`.
+> * Create a boxplot for `Petal.Length`. 
+> * Overlay the boxplot layer on a jitter layer to show actual measurements.
+> *  Add color to the data points on your boxplot according to `species`.
 >
 > > Solution to Challenge 3
 > > ```{r ch3-soln}
-> > ggplot(data = iris, 
-> >        mapping = aes(x = Species, 
-> >                      y = Petal.Length)) +
-> >     geom_boxplot()+
-> >     geom_jitter(color = "tomato")
+> >      ggplot(data = iris, 
+> >             mapping = aes(x = Species, 
+> >                           y = Petal.Length)) +
+> >      geom_boxplot()+
+> >      geom_jitter(color = "tomato")
 > > ```
 > {: .solution}
 {: .challenge}
@@ -362,25 +363,27 @@ provides a wide variety of options (including an Excel 2003 theme).
 The [**`ggplot2`** extensions website](https://www.ggplot2-exts.org) provides a list
 of packages that extend the capabilities of **`ggplot2`**, including additional
 themes.
-
+ 
 
 > ## Challenge 4
-
+>
 > Use what you just learned to create a plot that depicts how the average `PD`
-> of each species changes over a season. Color the lines by functional group
+> of each species changes over a season. Color the lines by functional group.
 > 
-> > Solution to Challenge 4
-> > ```{r average-weight-time-series, answer=TRUE, purl=FALSE}
-> > seasonPD <- plant_phys %>%
+> > ## Solution to Challenge 4
+> > ```{r average-weight-time-series}
+> >          seasonPD <- plant_phys %>%
 > >                group_by(Month, Species, Fgroup) %>%
 > >                summarize(avg_PD = mean(PD))
-> > ggplot(data = seasonPD, 
-> >    mapping = aes(x=Month, 
-> >                  y=avg_PD, 
-> >                  color = Fgroup)) +
-> > geom_line() +
-> > facet_wrap(~ Species) +
-> > theme_bw()
+> >
+> >         ggplot(data = seasonPD, 
+> >                mapping = aes(x=Month, 
+> >                              y=avg_PD, 
+> >                              color = Fgroup)) +
+> >         geom_line() +
+> >         facet_wrap(~ Species) +
+> >         theme_bw()
+> > ```
 > {: .solution}
 {: .challenge}
 
@@ -495,18 +498,6 @@ ggplot(plant_phys,
     grey_theme
 ```
 
-> ## Challenge 5
-> 
-> With all of this information in hand, please take another five minutes to
-> either improve one of the plots generated in this exercise or create a
-> beautiful graph of your own. Use the RStudio [**`ggplot2`** cheat sheet](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)
-> for inspiration. Here are some ideas:
->
-> * See if you can change the thickness of the lines.
-> * Can you find a way to change the name of the legend? What about its labels?
-> * Try using a different color palette (see
->   http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/).
-
 ## Arranging and exporting plots
 
 Faceting is a great tool for splitting one plot into multiple plots, but sometimes you may want to produce a single figure that contains multiple plots using different variables or even different data frames. The **`gridExtra`** package allows us to combine separate ggplots into a single figure using `grid.arrange()`:
@@ -571,4 +562,9 @@ Note: The parameters `width` and `height` also determine the font size in the sa
 > exercise or create a beautiful graph of your own. Use the RStudio
 > ggplot2 cheat sheet for inspiration:
 > https://www.rstudio.com/wp-content/uploads/2015/08/ggplot2-cheatsheet.pdf
+> Here are some ideas:
+> * See if you can change the thickness of the lines.
+> * Can you find a way to change the name of the legend? What about its labels?
+> * Try using a different color palette (see
+>   http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/).
 {: .challenge}
