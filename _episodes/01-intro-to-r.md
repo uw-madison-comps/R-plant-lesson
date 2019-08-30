@@ -70,7 +70,7 @@ assignment operator `<-`, and the value we want to give it:
 
 
 ~~~
-sepal_length <- 5.1
+Sepal.Length <- 5.1
 ~~~
 {: .language-r}
 
@@ -86,10 +86,10 @@ In RStudio, typing <kbd>Alt</kbd> + <kbd>-</kbd> (push <kbd>Alt</kbd> at the
 same time as the <kbd>-</kbd> key) will write ` <- ` in a single keystroke in a PC, while typing <kbd>Option</kbd> + <kbd>-</kbd> (push <kbd>Option</kbd> at the
 same time as the <kbd>-</kbd> key) does the same in a Mac.
 
-Objects can be given any name such as `x`, `species`, or
+Objects can be given any name such as `x`, `Species`, or
 `sample_id`. You want your object names to be explicit and not too long. They
 cannot start with a number (`2x` is not valid, but `x2` is). R is case sensitive
-(e.g., `sepal_length` is different from `Sepal_length`). There are some names that
+(e.g., `Sepal.Length` is different from `Sepal.length`). There are some names that
 cannot be used because they are the names of fundamental functions in R (e.g.,
 `if`, `else`, `for`, see
 [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html)
@@ -124,8 +124,8 @@ When assigning a value to an object, R does not print anything. You can force R 
 
 
 ~~~
-sepal_length <- 5.1    # doesn't print anything
-(sepal_length <- 5.1)  # but putting parenthesis around the call prints the value of `sepal_length`
+Sepal.Length <- 5.1    # doesn't print anything
+(Sepal.Length <- 5.1)  # but putting parenthesis around the call prints the value of `Sepal.Length`
 ~~~
 {: .language-r}
 
@@ -139,7 +139,7 @@ sepal_length <- 5.1    # doesn't print anything
 
 
 ~~~
-sepal_length          # and so does typing the name of the object
+Sepal.Length          # and so does typing the name of the object
 ~~~
 {: .language-r}
 
@@ -150,12 +150,12 @@ sepal_length          # and so does typing the name of the object
 ~~~
 {: .output}
 
-Now that R has `sepal_length` in memory, we can do arithmetic with it. For
+Now that R has `Sepal.Length` in memory, we can do arithmetic with it. For
 instance, we may want to convert this measurement into inches ( `1 inch = 2.54 cm`):
 
 
 ~~~
-sepal_length/2.54
+Sepal.Length/2.54
 ~~~
 {: .language-r}
 
@@ -170,8 +170,8 @@ We can also change an object's value by assigning it a new one:
 
 
 ~~~
-sepal_length <- 4.9
-sepal_length/2.54
+Sepal.Length <- 4.9
+Sepal.Length/2.54
 ~~~
 {: .language-r}
 
@@ -184,23 +184,56 @@ sepal_length/2.54
 
 This means that assigning a value to one object does not change the values of
 other objects  For example, let's store the observation in inches in a new
-object, `sepal_length_inch`:
+object, `Sepal.Length.inches`:
 
 
 ~~~
-sepal_length_inch <- sepal_length/2.54
-~~~
-{: .language-r}
-
-and then change `sepal_length` to 100.
-
-
-~~~
-sepal_length <- 100
+Sepal.Length.inches <- Sepal.Length/2.54
 ~~~
 {: .language-r}
 
-What do you think is the current content of the object `sepal_length_inch`? 1 or 1.93 ?
+and then change `Sepal.Length` to 2.54.
+
+
+~~~
+Sepal.Length <- 2.54
+~~~
+{: .language-r}
+
+What do you think is the current content of the object `Sepal.Length.inches`? 1 or 1.93 ?
+
+<!-- 
+  like the example in the mutate() section of https://rpubs.com/moeransm/intro-iris
+-->
+
+> ## Challenge 1
+>
+> What are the values after each statement in the following?
+>
+> 
+> ~~~
+> petal_length <- 1.5                           # petal_length?
+> petal_width  <- 0.2                       		# petal_width?
+> petal_length <- petal_length - 0.5        		# petal_length?
+> petal_width  <- petal_width * 5           		# petal_width?
+> petal_ratio  <- petal_length/petal_width  		# petal_ratio?
+> ~~~
+> {: .language-r}
+>
+> > ## Solution to Challenge 1
+> > petal_length <- 1.5					                  # 1.5
+>>
+> > petal_width  <- 0.2                       		# 0.2
+>>
+> > petal_length <- petal_length - 0.5        		# 1
+>>
+> > petal_width  <- petal_width * 5           		# 1
+>>
+> > petal_ratio  <- petal_length/petal_width  		# 1
+>>
+> {: .solution}
+{: .challenge}
+
 
 ### Comments
 
@@ -213,34 +246,6 @@ lines you  want to comment, press at the same time on your keyboard
 out one line, you can put the cursor at any location of that line (i.e. no need 
 to select the whole line), then press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + 
 <kbd>C</kbd>.
-
-<!-- 
-  like the example in the mutate() section of https://rpubs.com/moeransm/intro-iris
--->
-
-> ## Challenge 1
->
-> What are the values after each statement in the following?
->
-> 
-> ~~~
-> petal_length <- 1.5					                  # petal_length?
-> petal_width  <- 0.2                       		# petal_width?
-> petal_length <- petal_length - 0.5        		# petal_length?
-> petal_width  <- petal_width * 5           		# petal_width?
-> petal_ratio  <- petal_length/petal_width  		# petal_ratio?
-> ~~~
-> {: .language-r}
->
-> > ## Solution to Challenge 1
-> > petal_length <- 1.5					                  # 1.5 
-> > petal_width  <- 0.2                       		# 0.2
-> > petal_length <- petal_length - 0.5        		# 1
-> > petal_width  <- petal_width * 5           		# 1
-> > petal_ratio  <- petal_length/petal_width  		# 1
-> {: .solution}
-{: .challenge}
-
 
 ### Functions and their arguments
 
@@ -377,8 +382,8 @@ doing.
 A vector is the most common and basic data type in R, and is pretty much
 the workhorse of R. A vector is composed by a series of values, which can be
 either numbers or characters. We can assign a series of values to a vector using
-the `c()` function. For example we can create a vector of animal weights and assign
-it to a new object `weight_g`:
+the `c()` function. For example we can create a vector of measurements and assign
+it to a new object `widths`:
 
 
 ~~~
@@ -398,8 +403,8 @@ A vector can also contain characters:
 
 
 ~~~
-species <- c("setosa", "versicolor", "virginica")
-species
+Species <- c("setosa", "versicolor", "virginica")
+Species
 ~~~
 {: .language-r}
 
@@ -433,7 +438,7 @@ length(widths)
 
 
 ~~~
-length(species)
+length(Species)
 ~~~
 {: .language-r}
 
@@ -463,7 +468,7 @@ class(widths)
 
 
 ~~~
-class(species)
+class(Species)
 ~~~
 {: .language-r}
 
@@ -494,7 +499,7 @@ str(widths)
 
 
 ~~~
-str(species)
+str(Species)
 ~~~
 {: .language-r}
 
@@ -605,8 +610,8 @@ or several indices in square brackets. For instance:
 
 
 ~~~
-species <- c("setosa", "versicolor", "virginica", "sibirica")
-species[2]
+Species <- c("setosa", "versicolor", "virginica", "sibirica")
+Species[2]
 ~~~
 {: .language-r}
 
@@ -620,7 +625,7 @@ species[2]
 
 
 ~~~
-species[c(3, 2)]
+Species[c(3, 2)]
 ~~~
 {: .language-r}
 
@@ -636,7 +641,7 @@ original one:
 
 
 ~~~
-more_species <- species[c(1, 2, 3, 2, 1, 4)]
+more_species <- Species[c(1, 2, 3, 2, 1, 4)]
 more_species
 ~~~
 {: .language-r}
@@ -747,25 +752,31 @@ a search vector are found:
 
 
 ~~~
-species <- c("setosa", "versicolor", "virginica", "sibirica")
-
-species[species == "sibirica" | species == "versicolor"] # returns both sibirica and versicolor
-
-species %in% c("versicolor", "virginica", "sibirica","cristata","spuria")
-
-species %in% c("versicolor", "virginica", "sibirica","cristata","spuria")]
+Species <- c("setosa", "versicolor", "virginica", "sibirica")
+Species[Species == "sibirica" | Species == "versicolor"] # returns both sibirica and versicolor
 ~~~
 {: .language-r}
 
 
 
 ~~~
-Error: <text>:7:74: unexpected ']'
-6: 
-7: species %in% c("versicolor", "virginica", "sibirica","cristata","spuria")]
-                                                                            ^
+[1] "versicolor" "sibirica"  
 ~~~
-{: .error}
+{: .output}
+
+
+
+~~~
+Species %in% c("versicolor", "virginica", "sibirica","cristata","spuria")
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] FALSE  TRUE  TRUE  TRUE
+~~~
+{: .output}
 
 > ## Challenge 3
 >
@@ -960,6 +971,5 @@ Recall that you can use the `typeof()` function to find the type of your atomic 
 > {: .solution}
 {: .challenge}
 
-Now that we have learned how to write scripts, and the basics of R's data
-structures, we are ready to start working with the Portal dataset we have been
-using in the other lessons, and learn about data frames.
+Now that we have learned how to write scripts and the basics of R's data
+structures, we are ready to learn about data frames and start working with two datasets: the classic "iris" dataset from a 1936 paper and one from a recent plant physiology publication.
