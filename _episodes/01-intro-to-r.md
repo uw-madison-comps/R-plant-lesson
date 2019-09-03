@@ -212,24 +212,24 @@ What do you think is the current content of the object `Sepal.Length.inches`? 1 
 >
 > 
 > ~~~
-> petal_length <- 1.5                           # petal_length?
-> petal_width  <- 0.2                       		# petal_width?
-> petal_length <- petal_length - 0.5        		# petal_length?
-> petal_width  <- petal_width * 5           		# petal_width?
-> petal_ratio  <- petal_length/petal_width  		# petal_ratio?
+> Petal.Length <- 1.5                           # Petal.Length?
+> Petal.Width  <- 0.2                       		# Petal.Width?
+> Petal.Length <- Petal.Length - 0.5        		# Petal.Length?
+> Petal.Width  <- Petal.Width * 5           		# Petal.Width?
+> Petal.Ratio  <- Petal.Length/Petal.Width  		# Petal.Ratio?
 > ~~~
 > {: .language-r}
 >
 > > ## Solution to Challenge 1
-> > petal_length <- 1.5					                  # 1.5
+> > Petal.Length <- 1.5					                  # 1.5
 >>
-> > petal_width  <- 0.2                       		# 0.2
+> > Petal.Width  <- 0.2                       		# 0.2
 >>
-> > petal_length <- petal_length - 0.5        		# 1
+> > Petal.Length <- Petal.Length - 0.5        		# 1
 >>
-> > petal_width  <- petal_width * 5           		# 1
+> > Petal.Width  <- Petal.Width * 5           		# 1
 >>
-> > petal_ratio  <- petal_length/petal_width  		# 1
+> > Petal.Ratio  <- Petal.Length/Petal.Width  		# 1
 >>
 > {: .solution}
 {: .challenge}
