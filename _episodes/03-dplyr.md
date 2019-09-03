@@ -1043,11 +1043,11 @@ plant_phys %>%
 ~~~
 {: .output}
 
-> ## Challenge 4
+> ## Challenge 5
 >
 > How many plant species were measured in each `Year`?
 >
-> > ## Solution to Challenge 4
+> > ## Solution to Challenge 5
 > > 
 > > ~~~
 > > plant_phys %>%
@@ -1075,14 +1075,14 @@ plant_phys %>%
 > {: .solution}
 {: .challenge}
 
-> ## Challenge 5
+> ## Challenge 6
 >
 > Use `group_by()` and `summarize()` to find the mean, min, and max
 > photosynthesis level for each species. Also add the number of
 > observations (hint: see `?n`).
 >
 >
-> > ## Solution to Challenge 5 
+> > ## Solution to Challenge 6 
 > >
 > >~~~
 > > plant_phys %>%
@@ -1115,12 +1115,12 @@ plant_phys %>%
 > {: .solution}
 {: .challenge}
 
-> ## Challenge 6
+> ## Challenge 7
 >
 > What was the most photosynthetic plant measured in each year? 
 > Return the columns `Year`, `Species`, and `Photo`.
 >
-> > ## Solution to Challenge 6
+> > ## Solution to Challenge 7
 > > 
 > > ~~~
 > > plant_phys %>%
