@@ -222,15 +222,15 @@ What do you think is the current content of the object `Sepal.Length.inches`? 1 
 >
 > > ## Solution to Challenge 1
 > > petal_length <- 1.5					                  # 1.5
->>
+> >
 > > petal_width  <- 0.2                       		# 0.2
->>
+> >
 > > petal_length <- petal_length - 0.5        		# 1
->>
+> >
 > > petal_width  <- petal_width * 5           		# 1
->>
+> >
 > > petal_ratio  <- petal_length/petal_width  		# 1
->>
+> >
 > {: .solution}
 {: .challenge}
 
