@@ -22,7 +22,7 @@ keypoints:
 - "R stores data tables in a structire called a data frame"
 - "Columns in a data frame must contain values of the same data type"
 - "Subsetting by position is similar as in vectors"
-- "Data frames can also be subet by names"
+- "Data frames can also be subset by names"
 - "Factors store characters as integers with text labels"
 - "strings.factors = FALSE can prevent R from reading strings as factors"
 source: Rmd
@@ -34,23 +34,19 @@ source: Rmd
 
 In this workshop, we will be working with two sets of data: one is the
 `iris` data  from the classic paper by Fisher "The use of multiple measurements in taxonomic problems" (1936) and the
-other is from a recent paper on ??? by OKeefe and Nippert (ref).  Each dataset is stored
-as comma separated value (CSV) file.
+other has a set of physiological observations from a recent paper by OKeefe and Nippert (ref).  Each dataset is stored
+as comma separated value (CSV) file.  We will work with the `iris` data throughout this workshop; the physiological data will be introduced in the next episode.
 
 The `iris` data have morphological measures from more than 100 samples of 3 species of irises.
-Each row holds information for a single sample (plant?  specimen?), and the columns represent:
+Each row holds information for a single sample (plant?  specimen?), and the columns represent the species of the specimen and the lengths and widths of its sepal and petal (in centimeters):
 
-| Column          |  Description               |
-|-----------------|----------------------------|
-| sepal\_length   |  are these in cm or inch?  |
-| sepal\_width    |  what should we write for  |
-| petal\_length   |  description?
-| petal\_width    |
-| species         |  ...?
-
-<!-- maybe we should get rid of the table and just say the columns are
-... measurements (in units) of sepal and petal lengths and widths, and
-the species  --> 
+  | Column       |
+  |--------------|
+  | Sepal.Length |
+  | Sepal.Width  |
+  | Petal.Length |
+  | Petal.Width  |
+  | Species      |
 
 <!-- replace this with download and unzip the data dir -->
 We are going to use the R function `download.file()` to download the CSV file
@@ -89,7 +85,7 @@ head(iris)
 
 
 ~~~
-  sepal_length sepal_width petal_length petal_width species
+  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 1          5.1         3.5          1.4         0.2  setosa
 2          4.9         3.0          1.4         0.2  setosa
 3          4.7         3.2          1.3         0.2  setosa
@@ -154,11 +150,11 @@ str(iris)
 
 ~~~
 'data.frame':	150 obs. of  5 variables:
- $ sepal_length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
- $ sepal_width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
- $ petal_length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
- $ petal_width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
- $ species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+ $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+ $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+ $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+ $ Species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
 ~~~
 {: .output}
 
@@ -212,11 +208,11 @@ objects besides `data.frame`.
 > > 
 > > ~~~
 > > 'data.frame':	150 obs. of  5 variables:
-> >  $ sepal_length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
-> >  $ sepal_width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
-> >  $ petal_length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
-> >  $ petal_width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
-> >  $ species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+> >  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+> >  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+> >  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+> >  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+> >  $ Species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
 > > ~~~
 > > {: .output}
 > > 
@@ -233,7 +229,7 @@ objects besides `data.frame`.
 
 ## Indexing and subsetting data frames
 
-Our survey data frame has rows and columns (it has 2 dimensions), if we want to
+Our `iris` data frame has rows and columns (it has 2 dimensions), if we want to
 extract some specific data from it, we need to specify the "coordinates" we
 want from it. Row numbers come first, followed by column numbers. However, note
 that different ways of specifying these coordinates lead to results with
@@ -274,10 +270,10 @@ Data frames can be subset by calling indices (as shown previously), but also by 
 
 
 ~~~
-iris["species"]       # Result is a data.frame
-iris[, "species"]     # Result is a vector
-iris[["species"]]     # Result is a vector
-iris$species          # Result is a vector
+iris["Species"]       # Result is a data.frame
+iris[, "Species"]     # Result is a vector
+iris[["Species"]]     # Result is a vector
+iris$Species          # Result is a vector
 ~~~
 {: .language-r}
 
@@ -324,7 +320,7 @@ In RStudio, you can use the autocompletion feature to get the full and correct n
 ## Factors
 
 When we did `str(iris)` we saw that four of the columns consist of
-numbers. The column `species`, ... however, is
+numbers. The column `Species`, ... however, is
 of a special class called `factor`. Factors are very useful and actually
 contribute to making R particularly well suited to working with data. So we are
 going to spend a little time introducing them.
@@ -409,12 +405,11 @@ Levels: male female
 ~~~
 {: .output}
 
-In R's memory, these factors are represented by integers (1, 2, 3), but are more
+In R's memory, these factors are represented by integers (1, 2, 3) but are more
 informative than integers because factors are self describing: `"female"`,
 `"male"` is more descriptive than `1`, `2`. Which one is "male"?  You wouldn't
 be able to tell just from the integer data. Factors, on the other hand, have
-this information built in. It is particularly helpful when there are many levels
-(like the species names in our example dataset).
+this information built in. It is particularly helpful when there are many levels.
 
 ### Converting factors
 
@@ -437,7 +432,7 @@ as.character(sex)
 In some cases, you may have to convert factors where the levels appear as
 numbers (such as concentration levels or years) to a numeric vector. For
 instance, in one part of your analysis the years might need to be encoded as
-factors (e.g., comparing average weights across years) but in another part of
+factors (e.g., comparing average lengths across years) but in another part of
 your analysis they may need to be stored as numeric values (e.g., doing math
 operations on the years). This conversion from factor to numeric is a little
 trickier. The `as.numeric()` function returns the index values of the factor,
@@ -505,8 +500,8 @@ the experiment:
 
 
 ~~~
-## bar plot of the number of each species captured during the experiment:
-plot(iris$species)
+## bar plot of the number of each species sampled during the experiment:
+plot(iris$Species)
 ~~~
 {: .language-r}
 
@@ -648,11 +643,11 @@ str(iris)
 
 ~~~
 'data.frame':	150 obs. of  5 variables:
- $ sepal_length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
- $ sepal_width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
- $ petal_length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
- $ petal_width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
- $ species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+ $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+ $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+ $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+ $ Species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
 ~~~
 {: .output}
 
@@ -668,11 +663,11 @@ str(iris)
 
 ~~~
 'data.frame':	150 obs. of  5 variables:
- $ sepal_length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
- $ sepal_width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
- $ petal_length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
- $ petal_width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
- $ species     : chr  "setosa" "setosa" "setosa" "setosa" ...
+ $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+ $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+ $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+ $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+ $ Species     : chr  "setosa" "setosa" "setosa" "setosa" ...
 ~~~
 {: .output}
 
@@ -680,9 +675,22 @@ str(iris)
 
 ~~~
 ## Convert the column "species" into a factor
-iris$species <- factor(iris$species)
+iris$Species <- factor(iris$Species)
+str(iris)
 ~~~
 {: .language-r}
+
+
+
+~~~
+'data.frame':	150 obs. of  5 variables:
+ $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+ $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+ $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+ $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+ $ Species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+~~~
+{: .output}
 
 
 > ## Challenge 3
@@ -731,7 +739,8 @@ iris$species <- factor(iris$species)
 > >   * missing one comma in the `weight` column
 > > 
 > > ### Part 2
-> >   * `country`, `climate`, `temperature`, and `northern_hemisphere` are     > > factors; `has_kangaroo` is numeric
+> >   * `country`, `climate`, `temperature`, and `northern_hemisphere` are 
+> >factors; `has_kangaroo` is numeric
 > >   * using `stringsAsFactors = FALSE` would have made character vectors 
 > >instead of factors
 > >   * removing the quotes in `temperature` and `northern_hemisphere` and
