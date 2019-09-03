@@ -804,7 +804,6 @@ plant_phys %>%
 It is sometimes useful to rearrange the result of a query to inspect the values. For instance, we can sort on `min_photo` to put the less photosynthetic first:
 
 
-
 ~~~
 plant_phys %>%
   group_by(Year, Species) %>%
@@ -877,6 +876,54 @@ plant_phys %>%
 16  2015 VB            12.2      1.08
 ~~~
 {: .output}
+
+> ## Challenge 4
+> 
+> The original paper containing the iris dataset distinguished the three
+> types of irises based on the sepal and petal length and width, as well
+> as the ratio of length to width for sepals and petals. 
+> 
+> For this challenge, let's replicate their analysis. 
+> * Calculate the mean sepal length and sepal width for each species
+> * Calculate the mean petal lengths and petal widths for each species
+> * Calculate the ratio of Sepal.Length to Sepal.Width
+> * Calculate the ratio of Petal.Length to Petal.Width 
+> 
+> Which of these values does the best job of differentiating the setsosa
+> species from the others?
+> 
+> > ## Solution to Challenge 4
+> > 
+> > 
+> > ~~~
+> > iris %>% group_by(Species) %>% 
+> >     summarize(meanSepal.Length = mean(Sepal.Length),
+> >               meanSepal.Width = mean(Sepal.Width),
+> >               Sepal.ratio=mean(Sepal.Length/Sepal.Width), 
+> >               meanPetal.Length=mean(Petal.Length),
+> >               meanPetal.Width=mean(Petal.Width),
+> >               Petal.ratio = mean(Petal.Length/Petal.Width)
+> >               )
+> > ~~~
+> > {: .language-r}
+> > 
+> > 
+> > 
+> > ~~~
+> > # A tibble: 3 x 7
+> >   Species meanSepal.Length meanSepal.Width Sepal.ratio meanPetal.Length
+> >   <fct>              <dbl>           <dbl>       <dbl>            <dbl>
+> > 1 setosa              5.01            3.43        1.47             1.46
+> > 2 versic…             5.94            2.77        2.16             4.26
+> > 3 virgin…             6.59            2.97        2.23             5.55
+> > # … with 2 more variables: meanPetal.Width <dbl>, Petal.ratio <dbl>
+> > ~~~
+> > {: .output}
+> > Petal ratio has the largest difference between setsosa and the other 
+> > species.
+> > 
+> {: .solution}
+{: .challenge}
 
 #### Counting
 
