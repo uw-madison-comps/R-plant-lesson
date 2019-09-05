@@ -24,7 +24,7 @@ keypoints:
 - "filter picks rows based on values"
 - "mutate creates new columns based on the value of other columns"
 - "group by and summarize can be used to create summary tables"
-- "The lubridate package is useful for manipulating date data.""
+- "The lubridate package is useful for manipulating date data."
 - "write_csv exports tibbles into a .csv file"
 source: Rmd
 ---
