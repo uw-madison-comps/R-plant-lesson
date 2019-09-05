@@ -22,6 +22,8 @@ keypoints:
 source: Rmd
 ---
 
+
+
 ## What is R? What is RStudio?
 
 The term "`R`" is used to refer to both the programming language and the
@@ -121,7 +123,7 @@ generate. RStudio can also be used for other things (e.g., version control,
 developing packages, writing Shiny apps) that we will not cover during the
 workshop.
 
-![RStudio interface screenshot. Clockwise from top left: Source, Environment/History, Files/Plots/Packages/Help/Viewer, Console.](fig/rstudio-screenshot.png)
+![RStudio interface screenshot. Clockwise from top left: Source, Environment/History, Files/Plots/Packages/Help/Viewer, Console.](../fig/rstudio-screenshot.png)
 
 RStudio is divided into 4 "Panes": the **Source** for your scripts and documents
 (top-left, in the default layout), your **Environment/History** (top-right),
@@ -169,7 +171,7 @@ RStudio's default preferences generally work well, but saving a workspace to
 To turn that off, go to Tools --> 'Global Options' and select the 'Never' option
 for 'Save workspace to .RData' on exit.'
 
-![Set 'Save workspace to .RData on exit' to 'Never'](fig/rstudio-preferences.png)
+![Set 'Save workspace to .RData on exit' to 'Never'](../fig/rstudio-preferences.png)
 
 ### Organizing your working directory
 
@@ -197,7 +199,7 @@ create directories (folders) for **scripts**, **data**, and **documents**.
 You may want additional directories or subdirectories depending on your project
 needs, but these should form the backbone of your working directory.
 
-![Example of a working directory structure.](fig/working-directory-structure.png)
+![Example of a working directory structure.](../fig/working-directory-structure.png)
 
 
 For this workshop, we will need a `data/` folder to store our raw data, and we
@@ -298,7 +300,7 @@ The material we cover during this workshop will give you an initial taste of how
 
 ### Use the built-in RStudio help interface to search for more information on R functions
 
-![RStudio help interface.](fig/rstudiohelp.png)
+![RStudio help interface.](../fig/rstudiohelp.png)
 
 One of the fastest ways to get help, is to use the RStudio help interface. This panel by default can be found at the lower right hand panel of RStudio. As seen in the screenshot, by typing the word "Mean", RStudio tries to also give a number of suggestions that you might be interested in. The description is then shown in the display window.
 
@@ -307,16 +309,18 @@ One of the fastest ways to get help, is to use the RStudio help interface. This 
 If you need help with a specific function, let's say `barplot()`, you can type:
 
 
-```r
+~~~
 ?barplot
-```
+~~~
+{: .language-r}
 
 If you just need to remind yourself of the names of the arguments, you can use:
 
 
-```r
+~~~
 args(lm)
-```
+~~~
+{: .language-r}
 
 ### I want to use a function that does X, there must be a function for it but I don't know which one...
 
@@ -326,9 +330,10 @@ However, this only looks through the installed packages for help pages with a
 match to your search request
 
 
-```r
+~~~
 ??kruskal
-```
+~~~
+{: .language-r}
 
 If you can't find what you are looking for, you can use
 the [rdocumentation.org](http://www.rdocumentation.org) website that searches
@@ -386,18 +391,22 @@ function `dput()`. It will output R code that can be used to recreate the exact
 same object as the one in memory:
 
 
-```r
+~~~
 dput(head(iris)) # iris is an example data frame that comes with R and head() is a function that returns the first part of the data frame
-```
+~~~
+{: .language-r}
 
-```
-## structure(list(Sepal.Length = c(5.1, 4.9, 4.7, 4.6, 5, 5.4), 
-##     Sepal.Width = c(3.5, 3, 3.2, 3.1, 3.6, 3.9), Petal.Length = c(1.4, 
-##     1.4, 1.3, 1.5, 1.4, 1.7), Petal.Width = c(0.2, 0.2, 0.2, 
-##     0.2, 0.2, 0.4), Species = structure(c(1L, 1L, 1L, 1L, 1L, 
-##     1L), .Label = c("setosa", "versicolor", "virginica"), class = "factor")), row.names = c(NA, 
-## 6L), class = "data.frame")
-```
+
+
+~~~
+structure(list(Sepal.Length = c(5.1, 4.9, 4.7, 4.6, 5, 5.4), 
+    Sepal.Width = c(3.5, 3, 3.2, 3.1, 3.6, 3.9), Petal.Length = c(1.4, 
+    1.4, 1.3, 1.5, 1.4, 1.7), Petal.Width = c(0.2, 0.2, 0.2, 
+    0.2, 0.2, 0.4), Species = structure(c(1L, 1L, 1L, 1L, 1L, 
+    1L), .Label = c("setosa", "versicolor", "virginica"), class = "factor")), row.names = c(NA, 
+6L), class = "data.frame")
+~~~
+{: .output}
 
 If the object is larger, provide either the raw file (i.e., your CSV file) with
 your script up to the point of the error (and after removing everything that is
@@ -405,9 +414,10 @@ not relevant to your issue). Alternatively, in particular if your question is
 not related to a data frame, you can save any R object to a file:
 
 
-```r
+~~~
 saveRDS(iris, file="/tmp/iris.rds")
-```
+~~~
+{: .language-r}
 
 The content of this file is however not human readable and cannot be posted
 directly on Stack Overflow. Instead, it can be sent to someone by email who can
@@ -415,9 +425,10 @@ read it with the `readRDS()` command (here it is assumed that the downloaded
 file is in a `Downloads` folder in the user's home directory):
 
 
-```r
+~~~
 some_data <- readRDS(file="~/Downloads/iris.rds")
-```
+~~~
+{: .language-r}
 
 Last, but certainly not least, **always include the output of `sessionInfo()`**
 as it provides critical information about your platform, the versions of R and
@@ -425,34 +436,38 @@ the packages that you are using, and other information that can be very helpful
 to understand your problem.
 
 
-```r
+~~~
 sessionInfo()
-```
+~~~
+{: .language-r}
 
-```
-## R version 3.6.0 (2019-04-26)
-## Platform: x86_64-apple-darwin15.6.0 (64-bit)
-## Running under: macOS Mojave 10.14.5
-## 
-## Matrix products: default
-## BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
-## LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
-## 
-## locale:
-## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-## [1] knitr_1.23              requirements_0.0.0.9000 remotes_2.1.0          
-## 
-## loaded via a namespace (and not attached):
-##  [1] compiler_3.6.0  magrittr_1.5    htmltools_0.3.6 tools_3.6.0    
-##  [5] yaml_2.2.0      Rcpp_1.0.1      stringi_1.4.3   rmarkdown_1.13 
-##  [9] highr_0.8       stringr_1.4.0   xfun_0.7        digest_0.6.19  
-## [13] rlang_0.4.0     evaluate_0.14
-```
+
+
+~~~
+R version 3.5.1 (2018-07-02)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS  10.14.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] knitr_1.20              requirements_0.0.0.9000 remotes_2.1.0          
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.2      digest_0.6.18   rprojroot_1.3-2 backports_1.1.2
+ [5] magrittr_1.5    evaluate_0.12   highr_0.7       rlang_0.4.0    
+ [9] stringi_1.2.4   rmarkdown_1.10  tools_3.5.1     stringr_1.3.1  
+[13] yaml_2.2.0      compiler_3.5.1  htmltools_0.3.6
+~~~
+{: .output}
 
 ### Where to ask for help?
 
