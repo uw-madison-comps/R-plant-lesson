@@ -450,19 +450,19 @@ themes.
 
 > ## Challenge 4
 >
-> Use what you just learned to create a plot that depicts how the average `PD`
+> Use what you just learned to create a plot that depicts how the average `MD`
 > of each species changes over a season. Color the lines by functional group.
 > 
 > > ## Solution to Challenge 4
 > > 
 > > ~~~
-> >          seasonPD <- plant_phys %>%
+> >          seasonCond <- plant_phys %>%
 > >                group_by(Month, Species, Fgroup) %>%
-> >                summarize(avg_PD = mean(PD))
+> >                summarize(avg_cond = mean(Percent_cond))
 > > 
-> >         ggplot(data = seasonPD, 
+> >         ggplot(data = seasonCond, 
 > >                mapping = aes(x=Month, 
-> >                              y=avg_PD, 
+> >                              y=avg_cond, 
 > >                              color = Fgroup)) +
 > >         geom_line() +
 > >         facet_wrap(~ Species) +
