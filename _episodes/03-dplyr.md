@@ -26,6 +26,7 @@ keypoints:
 - "filter picks rows based on values"
 - "mutate creates new columns based on the value of other columns"
 - "group by and summarize can be used to create summary tables"
+- "The lubridate package is useful for manipulating date data."
 - "write_csv exports tibbles into a .csv file"
 source: Rmd
 ---
@@ -106,6 +107,27 @@ cols(
 
 
 ~~~
+plant_phys <- read_csv("data/iris.csv")
+~~~
+{: .language-r}
+
+
+
+~~~
+Parsed with column specification:
+cols(
+  Sepal.Length = col_double(),
+  Sepal.Width = col_double(),
+  Petal.Length = col_double(),
+  Petal.Width = col_double(),
+  Species = col_character()
+)
+~~~
+{: .output}
+
+
+
+~~~
 ## inspect the data
 str(plant_phys)
 ~~~
@@ -114,77 +136,48 @@ str(plant_phys)
 
 
 ~~~
-Classes 'tbl_df', 'tbl' and 'data.frame':	285 obs. of  18 variables:
- $ Year          : int  2014 2014 2014 2014 2014 2014 2014 2014 2014 2014 ...
- $ DOY           : int  169 169 169 169 169 169 169 169 169 169 ...
- $ Species       : chr  "AG" "AG" "AG" "CD" ...
- $ Fgroup        : chr  "grass" "grass" "grass" "woody" ...
- $ Cond_night    : num  0.0273 0.0168 0.0655 0.0593 0.0594 ...
- $ Trmmol_night  : num  0.606 0.374 1.414 1.265 1.241 ...
- $ Photo         : num  25 20.5 22.5 16.4 17 ...
- $ Cond_day      : num  0.186 0.162 0.169 0.398 0.313 ...
- $ Trmmol_day    : num  5.55 5.2 6.84 9.21 9.55 ...
- $ Percent_cond  : num  14.7 10.4 38.9 14.9 17.5 ...
- $ Percent_trmmol: num  10.9 7.2 20.7 13.7 11.7 ...
- $ PD            : num  -0.2 -0.4 -0.35 -0.15 -0.3 -0.45 -0.35 -0.3 -0.2 -0.3 ...
- $ MD            : num  -0.95 -0.9 -0.95 -1.4 -1.45 -1.15 -1.4 -1 -1.45 -0.8 ...
- $ Soil_moisture : num  0.213 0.213 0.213 0.213 0.213 0.213 0.213 0.213 0.213 0.213 ...
- $ TAIR_N        : num  26.6 26.6 26.6 26.6 26.6 ...
- $ VPD_N         : num  0.908 0.908 0.908 0.908 0.908 ...
- $ TAIR_D        : num  27.6 27.6 27.6 27.6 27.6 ...
- $ VPD_D         : num  1.26 1.26 1.26 1.26 1.26 ...
+Classes 'tbl_df', 'tbl' and 'data.frame':	150 obs. of  5 variables:
+ $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+ $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+ $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+ $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+ $ Species     : chr  "setosa" "setosa" "setosa" "setosa" ...
  - attr(*, "spec")=List of 2
-  ..$ cols   :List of 18
-  .. ..$ Year          : list()
-  .. .. ..- attr(*, "class")= chr  "collector_integer" "collector"
-  .. ..$ DOY           : list()
-  .. .. ..- attr(*, "class")= chr  "collector_integer" "collector"
-  .. ..$ Species       : list()
+  ..$ cols   :List of 5
+  .. ..$ Sepal.Length: list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Sepal.Width : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Petal.Length: list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Petal.Width : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Species     : list()
   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
-  .. ..$ Fgroup        : list()
-  .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
-  .. ..$ Cond_night    : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Trmmol_night  : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Photo         : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Cond_day      : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Trmmol_day    : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Percent_cond  : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Percent_trmmol: list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ PD            : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ MD            : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Soil_moisture : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ TAIR_N        : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ VPD_N         : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ TAIR_D        : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ VPD_D         : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
   ..$ default: list()
   .. ..- attr(*, "class")= chr  "collector_guess" "collector"
   ..- attr(*, "class")= chr "col_spec"
 ~~~
 {: .output}
 
-We also need to load the iris data as a tibble for this lesson
 
 
 ~~~
-data(iris)
-iris<-as_tibble(iris)
+str(iris)
 ~~~
 {: .language-r}
+
+
+
+~~~
+Classes 'tbl_df', 'tbl' and 'data.frame':	150 obs. of  5 variables:
+ $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+ $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+ $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+ $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+ $ Species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+~~~
+{: .output}
 
 To preview the data, you can click on the name of the tibble in your environment or use the `View` function. 
 
@@ -408,7 +401,7 @@ Note that the final data frame is the leftmost part of this expression.
 
 > ## Challenge 1
 >
->  Using pipes, subset the `plant_phys` data to include animals collected in
+>  Using pipes, subset the `plant_phys` data to include observations collected in
 >  2014 and retain only the columns `year`, `Species`, and `Photo`.
 > 
 > 
@@ -459,6 +452,7 @@ You can also create a second new column based on the first new column within the
 
 
 ~~~
+iris%>%
   mutate(Sepal.Ratio = Sepal.Length/Sepal.Width,
          Petal.Ratio = Petal.Length/Petal.Width)
 ~~~
@@ -467,10 +461,22 @@ You can also create a second new column based on the first new column within the
 
 
 ~~~
-Error in mutate(Sepal.Ratio = Sepal.Length/Sepal.Width, Petal.Ratio = Petal.Length/Petal.Width): object 'Sepal.Length' not found
+# A tibble: 150 x 7
+   Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Ratio
+          <dbl>       <dbl>        <dbl>       <dbl> <fct>         <dbl>
+ 1          5.1         3.5          1.4         0.2 setosa         1.46
+ 2          4.9         3            1.4         0.2 setosa         1.63
+ 3          4.7         3.2          1.3         0.2 setosa         1.47
+ 4          4.6         3.1          1.5         0.2 setosa         1.48
+ 5          5           3.6          1.4         0.2 setosa         1.39
+ 6          5.4         3.9          1.7         0.4 setosa         1.38
+ 7          4.6         3.4          1.4         0.3 setosa         1.35
+ 8          5           3.4          1.5         0.2 setosa         1.47
+ 9          4.4         2.9          1.4         0.2 setosa         1.52
+10          4.9         3.1          1.5         0.1 setosa         1.58
+# … with 140 more rows, and 1 more variable: Petal.Ratio <dbl>
 ~~~
-{: .error}
-#removed the NA example because iris doesn't have NAs
+{: .output}
 
 > ## Challenge 2 
 >  Instantaneous Water-Use Efficiency (WUE) is an efficiency measure of how much carbon is gained by photosynthesis per water lost through transpiration. A higher WUE indicates that the plant is losing less water, which is better for the plant. WUE is caluclated by dividing photosynthesis by transpiration. Often, different species and functional groups have distinct WUE.
@@ -489,15 +495,22 @@ Error in mutate(Sepal.Ratio = Sepal.Length/Sepal.Width, Petal.Ratio = Petal.Leng
 > > 
 > > ~~~
 > > phys_wue <- plant_phys %>%
-> >     mutate(wue_day = Cond_night/Cond_day) %>%
+> >     mutate(wue_day = Photo/Trmmol_day) %>%
 > >     filter(wue_day > 1) %>%
 > >     select(Species, Fgroup, wue_day)
 > > ~~~
 > > {: .language-r}
+> > 
+> > 
+> > 
+> > ~~~
+> > Error: object 'Photo' not found
+> > ~~~
+> > {: .error}
 > {: .solution}
 {: .challenge}
 
-#Using dates in R
+# Using dates in R
 
 You may have noticed that we have 2 columns in the `plant_phys` dataset that
 represent the date when the observations were made: `Year` and `DOY` (day of year).
@@ -508,29 +521,16 @@ R has a package called `lubridate` that can convert to and from various date for
 
 ~~~
 install.packages("lubridate")
-~~~
-{: .language-r}
-
-
-
-~~~
-Error in contrib.url(repos, "source"): trying to use CRAN without setting a mirror
-~~~
-{: .error}
-
-
-
-~~~
 library(lubridate)
 ~~~
 {: .language-r}
 
 The as.Date function converts other data types (such as the integers in the `Year` and `DOY` columns) into date format. 
 
-For example, we could use the following syntax to get the date for DOY = 1 and Year = 2015.
+For example, we could use the following syntax to get the date for DOY = 15 and Year = 2015.
 
 ~~~
-one_date<-as.Date(paste(1,2015), format="%j %Y")
+one_date<-as.Date(paste(15,2015), format="%j %Y")
 one_date
 ~~~
 {: .language-r}
@@ -538,7 +538,7 @@ one_date
 
 
 ~~~
-[1] "2015-01-01"
+[1] "2015-01-15"
 ~~~
 {: .output}
 
@@ -565,6 +565,13 @@ plant_phys<-plant_phys%>%
 ~~~
 {: .language-r}
 
+
+
+~~~
+Error in paste(DOY, Year): object 'DOY' not found
+~~~
+{: .error}
+
 This puts the newly created column at the end. To reorder the columns, we 
 can use select:
 
@@ -574,6 +581,13 @@ plant_phys<-plant_phys%>%
   select(Date, everything())
 ~~~
 {: .language-r}
+
+
+
+~~~
+Error in .f(.x[[i]], ...): object 'Date' not found
+~~~
+{: .error}
 
 We can also split the date format out into its individual year/month/day components using the `month`, `day` and `year` functions:
 
@@ -600,7 +614,7 @@ day(one_date)
 
 
 ~~~
-[1] 1
+[1] 15
 ~~~
 {: .output}
 
@@ -632,6 +646,13 @@ year(one_date)
 > >     select(Date, Year, Month, Day, DOY, everything())
 > > ~~~
 > > {: .language-r}
+> > 
+> > 
+> > 
+> > ~~~
+> > Error in day(Date): object 'Date' not found
+> > ~~~
+> > {: .error}
 > {: .solution}
 {: .challenge}
 
@@ -703,28 +724,9 @@ plant_phys %>%
 
 
 ~~~
-# A tibble: 16 x 3
-# Groups:   Year [2]
-    Year Species mean_photo
-   <int> <chr>        <dbl>
- 1  2014 AC            12.0
- 2  2014 AG            18.8
- 3  2014 CD            11.4
- 4  2014 PV            19.3
- 5  2014 RG            15.8
- 6  2014 SC            11.0
- 7  2014 SN            19.3
- 8  2014 VB            10.7
- 9  2015 AC            12.7
-10  2015 AG            18.1
-11  2015 CD            13.3
-12  2015 PV            24.7
-13  2015 RG            17.4
-14  2015 SC            19.8
-15  2015 SN            29.5
-16  2015 VB            12.2
+Error: Column `Year` is unknown
 ~~~
-{: .output}
+{: .error}
 
 If you want to display more data, you can use the `print()` function
 at the end of your chain with the argument `n` specifying the number of rows to display:
@@ -741,28 +743,9 @@ plant_phys %>%
 
 
 ~~~
-# A tibble: 16 x 3
-# Groups:   Year [2]
-    Year Species mean_photo
-   <int> <chr>        <dbl>
- 1  2014 AC            12.0
- 2  2014 AG            18.8
- 3  2014 CD            11.4
- 4  2014 PV            19.3
- 5  2014 RG            15.8
- 6  2014 SC            11.0
- 7  2014 SN            19.3
- 8  2014 VB            10.7
- 9  2015 AC            12.7
-10  2015 AG            18.1
-11  2015 CD            13.3
-12  2015 PV            24.7
-13  2015 RG            17.4
-14  2015 SC            19.8
-15  2015 SN            29.5
-# … with 1 more row
+Error: Column `Year` is unknown
 ~~~
-{: .output}
+{: .error}
 
 Once the data are grouped, you can also summarize multiple variables at the same time (and not necessarily on the same variable). For instance, we could add a column indicating the minimum photosynthesis level by year and species:
 
@@ -778,28 +761,9 @@ plant_phys %>%
 
 
 ~~~
-# A tibble: 16 x 4
-# Groups:   Year [2]
-    Year Species mean_photo min_photo
-   <int> <chr>        <dbl>     <dbl>
- 1  2014 AC            12.0      6.60
- 2  2014 AG            18.8     10.3 
- 3  2014 CD            11.4      6.71
- 4  2014 PV            19.3      6.56
- 5  2014 RG            15.8      2.47
- 6  2014 SC            11.0      1.82
- 7  2014 SN            19.3      9.78
- 8  2014 VB            10.7      3.13
- 9  2015 AC            12.7      5.14
-10  2015 AG            18.1      8.24
-11  2015 CD            13.3      7.38
-12  2015 PV            24.7     10.6 
-13  2015 RG            17.4      8.35
-14  2015 SC            19.8      6.58
-15  2015 SN            29.5     11.7 
-16  2015 VB            12.2      1.08
+Error: Column `Year` is unknown
 ~~~
-{: .output}
+{: .error}
 
 It is sometimes useful to rearrange the result of a query to inspect the values. For instance, we can sort on `min_photo` to put the less photosynthetic first:
 
@@ -816,28 +780,9 @@ plant_phys %>%
 
 
 ~~~
-# A tibble: 16 x 4
-# Groups:   Year [2]
-    Year Species mean_photo min_photo
-   <int> <chr>        <dbl>     <dbl>
- 1  2015 VB            12.2      1.08
- 2  2014 SC            11.0      1.82
- 3  2014 RG            15.8      2.47
- 4  2014 VB            10.7      3.13
- 5  2015 AC            12.7      5.14
- 6  2014 PV            19.3      6.56
- 7  2015 SC            19.8      6.58
- 8  2014 AC            12.0      6.60
- 9  2014 CD            11.4      6.71
-10  2015 CD            13.3      7.38
-11  2015 AG            18.1      8.24
-12  2015 RG            17.4      8.35
-13  2014 SN            19.3      9.78
-14  2014 AG            18.8     10.3 
-15  2015 PV            24.7     10.6 
-16  2015 SN            29.5     11.7 
+Error: Column `Year` is unknown
 ~~~
-{: .output}
+{: .error}
 
 To sort in descending order, we need to add the `desc()` function. If we want to sort the results by decreasing order of minimum photosynthesis:
 
@@ -854,28 +799,9 @@ plant_phys %>%
 
 
 ~~~
-# A tibble: 16 x 4
-# Groups:   Year [2]
-    Year Species mean_photo min_photo
-   <int> <chr>        <dbl>     <dbl>
- 1  2015 SN            29.5     11.7 
- 2  2015 PV            24.7     10.6 
- 3  2014 AG            18.8     10.3 
- 4  2014 SN            19.3      9.78
- 5  2015 RG            17.4      8.35
- 6  2015 AG            18.1      8.24
- 7  2015 CD            13.3      7.38
- 8  2014 CD            11.4      6.71
- 9  2014 AC            12.0      6.60
-10  2015 SC            19.8      6.58
-11  2014 PV            19.3      6.56
-12  2015 AC            12.7      5.14
-13  2014 VB            10.7      3.13
-14  2014 RG            15.8      2.47
-15  2014 SC            11.0      1.82
-16  2015 VB            12.2      1.08
+Error: Column `Year` is unknown
 ~~~
-{: .output}
+{: .error}
 
 > ## Challenge 4
 > 
@@ -927,7 +853,7 @@ plant_phys %>%
 
 #### Counting
 
-When working with data, we often want to know the number of observations found for each factor or combination of factors. For this task, **`dplyr`** provides `count()`. For example, if we wanted to count the number of rows of data for each sex, we would do:
+When working with data, we often want to know the number of observations found for each factor or combination of factors. For this task, **`dplyr`** provides `count()`. For example, if we wanted to count the number of rows of data for each species, we would do:
 
 
 ~~~
@@ -983,27 +909,9 @@ plant_phys %>%
 
 
 ~~~
-# A tibble: 16 x 3
-    Year Species     n
-   <int> <chr>   <int>
- 1  2014 AC         18
- 2  2014 AG         18
- 3  2014 CD         18
- 4  2014 PV         18
- 5  2014 RG         18
- 6  2014 SC         18
- 7  2014 SN         15
- 8  2014 VB         18
- 9  2015 AC         18
-10  2015 AG         18
-11  2015 CD         18
-12  2015 PV         18
-13  2015 RG         18
-14  2015 SC         18
-15  2015 SN         18
-16  2015 VB         18
+Error: Column `Year` is unknown
 ~~~
-{: .output}
+{: .error}
 
 With the above code, we can proceed with `arrange()` to sort the table 
 according to a number of criteria so that we have a better comparison. 
@@ -1021,27 +929,9 @@ plant_phys %>%
 
 
 ~~~
-# A tibble: 16 x 3
-    Year Species     n
-   <int> <chr>   <int>
- 1  2014 AC         18
- 2  2015 AC         18
- 3  2014 AG         18
- 4  2015 AG         18
- 5  2014 CD         18
- 6  2015 CD         18
- 7  2014 PV         18
- 8  2015 PV         18
- 9  2014 RG         18
-10  2015 RG         18
-11  2014 SC         18
-12  2015 SC         18
-13  2015 SN         18
-14  2014 SN         15
-15  2014 VB         18
-16  2015 VB         18
+Error: Column `Year` is unknown
 ~~~
-{: .output}
+{: .error}
 
 > ## Challenge 5
 >
@@ -1051,6 +941,7 @@ plant_phys %>%
 > > 
 > > ~~~
 > > plant_phys %>%
+> >    group_by(Year)%>%
 > >    count(Species) 
 > > ~~~
 > > {: .language-r}
@@ -1058,19 +949,9 @@ plant_phys %>%
 > > 
 > > 
 > > ~~~
-> > # A tibble: 8 x 2
-> >   Species     n
-> >   <chr>   <int>
-> > 1 AC         36
-> > 2 AG         36
-> > 3 CD         36
-> > 4 PV         36
-> > 5 RG         36
-> > 6 SC         36
-> > 7 SN         33
-> > 8 VB         36
+> > Error: Column `Year` is unknown
 > > ~~~
-> > {: .output}
+> > {: .error}
 > >
 > {: .solution}
 {: .challenge}
@@ -1099,19 +980,9 @@ plant_phys %>%
 > >
 > >
 > >~~~
-> ># A tibble: 8 x 5
-> >  Species mean_photo max_photo min_photo     n
-> >  <chr>        <dbl>     <dbl>     <dbl> <int>
-> >1 AC            12.4      22.0      5.14    36
-> >2 AG            18.4      29.9      8.24    36
-> >3 CD            12.4      18.5      6.71    36
-> >4 PV            22.0      35.5      6.56    36
-> >5 RG            16.6      25.4      2.47    36
-> >6 SC            15.4      32.7      1.82    36
-> >7 SN            24.9      40.6      9.78    33
-> >8 VB            11.4      27.0      1.08    36
+> >Error in mean(Photo): object 'Photo' not found
 > >~~~
-> >{: .output}
+> >{: .error}
 > {: .solution}
 {: .challenge}
 
@@ -1134,13 +1005,8 @@ plant_phys %>%
 > > 
 > > 
 > > ~~~
-> > # A tibble: 2 x 3
-> > # Groups:   Year [2]
-> >    Year Species Photo
-> >   <int> <chr>   <dbl>
-> > 1  2014 SN       30.4
-> > 2  2015 SN       40.6
+> > Error: Column `Year` is unknown
 > > ~~~
-> > {: .output}
+> > {: .error}
 > {: .solution}
 {: .challenge}

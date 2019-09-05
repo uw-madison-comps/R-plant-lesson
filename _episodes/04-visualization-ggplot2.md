@@ -17,10 +17,8 @@ keypoints:
 - "ggplot require 3 things to make a plot: data, aesthetics, and geoms"
 - "ggplots are highly customizable"
 - "faceting lets you make smaller graphs with cleaner plot areas"
-- "custom and premade themesthemes can applied to any plot"
+- "custom and premade themes can applied to any plot"
 source: Rmd
----
-
 ---
 
 
@@ -300,9 +298,10 @@ Now, let's try a box plot with some new data.
 >
 > * Create a boxplot for `Petal.Length`. 
 > * Overlay the boxplot layer on a jitter layer to show actual measurements.
-> *  Add color to the data points on your boxplot according to `species`.
+> *  Add color to the data points on your boxplot according to 
+> `species`.
 >
-> > Solution to Challenge 3
+> > ## Solution to Challenge 3
 > > 
 > > ~~~
 > >      ggplot(data = iris, 
@@ -319,7 +318,7 @@ Now, let's try a box plot with some new data.
 
 ## Plotting time series data
 
-Let's calculate the average photosynthesis rate per month for each Functional group (`Fgroup`). First we need to group the data and count records within each group:
+Let's calculate the average photosynthesis rate per month for each Functional group (`Fgroup`). First we need to group the data and calculate the mean photosynthesis measurement within each group:
 
 
 ~~~
@@ -388,8 +387,7 @@ ggplot(data = monthly_photo_fg,
 
 <img src="../fig/rmd-04-first-facet-1.png" title="plot of chunk first-facet" alt="plot of chunk first-facet" width="612" style="display: block; margin: auto;" />
 
-Now we would like to split the line in each plot by the functional group 
-of each individual measured. To do that we need to make counts in the data frame grouped by `month`, `Species`, and `Fgroup`:
+Now we would like to split the line in each plot by the species within each functional group. To do that we need to calculate means in the data frame grouped by `month`, `Species`, and `Fgroup`:
 
 
 ~~~
@@ -399,7 +397,7 @@ mo_sp_fg <- plant_phys %>%
 ~~~
 {: .language-r}
 
-We can now make the faceted plot by splitting further by sex using `color` (within a single plot):
+We can now make the faceted plot by splitting further by species using `color` (within a single plot):
 
 
 ~~~
@@ -669,7 +667,7 @@ ggsave("fig_output/boxplot.png", my_plot, width = 15, height = 10)
 combo_plot <- 
 grid.arrange(sp_photo_boxplot, sp_photo_line, ncol = 2, widths = c(4, 6))
 
-ggsave("fig_output/combo_plot.png", combo_plot, width = 10, dpi = 300)
+ggsave("fig_output/combo_plot.png", combo_plot, width = 10, height = 5,  dpi = 300)
 ~~~
 {: .language-r}
 
