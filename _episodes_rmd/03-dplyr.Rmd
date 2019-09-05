@@ -24,6 +24,7 @@ keypoints:
 - "filter picks rows based on values"
 - "mutate creates new columns based on the value of other columns"
 - "group by and summarize can be used to create summary tables"
+- "The lubridate package is useful for manipulating date data.""
 - "write_csv exports tibbles into a .csv file"
 source: Rmd
 ---
@@ -80,16 +81,11 @@ We'll read in our data using the `read_csv()` function, from the tidyverse packa
 
 ```{r readcsv}
 plant_phys <- read_csv("data/Physiology_Environmental_Data.csv")
+plant_phys <- read_csv("data/iris.csv")
 
 ## inspect the data
 str(plant_phys)
-```
-
-We also need to load the iris data as a tibble for this lesson
-
-```{r astibble}
-data(iris)
-iris<-as_tibble(iris)
+str(iris)
 ```
 
 To preview the data, you can click on the name of the tibble in your environment or use the `View` function. 
@@ -198,7 +194,7 @@ Note that the final data frame is the leftmost part of this expression.
 
 > ## Challenge 1
 >
->  Using pipes, subset the `plant_phys` data to include animals collected in
+>  Using pipes, subset the `plant_phys` data to include observations collected in
 >  2014 and retain only the columns `year`, `Species`, and `Photo`.
 > 
 > 
@@ -224,10 +220,10 @@ iris %>%
 You can also create a second new column based on the first new column within the same call of `mutate()`:
 
 ```{r, mutate2}
+iris%>%
   mutate(Sepal.Ratio = Sepal.Length/Sepal.Width,
          Petal.Ratio = Petal.Length/Petal.Width)
 ```
-#removed the NA example because iris doesn't have NAs
 
 > ## Challenge 2 
 >  Instantaneous Water-Use Efficiency (WUE) is an efficiency measure of how much carbon is gained by photosynthesis per water lost through transpiration. A higher WUE indicates that the plant is losing less water, which is better for the plant. WUE is caluclated by dividing photosynthesis by transpiration. Often, different species and functional groups have distinct WUE.
@@ -245,14 +241,14 @@ You can also create a second new column based on the first new column within the
 > > ## Solution to Challenge 2
 > > ```{r}
 > > phys_wue <- plant_phys %>%
-> >     mutate(wue_day = Cond_night/Cond_day) %>%
+> >     mutate(wue_day = Photo/Trmmol_day) %>%
 > >     filter(wue_day > 1) %>%
 > >     select(Species, Fgroup, wue_day)
 > > ```
 > {: .solution}
 {: .challenge}
 
-#Using dates in R
+# Using dates in R
 
 You may have noticed that we have 2 columns in the `plant_phys` dataset that
 represent the date when the observations were made: `Year` and `DOY` (day of year).
@@ -260,16 +256,16 @@ This is a great, compact way to represent the date: it only takes 2 columns, and
 
 R has a package called `lubridate` that can convert to and from various date formats. Let's install and load the package:
 
-```{r dates1}
+```{r dates1, eval = FALSE}
 install.packages("lubridate")
 library(lubridate)
 ```
 
 The as.Date function converts other data types (such as the integers in the `Year` and `DOY` columns) into date format. 
 
-For example, we could use the following syntax to get the date for DOY = 1 and Year = 2015.
+For example, we could use the following syntax to get the date for DOY = 15 and Year = 2015.
 ```{r dates2}
-one_date<-as.Date(paste(1,2015), format="%j %Y")
+one_date<-as.Date(paste(15,2015), format="%j %Y")
 one_date
 class(one_date)
 ```
@@ -434,7 +430,7 @@ plant_phys %>%
 
 #### Counting
 
-When working with data, we often want to know the number of observations found for each factor or combination of factors. For this task, **`dplyr`** provides `count()`. For example, if we wanted to count the number of rows of data for each sex, we would do:
+When working with data, we often want to know the number of observations found for each factor or combination of factors. For this task, **`dplyr`** provides `count()`. For example, if we wanted to count the number of rows of data for each species, we would do:
 
 ```{r count}
 iris %>%
@@ -475,6 +471,7 @@ plant_phys %>%
 > > ## Solution to Challenge 5
 > > ```{r, answer=TRUE, purl=FALSE}
 > > plant_phys %>%
+> >    group_by(Year)%>%
 > >    count(Species) 
 > > ```
 > >
