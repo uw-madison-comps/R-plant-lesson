@@ -34,11 +34,12 @@ source: Rmd
 
 In this workshop, we will be working with two sets of data: one is the
 `iris` data  from the classic paper by Fisher "The use of multiple measurements in taxonomic problems" (1936) and the
-other has a set of physiological observations from a recent paper by OKeefe and Nippert (ref).  Each dataset is stored
+other has a set of physiological observations from a recent paper by O'Keefe and Nippert (ref).  Each dataset is stored
 as comma separated value (CSV) file.  We will work with the `iris` data throughout this workshop; the physiological data will be introduced in the next episode.
 
 The `iris` data have morphological measures from more than 100 samples of 3 species of irises.
-Each row holds information for a single sample (plant?  specimen?), and the columns represent the species of the specimen and the lengths and widths of its sepal and petal (in centimeters):
+![](../fig/irisSpecies.png)
+Each row holds information for an individual plant observation, and the columns represent the species of the specimen and the lengths and widths of its sepal and petal (in centimeters):
 
   | Column       |
   |--------------|
@@ -318,116 +319,88 @@ In RStudio, you can use the autocompletion feature to get the full and correct n
 {: .challenge}
 
 ## Factors
-
 When we did `str(iris)` we saw that four of the columns consist of
 numbers. The column `Species`, ... however, is
 of a special class called `factor`. Factors are very useful and actually
 contribute to making R particularly well suited to working with data. So we are
 going to spend a little time introducing them.
-
 Factors represent categorical data. They are stored as integers associated with labels and they can be ordered or unordered. While factors look (and often behave) like character vectors, they are actually treated as integer vectors by R. So you need to be very careful when treating them as strings.
-
 Once created, factors can only contain a pre-defined set of values, known as
 *levels*. By default, R always sorts levels in alphabetical order. For
-instance, if you have a factor with 2 levels:
-
-<!-- should we have a factor like monicot and dicot or coniferous and decidous? -->
+instance, if you have a factor that represents your experiment locations with 3 levels:
 
 ~~~
-sex <- factor(c("male", "female", "female", "male"))
+locations <- factor(c("Madison", "Hancock", "Madison", "Arlington", "Hancock"))
 ~~~
 {: .language-r}
-
-R will assign `1` to the level `"female"` and `2` to the level `"male"` (because
-`f` comes before `m`, even though the first element in this vector is
-`"male"`). You can see this by using the function `levels()` and you can find the
+R will assign `1` to the level `"Arlington"` and `2` to the level `"Hancock"` and `3` to the level `"Madison"`(
+due to alphabetical order, even though the first element in this vector is
+`"Madison"`). You can see this by using the function `levels()` and you can find the
 number of levels using `nlevels()`:
 
-
 ~~~
-levels(sex)
-~~~
-{: .language-r}
-
-
-
-~~~
-[1] "female" "male"  
-~~~
-{: .output}
-
-
-
-~~~
-nlevels(sex)
+levels(locations)
 ~~~
 {: .language-r}
 
 
 
 ~~~
-[1] 2
+[1] "Arlington" "Hancock"   "Madison"  
 ~~~
 {: .output}
 
+
+
+~~~
+nlevels(locations)
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 3
+~~~
+{: .output}
 Sometimes, the order of the factors does not matter, other times you might want
 to specify the order because it is meaningful (e.g., "low", "medium", "high"),
 it improves your visualization, or it is required by a particular type of
-analysis. Here, one way to reorder our levels in the `sex` vector would be:
-
-
-~~~
-sex # current order
-~~~
-{: .language-r}
-
-
+analysis. Here, one way to reorder our levels in the `locations` vector would be:
 
 ~~~
-[1] male   female female male  
-Levels: female male
-~~~
-{: .output}
-
-
-
-~~~
-sex <- factor(sex, levels = c("male", "female"))
-sex # after re-ordering
+locations # current order
 ~~~
 {: .language-r}
 
 
 
 ~~~
-[1] male   female female male  
-Levels: male female
+[1] Madison   Hancock   Madison   Arlington Hancock  
+Levels: Arlington Hancock Madison
 ~~~
 {: .output}
 
+
+
+~~~
+locations <- factor(locations, levels = c("Madison", "Arlington", "Hancock"))
+locations # after re-ordering
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] Madison   Hancock   Madison   Arlington Hancock  
+Levels: Madison Arlington Hancock
+~~~
+{: .output}
 In R's memory, these factors are represented by integers (1, 2, 3) but are more
-informative than integers because factors are self describing: `"female"`,
-`"male"` is more descriptive than `1`, `2`. Which one is "male"?  You wouldn't
+informative than integers because factors are self describing: `"Madison"`,
+`"Arlington"` is more descriptive than `1`, `2`. Which one is "Arlington"?  You wouldn't
 be able to tell just from the integer data. Factors, on the other hand, have
 this information built in. It is particularly helpful when there are many levels.
-
-### Converting factors
-
-If you need to convert a factor to a character vector, you use
-`as.character(x)`.
-
-
-~~~
-as.character(sex)
-~~~
-{: .language-r}
-
-
-
-~~~
-[1] "male"   "female" "female" "male"  
-~~~
-{: .output}
 
 In some cases, you may have to convert factors where the levels appear as
 numbers (such as concentration levels or years) to a numeric vector. For
@@ -491,133 +464,6 @@ Notice that in the `levels()` approach, three important steps occur:
 * We then access these numeric values using the underlying integers of the
   vector `year_fct` inside the square brackets
 
-### Renaming factors
-
-When your data is stored as a factor, you can use the `plot()` function to get a
-quick glance at the number of observations represented by each factor
-level. Let's look at the number of males and females captured over the course of
-the experiment:
-
-
-~~~
-## bar plot of the number of each species sampled during the experiment:
-plot(iris$Species)
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-plot-1.png" title="plot of chunk plot" alt="plot of chunk plot" width="612" style="display: block; margin: auto;" />
-
-<!--  should we just leave this out and do something else here?  -->
-<!-- introduce the other dataset?      -->
-
-In addition to males and females, there are about 1700 individuals for which the
-sex information hasn't been recorded. Additionally, for these individuals,
-there is no label to indicate that the information is missing or undetermined. Let's rename this
-label to something more meaningful. Before doing that, we're going to pull out
-the data on sex and work with that data, so we're not modifying the working copy
-of the data frame:
-
-
-~~~
-sex <- iris$sex
-head(sex)
-~~~
-{: .language-r}
-
-
-
-~~~
-NULL
-~~~
-{: .output}
-
-
-
-~~~
-levels(sex)
-~~~
-{: .language-r}
-
-
-
-~~~
-NULL
-~~~
-{: .output}
-
-
-
-~~~
-levels(sex)[1] <- "undetermined"
-~~~
-{: .language-r}
-
-
-
-~~~
-Error in levels(sex)[1] <- "undetermined": attempt to set an attribute on NULL
-~~~
-{: .error}
-
-
-
-~~~
-levels(sex)
-~~~
-{: .language-r}
-
-
-
-~~~
-NULL
-~~~
-{: .output}
-
-
-
-~~~
-head(sex)
-~~~
-{: .language-r}
-
-
-
-~~~
-NULL
-~~~
-{: .output}
-
-
-> ### Challenge
->
-> * Rename "F" and "M" to "female" and "male" respectively.
-> * Now that we have renamed the factor level to "undetermined", can you recreate the
->  barplot such that "undetermined" is last (after "male")?
->
-> > 
-> > ~~~
-> > levels(sex)[2:3] <- c("female", "male")
-> > ~~~
-> > {: .language-r}
-> > 
-> > 
-> > 
-> > ~~~
-> > Error in levels(sex)[2:3] <- c("female", "male"): attempt to set an attribute on NULL
-> > ~~~
-> > {: .error}
-> > 
-> > 
-> > 
-> > ~~~
-> > sex <- factor(sex, levels = c("female", "male", "undetermined"))
-> > plot(sex)
-> > ~~~
-> > {: .language-r}
-> > 
-> > <img src="../fig/rmd-unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="612" style="display: block; margin: auto;" />
-> {: .solution}
-{: .challenge}
 
 ### Using `stringsAsFactors=FALSE`
 
