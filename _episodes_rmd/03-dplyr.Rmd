@@ -40,7 +40,7 @@ source("../bin/chunk-options.R")
 data(iris)
 iris<-as_tibble(iris)
 
-plant_phys <- read_csv("data/Physiology_Environmental_Data.csv")
+phys_data <- read_csv("data/Physiology_Environmental_Data.csv")
 ```
 
 # Data Manipulation using **`dplyr`** and **`tidyr`**
@@ -80,11 +80,11 @@ To learn more about **`dplyr`** after the workshop, you may want to check out th
 We'll read in our data using the `read_csv()` function, from the tidyverse package **`readr`**, instead of `read.csv()`.
 
 ```{r readcsv}
-plant_phys <- read_csv("data/Physiology_Environmental_Data.csv")
+phys_data <- read_csv("data/Physiology_Environmental_Data.csv")
 iris <- read_csv("data/iris.csv")
 
 ## inspect the data
-str(plant_phys)
+str(phys_data)
 str(iris)
 ```
 
@@ -92,7 +92,7 @@ To preview the data, you can click on the name of the tibble in your environment
 
 ```{r view-data, eval=FALSE}
 ## preview the data
-View(plant_phys)
+View(phys_data)
 ```
 Either of these methods will open a window with the dataset in the same area as your script file.
 
@@ -194,13 +194,13 @@ Note that the final data frame is the leftmost part of this expression.
 
 > ## Challenge 1
 >
->  Using pipes, subset the `plant_phys` data to include observations collected in
+>  Using pipes, subset the `phys_data` data to include observations collected in
 >  2014 and retain only the columns `Year`, `Species`, and `Photo`.
 > 
 > 
 > > ## Solution to Challenge 1
 > > ```{r, answer=TRUE, eval=FALSE, purl=FALSE}
-> > plant_phys %>% 
+> > phys_data %>% 
 > >    filter(Year == 2014) %>%
 > >    select(Year, Species, Photo)
 > > ```
@@ -228,7 +228,7 @@ iris %>%
 
 > ## Challenge 2 
 >  Instantaneous Water-Use Efficiency (WUE) is an efficiency measure of how much carbon is gained by photosynthesis per water lost through transpiration. A higher WUE indicates that the plant is losing less water, which is better for the plant. WUE is caluclated by dividing photosynthesis by transpiration. Often, different species and functional groups have distinct WUE.
->  Create a new data frame from the `plant_phys` data that meets the following
+>  Create a new data frame from the `phys_data` data that meets the following
 >  criteria: 
 >  * is named phys_wue
 >  * contains the following columns: Species, FGroup
@@ -241,7 +241,7 @@ iris %>%
 > 
 > > ## Solution to Challenge 2
 > > ```{r}
-> > phys_wue <- plant_phys %>%
+> > phys_wue <- phys_data %>%
 > >     mutate(wue_day = Photo/Trmmol_day) %>%
 > >     filter(wue_day > 1) %>%
 > >     select(Species, Fgroup, wue_day)
@@ -251,7 +251,7 @@ iris %>%
 
 # Using dates in R
 
-You may have noticed that we have 2 columns in the `plant_phys` dataset that
+You may have noticed that we have 2 columns in the `phys_data` dataset that
 represent the date when the observations were made: `Year` and `DOY` (day of year).
 This is a great, compact way to represent the date: it only takes 2 columns, and if you load the data into a spreadsheet program like excel, it won't be reformatted automatically. However, it's not very human readable. (I don't know what month day 169 is off the top of my head.)
 
@@ -274,7 +274,7 @@ class(one_date)
 To create a column called date that holds the date information in a human readable format, we can use mutate:
 
 ```{r dates3}
-plant_phys<-plant_phys%>%
+phys_data<-phys_data%>%
   mutate(Date = as.Date(paste(DOY,Year), format="%j %Y"))
 ```
 
@@ -282,7 +282,7 @@ This puts the newly created column at the end. To reorder the columns, we
 can use select:
 
 ```{r dates4}
-plant_phys<-plant_phys%>%
+phys_data<-phys_data%>%
   select(Date, everything())
 ```
 
@@ -296,12 +296,12 @@ year(one_date)
 
 > ## Challenge 3
 >
->  Create a new data frame from the `plant_phys` data has columns for 
+>  Create a new data frame from the `phys_data` data has columns for 
 >  month and day
 >
 > > ## Solution to Challenge 3
 > > ```{r ch3-soln}
-> > plant_phys <- plant_phys %>%
+> > phys_data <- phys_data %>%
 > >     mutate(Day = day(Date), 
 > >            Month = month(Date))%>%
 > >     select(Date, Year, Month, Day, DOY, everything())
@@ -331,7 +331,7 @@ We can save it as a CSV file in a new folder called `data_output` folder.
 Let's save the dataset that that we created dates in.
 
 ```{r export, eval=FALSE}
-write_csv(plant_phys, path = "data_output/phys_dates.csv")
+write_csv(phys_data, path = "data_output/phys_dates.csv")
 ```
 
 ### Split-apply-combine data analysis and the summarize() function
@@ -348,10 +348,10 @@ iris %>%
   summarize(mean_sepal_length = mean(Sepal.Length))
 ```
 
-You can also group by multiple columns. For this, we'll need to use the `plant_phys` dataset:
+You can also group by multiple columns. For this, we'll need to use the `phys_data` dataset:
 
 ```{r split-apply-combine2}
-plant_phys %>%
+phys_data %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo))
 ```
@@ -360,7 +360,7 @@ If you want to display more data, you can use the `print()` function
 at the end of your chain with the argument `n` specifying the number of rows to display:
 
 ```{r, split-apply-combine3}
-plant_phys %>%  
+phys_data %>%  
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo)) %>% 
   print(n = 15)
@@ -369,7 +369,7 @@ plant_phys %>%
 Once the data are grouped, you can also summarize multiple variables at the same time (and not necessarily on the same variable). For instance, we could add a column indicating the minimum photosynthesis level by year and species:
 
 ```{r split-apply-combine4}
-plant_phys %>%
+phys_data %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo),
             min_photo = min(Photo))
@@ -378,7 +378,7 @@ plant_phys %>%
 It is sometimes useful to rearrange the result of a query to inspect the values. For instance, we can sort on `min_photo` to put the less photosynthetic first:
 
 ```{r split-apply-combine5}
-plant_phys %>%
+phys_data %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo),
             min_photo = min(Photo)) %>%
@@ -388,7 +388,7 @@ plant_phys %>%
 To sort in descending order, we need to add the `desc()` function. If we want to sort the results by decreasing order of minimum photosynthesis:
 
 ```{r split-apply-combine6}
-plant_phys %>%
+phys_data %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo),
             min_photo = min(Photo)) %>%
@@ -450,7 +450,7 @@ iris %>%
 Previous example shows the use of `count()` to count the number of rows/observations for *one* factor (i.e., `Species`).  If we wanted to count *combination of factors*, such as `Species` and `Year`, we would specify the first and the second factor as the arguments of `count()`:
 
 ```{r count3}
-plant_phys %>%
+phys_data %>%
   count(Year, Species) 
 ```
 
@@ -460,7 +460,7 @@ For instance, we might want to arrange the table above in (i) an alphabetical or
 the levels of the species and (ii) in descending order of the count:
 
 ```{r arrange}
-plant_phys %>%
+phys_data %>%
   count(Year, Species) %>%
   arrange(Species, desc(n))
 ```
@@ -471,7 +471,7 @@ plant_phys %>%
 >
 > > ## Solution to Challenge 5
 > > ```{r, answer=TRUE, purl=FALSE}
-> > plant_phys %>%
+> > phys_data %>%
 > >    group_by(Year)%>%
 > >    count(Species) 
 > > ```
@@ -488,7 +488,7 @@ plant_phys %>%
 >
 > > ## Solution to Challenge 6 
 > >```{r}
-> > plant_phys %>%
+> > phys_data %>%
 > >    group_by(Species) %>%
 > >    summarize(
 > >        mean_photo = mean(Photo),
@@ -507,7 +507,7 @@ plant_phys %>%
 >
 > > ## Solution to Challenge 7
 > > ```{r, answer=TRUE, purl=FALSE}
-> > plant_phys %>%
+> > phys_data %>%
 > >     group_by(Year) %>%
 > >     filter(Photo == max(Photo)) %>%
 > >     select(Year, Species, Photo) %>%
