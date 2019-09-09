@@ -81,7 +81,7 @@ We'll read in our data using the `read_csv()` function, from the tidyverse packa
 
 ```{r readcsv}
 plant_phys <- read_csv("data/Physiology_Environmental_Data.csv")
-plant_phys <- read_csv("data/iris.csv")
+iris <- read_csv("data/iris.csv")
 
 ## inspect the data
 str(plant_phys)
@@ -195,11 +195,12 @@ Note that the final data frame is the leftmost part of this expression.
 > ## Challenge 1
 >
 >  Using pipes, subset the `plant_phys` data to include observations collected in
->  2014 and retain only the columns `year`, `Species`, and `Photo`.
+>  2014 and retain only the columns `Year`, `Species`, and `Photo`.
 > 
 > 
 > > ## Solution to Challenge 1
 > > ```{r, answer=TRUE, eval=FALSE, purl=FALSE}
+> > plant_phys %>% 
 > >    filter(Year == 2014) %>%
 > >    select(Year, Species, Photo)
 > > ```
@@ -220,7 +221,7 @@ iris %>%
 You can also create a second new column based on the first new column within the same call of `mutate()`:
 
 ```{r, mutate2}
-iris%>%
+iris %>%
   mutate(Sepal.Ratio = Sepal.Length/Sepal.Width,
          Petal.Ratio = Petal.Length/Petal.Width)
 ```
@@ -501,7 +502,7 @@ plant_phys %>%
 
 > ## Challenge 7
 >
-> What was the most photosynthetic plant measured in each year? 
+> Which plant had the highest photosynthetic rates in each year?
 > Return the columns `Year`, `Species`, and `Photo`.
 >
 > > ## Solution to Challenge 7
