@@ -6,13 +6,17 @@ author: "Data Carpentry Contributors"
 teaching: 
 exercises: 
 questions:
+- How can we evaluate direct relationships between two variables?
+- How can we evaluate more complex relationships between multiple, interacting variables?
 objectives: 
 - Explore a large dataset graphically
 - Develop simple models with `lm()`
 - Choose new packages and interpret package descriptions
 - Analyze complex models using Information Theoretic (IT) Model Averaging (`arm` and `MuMIn` packages)
 keypoints: 
-- 
+- Linear regression is a quick and easy way to evaluate the direct relationship between two variables.
+- IT Model Averaging is one approach to evaluate more complex relationships between variables.
+- There are often many valid approaches to address a question in R, and understanding how to interpret R packages can help determine which approach might be most appropriate.
 source: Rmd
 ---
 
@@ -304,29 +308,9 @@ First, let's standardize our input variables with the `standardize()` function i
 # Standardize the global model
 
 stdz.model<-standardize(fit_all)
-~~~
-{: .language-r}
-
-
-
-~~~
-Error in get(as.character(call$data)): object 'phys_data' not found
-~~~
-{: .error}
-
-
-
-~~~
 summary(stdz.model)
 ~~~
 {: .language-r}
-
-
-
-~~~
-Error in summary(stdz.model): object 'stdz.model' not found
-~~~
-{: .error}
 
 Next, we create the full submodel set with the `dredge()` function in the `MuMIn` package by specifying the object that `dredge()` will evaluate (our standardized model, `stdz.model`). We also need to change the default "na.omit" to prevent models from being fitted to different datasets in case of missing values using `options(na.action=na.fail) `:
 
@@ -336,40 +320,13 @@ model.set<-dredge(stdz.model)
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in nobs(global.model): object 'stdz.model' not found
-~~~
-{: .error}
-
 The `get.models()` function will then create a top model set. First, we need to specify the object that `get.models` will evaluate (our model set, `model.set`), and then we need to specify the subset of models to include all models within 4AICcs with `subset=delta<4`:
 
 ~~~
 top.models<-get.models(model.set, subset=delta<4)
-~~~
-{: .language-r}
-
-
-
-~~~
-Error in get.models(model.set, subset = delta < 4): object 'model.set' not found
-~~~
-{: .error}
-
-
-
-~~~
 top.models
 ~~~
 {: .language-r}
-
-
-
-~~~
-Error in eval(expr, envir, enclos): object 'top.models' not found
-~~~
-{: .error}
 
 Finally, we'll use the `model.avg()` function to create our average model and calculates relative importance. We need to specify the object that `model.avg()` will evaluate (in this case our top model set, `top.models`):
 
@@ -378,26 +335,12 @@ average_model<-model.avg(top.models)
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in model.avg(top.models): object 'top.models' not found
-~~~
-{: .error}
-
 To check out our final average model, use the `summary()` function:
 
 ~~~
 summary(average_model)
 ~~~
 {: .language-r}
-
-
-
-~~~
-Error in summary(average_model): object 'average_model' not found
-~~~
-{: .error}
 
 This is a lot of information! We can see which component models were chosen as the top model set and then averaged, as well as their associated ranking information. We can also see the model-averaged coefficients for both the full average model and conditional average model.
 
@@ -411,16 +354,11 @@ importance(average_model)
 {: .language-r}
 
 
-
-~~~
-Error in importance(average_model): object 'average_model' not found
-~~~
-{: .error}
-
-
 > ## Challenge 4
 > Using IT Model Averaging, create a model that tests for the effects of four factors on either transpiration or stomatal conductance. Then, create a plot that best illustrates the main finding of your top model. Ultimately, your results should be able to address one of these questions:
 >
 > - What environmental variables drive nocturnal transpiration / stomatal conductance, and do these differ from the drivers of daytime transpiration / stomatal conductance?
 > - Are nocturnal transpiration and stomatal conductance associated with daytime physiological processes?
 {: .challenge}
+
+
