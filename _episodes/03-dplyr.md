@@ -73,7 +73,7 @@ We'll read in our data using the `read_csv()` function, from the tidyverse packa
 
 
 ~~~
-plant_phys <- read_csv("data/Physiology_Environmental_Data.csv")
+phys_data <- read_csv("data/Physiology_Environmental_Data.csv")
 ~~~
 {: .language-r}
 
@@ -82,8 +82,8 @@ plant_phys <- read_csv("data/Physiology_Environmental_Data.csv")
 ~~~
 Parsed with column specification:
 cols(
-  Year = col_double(),
-  DOY = col_double(),
+  Year = col_integer(),
+  DOY = col_integer(),
   Species = col_character(),
   Fgroup = col_character(),
   Cond_night = col_double(),
@@ -129,16 +129,16 @@ cols(
 
 ~~~
 ## inspect the data
-str(plant_phys)
+str(phys_data)
 ~~~
 {: .language-r}
 
 
 
 ~~~
-Classes 'spec_tbl_df', 'tbl_df', 'tbl' and 'data.frame':	285 obs. of  18 variables:
- $ Year          : num  2014 2014 2014 2014 2014 ...
- $ DOY           : num  169 169 169 169 169 169 169 169 169 169 ...
+Classes 'tbl_df', 'tbl' and 'data.frame':	285 obs. of  18 variables:
+ $ Year          : int  2014 2014 2014 2014 2014 2014 2014 2014 2014 2014 ...
+ $ DOY           : int  169 169 169 169 169 169 169 169 169 169 ...
  $ Species       : chr  "AG" "AG" "AG" "CD" ...
  $ Fgroup        : chr  "grass" "grass" "grass" "woody" ...
  $ Cond_night    : num  0.0273 0.0168 0.0655 0.0593 0.0594 ...
@@ -155,27 +155,47 @@ Classes 'spec_tbl_df', 'tbl_df', 'tbl' and 'data.frame':	285 obs. of  18 variabl
  $ VPD_N         : num  0.908 0.908 0.908 0.908 0.908 ...
  $ TAIR_D        : num  27.6 27.6 27.6 27.6 27.6 ...
  $ VPD_D         : num  1.26 1.26 1.26 1.26 1.26 ...
- - attr(*, "spec")=
-  .. cols(
-  ..   Year = col_double(),
-  ..   DOY = col_double(),
-  ..   Species = col_character(),
-  ..   Fgroup = col_character(),
-  ..   Cond_night = col_double(),
-  ..   Trmmol_night = col_double(),
-  ..   Photo = col_double(),
-  ..   Cond_day = col_double(),
-  ..   Trmmol_day = col_double(),
-  ..   Percent_cond = col_double(),
-  ..   Percent_trmmol = col_double(),
-  ..   PD = col_double(),
-  ..   MD = col_double(),
-  ..   Soil_moisture = col_double(),
-  ..   TAIR_N = col_double(),
-  ..   VPD_N = col_double(),
-  ..   TAIR_D = col_double(),
-  ..   VPD_D = col_double()
-  .. )
+ - attr(*, "spec")=List of 2
+  ..$ cols   :List of 18
+  .. ..$ Year          : list()
+  .. .. ..- attr(*, "class")= chr  "collector_integer" "collector"
+  .. ..$ DOY           : list()
+  .. .. ..- attr(*, "class")= chr  "collector_integer" "collector"
+  .. ..$ Species       : list()
+  .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+  .. ..$ Fgroup        : list()
+  .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+  .. ..$ Cond_night    : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Trmmol_night  : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Photo         : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Cond_day      : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Trmmol_day    : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Percent_cond  : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Percent_trmmol: list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ PD            : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ MD            : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Soil_moisture : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ TAIR_N        : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ VPD_N         : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ TAIR_D        : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ VPD_D         : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  ..$ default: list()
+  .. ..- attr(*, "class")= chr  "collector_guess" "collector"
+  ..- attr(*, "class")= chr "col_spec"
 ~~~
 {: .output}
 
@@ -189,20 +209,27 @@ str(iris)
 
 
 ~~~
-Classes 'spec_tbl_df', 'tbl_df', 'tbl' and 'data.frame':	150 obs. of  5 variables:
+Classes 'tbl_df', 'tbl' and 'data.frame':	150 obs. of  5 variables:
  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
  $ Species     : chr  "setosa" "setosa" "setosa" "setosa" ...
- - attr(*, "spec")=
-  .. cols(
-  ..   Sepal.Length = col_double(),
-  ..   Sepal.Width = col_double(),
-  ..   Petal.Length = col_double(),
-  ..   Petal.Width = col_double(),
-  ..   Species = col_character()
-  .. )
+ - attr(*, "spec")=List of 2
+  ..$ cols   :List of 5
+  .. ..$ Sepal.Length: list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Sepal.Width : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Petal.Length: list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Petal.Width : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Species     : list()
+  .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+  ..$ default: list()
+  .. ..- attr(*, "class")= chr  "collector_guess" "collector"
+  ..- attr(*, "class")= chr "col_spec"
 ~~~
 {: .output}
 
@@ -211,7 +238,7 @@ To preview the data, you can click on the name of the tibble in your environment
 
 ~~~
 ## preview the data
-View(plant_phys)
+View(phys_data)
 ~~~
 {: .language-r}
 Either of these methods will open a window with the dataset in the same area as your script file.
@@ -428,14 +455,14 @@ Note that the final data frame is the leftmost part of this expression.
 
 > ## Challenge 1
 >
->  Using pipes, subset the `plant_phys` data to include observations collected in
+>  Using pipes, subset the `phys_data` data to include observations collected in
 >  2014 and retain only the columns `Year`, `Species`, and `Photo`.
 > 
 > 
 > > ## Solution to Challenge 1
 > > 
 > > ~~~
-> > plant_phys %>% 
+> > phys_data %>% 
 > >    filter(Year == 2014) %>%
 > >    select(Year, Species, Photo)
 > > ~~~
@@ -508,7 +535,7 @@ iris %>%
 
 > ## Challenge 2 
 >  Instantaneous Water-Use Efficiency (WUE) is an efficiency measure of how much carbon is gained by photosynthesis per water lost through transpiration. A higher WUE indicates that the plant is losing less water, which is better for the plant. WUE is caluclated by dividing photosynthesis by transpiration. Often, different species and functional groups have distinct WUE.
->  Create a new data frame from the `plant_phys` data that meets the following
+>  Create a new data frame from the `phys_data` data that meets the following
 >  criteria: 
 >  * is named phys_wue
 >  * contains the following columns: Species, FGroup
@@ -522,7 +549,7 @@ iris %>%
 > > ## Solution to Challenge 2
 > > 
 > > ~~~
-> > phys_wue <- plant_phys %>%
+> > phys_wue <- phys_data %>%
 > >     mutate(wue_day = Photo/Trmmol_day) %>%
 > >     filter(wue_day > 1) %>%
 > >     select(Species, Fgroup, wue_day)
@@ -533,7 +560,7 @@ iris %>%
 
 # Using dates in R
 
-You may have noticed that we have 2 columns in the `plant_phys` dataset that
+You may have noticed that we have 2 columns in the `phys_data` dataset that
 represent the date when the observations were made: `Year` and `DOY` (day of year).
 This is a great, compact way to represent the date: it only takes 2 columns, and if you load the data into a spreadsheet program like excel, it won't be reformatted automatically. However, it's not very human readable. (I don't know what month day 169 is off the top of my head.)
 
@@ -581,7 +608,7 @@ To create a column called date that holds the date information in a human readab
 
 
 ~~~
-plant_phys<-plant_phys%>%
+phys_data<-phys_data%>%
   mutate(Date = as.Date(paste(DOY,Year), format="%j %Y"))
 ~~~
 {: .language-r}
@@ -591,7 +618,7 @@ can use select:
 
 
 ~~~
-plant_phys<-plant_phys%>%
+phys_data<-phys_data%>%
   select(Date, everything())
 ~~~
 {: .language-r}
@@ -641,13 +668,13 @@ year(one_date)
 
 > ## Challenge 3
 >
->  Create a new data frame from the `plant_phys` data has columns for 
+>  Create a new data frame from the `phys_data` data has columns for 
 >  month and day
 >
 > > ## Solution to Challenge 3
 > > 
 > > ~~~
-> > plant_phys <- plant_phys %>%
+> > phys_data <- phys_data %>%
 > >     mutate(Day = day(Date), 
 > >            Month = month(Date))%>%
 > >     select(Date, Year, Month, Day, DOY, everything())
@@ -679,7 +706,7 @@ Let's save the dataset that that we created dates in.
 
 
 ~~~
-write_csv(plant_phys, path = "data_output/phys_dates.csv")
+write_csv(phys_data, path = "data_output/phys_dates.csv")
 ~~~
 {: .language-r}
 
@@ -711,11 +738,11 @@ iris %>%
 ~~~
 {: .output}
 
-You can also group by multiple columns. For this, we'll need to use the `plant_phys` dataset:
+You can also group by multiple columns. For this, we'll need to use the `phys_data` dataset:
 
 
 ~~~
-plant_phys %>%
+phys_data %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo))
 ~~~
@@ -727,7 +754,7 @@ plant_phys %>%
 # A tibble: 16 x 3
 # Groups:   Year [2]
     Year Species mean_photo
-   <dbl> <chr>        <dbl>
+   <int> <chr>        <dbl>
  1  2014 AC            12.0
  2  2014 AG            18.8
  3  2014 CD            11.4
@@ -752,7 +779,7 @@ at the end of your chain with the argument `n` specifying the number of rows to 
 
 
 ~~~
-plant_phys %>%  
+phys_data %>%  
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo)) %>% 
   print(n = 15)
@@ -765,7 +792,7 @@ plant_phys %>%
 # A tibble: 16 x 3
 # Groups:   Year [2]
     Year Species mean_photo
-   <dbl> <chr>        <dbl>
+   <int> <chr>        <dbl>
  1  2014 AC            12.0
  2  2014 AG            18.8
  3  2014 CD            11.4
@@ -789,7 +816,7 @@ Once the data are grouped, you can also summarize multiple variables at the same
 
 
 ~~~
-plant_phys %>%
+phys_data %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo),
             min_photo = min(Photo))
@@ -802,7 +829,7 @@ plant_phys %>%
 # A tibble: 16 x 4
 # Groups:   Year [2]
     Year Species mean_photo min_photo
-   <dbl> <chr>        <dbl>     <dbl>
+   <int> <chr>        <dbl>     <dbl>
  1  2014 AC            12.0      6.60
  2  2014 AG            18.8     10.3 
  3  2014 CD            11.4      6.71
@@ -826,7 +853,7 @@ It is sometimes useful to rearrange the result of a query to inspect the values.
 
 
 ~~~
-plant_phys %>%
+phys_data %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo),
             min_photo = min(Photo)) %>%
@@ -840,7 +867,7 @@ plant_phys %>%
 # A tibble: 16 x 4
 # Groups:   Year [2]
     Year Species mean_photo min_photo
-   <dbl> <chr>        <dbl>     <dbl>
+   <int> <chr>        <dbl>     <dbl>
  1  2015 VB            12.2      1.08
  2  2014 SC            11.0      1.82
  3  2014 RG            15.8      2.47
@@ -864,7 +891,7 @@ To sort in descending order, we need to add the `desc()` function. If we want to
 
 
 ~~~
-plant_phys %>%
+phys_data %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo),
             min_photo = min(Photo)) %>%
@@ -878,7 +905,7 @@ plant_phys %>%
 # A tibble: 16 x 4
 # Groups:   Year [2]
     Year Species mean_photo min_photo
-   <dbl> <chr>        <dbl>     <dbl>
+   <int> <chr>        <dbl>     <dbl>
  1  2015 SN            29.5     11.7 
  2  2015 PV            24.7     10.6 
  3  2014 AG            18.8     10.3 
@@ -996,7 +1023,7 @@ Previous example shows the use of `count()` to count the number of rows/observat
 
 
 ~~~
-plant_phys %>%
+phys_data %>%
   count(Year, Species) 
 ~~~
 {: .language-r}
@@ -1006,7 +1033,7 @@ plant_phys %>%
 ~~~
 # A tibble: 16 x 3
     Year Species     n
-   <dbl> <chr>   <int>
+   <int> <chr>   <int>
  1  2014 AC         18
  2  2014 AG         18
  3  2014 CD         18
@@ -1033,7 +1060,7 @@ the levels of the species and (ii) in descending order of the count:
 
 
 ~~~
-plant_phys %>%
+phys_data %>%
   count(Year, Species) %>%
   arrange(Species, desc(n))
 ~~~
@@ -1044,7 +1071,7 @@ plant_phys %>%
 ~~~
 # A tibble: 16 x 3
     Year Species     n
-   <dbl> <chr>   <int>
+   <int> <chr>   <int>
  1  2014 AC         18
  2  2015 AC         18
  3  2014 AG         18
@@ -1071,7 +1098,7 @@ plant_phys %>%
 > > ## Solution to Challenge 5
 > > 
 > > ~~~
-> > plant_phys %>%
+> > phys_data %>%
 > >    group_by(Year)%>%
 > >    count(Species) 
 > > ~~~
@@ -1083,7 +1110,7 @@ plant_phys %>%
 > > # A tibble: 16 x 3
 > > # Groups:   Year [2]
 > >     Year Species     n
-> >    <dbl> <chr>   <int>
+> >    <int> <chr>   <int>
 > >  1  2014 AC         18
 > >  2  2014 AG         18
 > >  3  2014 CD         18
@@ -1116,7 +1143,7 @@ plant_phys %>%
 > > ## Solution to Challenge 6 
 > >
 > >~~~
-> > plant_phys %>%
+> > phys_data %>%
 > >    group_by(Species) %>%
 > >    summarize(
 > >        mean_photo = mean(Photo),
@@ -1154,7 +1181,7 @@ plant_phys %>%
 > > ## Solution to Challenge 7
 > > 
 > > ~~~
-> > plant_phys %>%
+> > phys_data %>%
 > >     group_by(Year) %>%
 > >     filter(Photo == max(Photo)) %>%
 > >     select(Year, Species, Photo) %>%
@@ -1168,7 +1195,7 @@ plant_phys %>%
 > > # A tibble: 2 x 3
 > > # Groups:   Year [2]
 > >    Year Species Photo
-> >   <dbl> <chr>   <dbl>
+> >   <int> <chr>   <dbl>
 > > 1  2014 SN       30.4
 > > 2  2015 SN       40.6
 > > ~~~

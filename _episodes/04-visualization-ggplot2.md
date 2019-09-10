@@ -36,7 +36,7 @@ If not still in the workspace, load the data we saved in the previous lesson.
 
 ~~~
 #iris <- read_csv(file = "data/iris.csv")
-plant_phys<-read_csv("data_output/phys_dates.csv")
+phys_data<-read_csv("data_output/phys_dates.csv")
 ~~~
 {: .language-r}
 
@@ -219,13 +219,13 @@ ggplot(data = iris,
 
 > ## Challenge 1
 >
-> Use what you just learned to create a scatter plot. Use these skills to plot the of the `plant_phys` dataset. 
+> Use what you just learned to create a scatter plot. Use these skills to plot the of the `phys_data` dataset. 
 > Plot `Cond_day` over `Cond_night` with the species showing in different colors. Is this a good way to show this type of data?
 >
 > > ## Solution to Challenge 1
 > > 
 > > ~~~
-> > ggplot(data = plant_phys, 
+> > ggplot(data = phys_data, 
 > >        mapping = aes(x = Cond_day, 
 > >                      y = Cond_night)) +
 > >    geom_point(aes(color = Species))
@@ -322,7 +322,7 @@ Let's calculate the average photosynthesis rate per month for each Functional gr
 
 
 ~~~
-monthly_photo_fg <- plant_phys %>%
+monthly_photo_fg <- phys_data %>%
   group_by(Month, Fgroup)%>%
   summarize(mean_phot = mean(Photo))
 ~~~
@@ -391,7 +391,7 @@ Now we would like to split the line in each plot by the species within each func
 
 
 ~~~
-mo_sp_fg <- plant_phys %>%
+mo_sp_fg <- phys_data %>%
   group_by(Month, Species, Fgroup)%>%
   summarize(mean_phot = mean(Photo))
 ~~~
@@ -456,7 +456,7 @@ themes.
 > > ## Solution to Challenge 4
 > > 
 > > ~~~
-> >          seasonCond <- plant_phys %>%
+> >          seasonCond <- phys_data %>%
 > >                group_by(Month, Species, Fgroup) %>%
 > >                summarize(avg_cond = mean(Percent_cond))
 > > 
@@ -598,7 +598,7 @@ an object to be able to easily apply them to other plots you may create:
 grey_theme <- theme(axis.text.x = element_text(colour = "grey20", size = 12, angle = 90, hjust = 0.5, vjust = 0.5),
                           axis.text.y = element_text(colour = "grey20", size = 12),
                           text = element_text(size = 16))
-ggplot(plant_phys, 
+ggplot(phys_data, 
        aes(x = Species, 
            y = Photo)) +
     geom_boxplot() +
@@ -622,7 +622,7 @@ install.packages("gridExtra")
 ~~~
 library(gridExtra)
 
-sp_photo_boxplot <- ggplot(plant_phys, 
+sp_photo_boxplot <- ggplot(phys_data, 
        aes(x = Species, 
            y = Photo)) +
     geom_boxplot() +
@@ -655,7 +655,7 @@ Make sure you have the `fig_output/` folder in your working directory.
 
 
 ~~~
-my_plot <- ggplot(plant_phys, 
+my_plot <- ggplot(phys_data, 
        aes(x = Species, 
            y = Photo)) +
     geom_boxplot() +
