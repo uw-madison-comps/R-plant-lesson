@@ -39,6 +39,8 @@ as comma separated value (CSV) file.  We will work with the `iris` data througho
 
 The `iris` data have morphological measures from more than 100 samples of 3 species of irises.
 ![](../fig/irisSpecies.png)
+<img src="../fig/rmd-Teaser-1.png" title="plot of chunk Teaser" alt="plot of chunk Teaser" width="612" style="display: block; margin: auto;" />
+
 Each row holds information for an individual plant observation, and the columns represent the species of the specimen and the lengths and widths of its sepal and petal (in centimeters):
 
   | Column       |

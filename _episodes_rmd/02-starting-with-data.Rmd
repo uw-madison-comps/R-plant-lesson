@@ -39,6 +39,15 @@ as comma separated value (CSV) file.  We will work with the `iris` data througho
 
 The `iris` data have morphological measures from more than 100 samples of 3 species of irises.
 ![](../fig/irisSpecies.png)
+```{r Teaser, echo=FALSE, eval = TRUE}
+library(ggplot2)
+
+ggplot(data = iris,mapping = aes(x = Petal.Width, y = Petal.Length)) +
+  geom_point(aes(color = Species)) +
+  ggtitle("Iris Petal Length vs Width")
+
+```
+
 Each row holds information for an individual plant observation, and the columns represent the species of the specimen and the lengths and widths of its sepal and petal (in centimeters):
 
   | Column       |
