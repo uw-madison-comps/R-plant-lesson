@@ -45,7 +45,7 @@ phys_data <- read_csv("data/Physiology_Environmental_Data.csv")
 
 # Data Manipulation using **`dplyr`** and **`tidyr`**
 
-Bracket subsetting is handy, but it can be cumbersome and difficult to read,especially for complicated operations. Enter **`dplyr`**. **`dplyr`** is a package for making tabular data manipulation easier. It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
+Bracket subsetting is handy, but it can be cumbersome and difficult to read,especially for complicated operations. **`dplyr`** is a package for making tabular data manipulation easier. It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
 
 Packages in R are basically sets of additional functions that let you do more stuff. The functions we've been using so far, like `str()` or `data.frame()`, come built into R; packages give you access to more of them. Before you use a package for the first time you need to install it on your machine, and then you should import it in every subsequent R session when you need it. 
 
@@ -295,9 +295,8 @@ year(one_date)
 ```
 
 > ## Challenge 3
->
->  Create a new data frame from the `phys_data` data has columns for 
->  month and day
+>  Using the phys_data, create a new data frame that contains 
+>  all data plus Month and Day in the 3th and 4th column.
 >
 > > ## Solution to Challenge 3
 > > ```{r ch3-soln}
@@ -467,7 +466,7 @@ phys_data %>%
 
 > ## Challenge 5
 >
-> How many plant species were measured in each `Year`?
+> How many individuals of each species were measured in each `Year`?
 >
 > > ## Solution to Challenge 5
 > > ```{r, answer=TRUE, purl=FALSE}
