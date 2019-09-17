@@ -19,12 +19,12 @@ objectives:
 - "Reorder and rename factors."
 - "Change how character strings are handled in a data frame."
 keypoints:
-- "R stores data tables in a structire called a data frame"
-- "Columns in a data frame must contain values of the same data type"
-- "Subsetting by position is similar as in vectors"
-- "Data frames can also be subset by names"
-- "Factors store characters as integers with text labels"
-- "strings.factors = FALSE can prevent R from reading strings as factors"
+- "R stores data tables in a structure called a data frame."
+- "Columns in a data frame must contain values of the same data type."
+- "Subsetting by position is similar as in vectors."
+- "Data frames can also be subset by names."
+- "Factors store characters as integers with text labels."
+- "strings.factors = FALSE can prevent R from reading strings as factors."
 source: Rmd
 ---
 
@@ -39,7 +39,7 @@ as comma separated value (CSV) file.  We will work with the `iris` data througho
 
 The `iris` data have morphological measures from more than 100 samples of 3 species of irises.
 ![](../fig/irisSpecies.png)
-<img src="../fig/rmd-Teaser-1.png" title="plot of chunk Teaser" alt="plot of chunk Teaser" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-02-Teaser-1.png" title="plot of chunk Teaser" alt="plot of chunk Teaser" width="612" style="display: block; margin: auto;" />
 
 Each row holds information for an individual plant observation, and the columns represent the species of the specimen and the lengths and widths of its sepal and petal (in centimeters):
 
@@ -51,17 +51,6 @@ Each row holds information for an individual plant observation, and the columns 
   | Petal.Width  |
   | Species      |
 
-<!-- replace this with download and unzip the data dir -->
-We are going to use the R function `download.file()` to download the CSV file
-that contains the survey data from figshare, and we will use `read.csv()` to
-load into memory the content of the CSV file as an object of class `data.frame`. 
-Inside the download.file command, the first entry is a character string with the source URL 
-<!-- URL??  -->
-("https://ndownloader.figshare.com/files/2292169"). This source URL downloads a CSV file from 
-figshare. The text after the comma ("data/iris.csv") is the destination of the 
-file on your local machine. You'll need to have a folder on your machine called "data" where 
-you'll download the file. So this command downloads a file from figshare, names it 
-"iris.csv," and adds it to a preexisting folder named "data."
 
 You are now ready to load the data:
 
@@ -198,7 +187,7 @@ objects besides `data.frame`.
 >
 > * What is the class of the object `iris`?
 > * How many rows and how many columns are in this object?
-> * How many species have been recorded during these iris?
+> * How many species of iris are represented in the data?
 >
 > > ## Solution to Challenge 1
 > > 
@@ -232,7 +221,7 @@ objects besides `data.frame`.
 
 ## Indexing and subsetting data frames
 
-Our `iris` data frame has rows and columns (it has 2 dimensions), if we want to
+Our `iris` data frame has rows and columns (it has 2 dimensions). If we want to
 extract some specific data from it, we need to specify the "coordinates" we
 want from it. Row numbers come first, followed by column numbers. However, note
 that different ways of specifying these coordinates lead to results with

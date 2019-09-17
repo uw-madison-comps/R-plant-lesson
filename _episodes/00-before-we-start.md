@@ -10,15 +10,14 @@ questions:
 - "What is RStudio?"
 objectives: 
 - "Describe the purpose of the RStudio Script, Console, Environment, and Plots panes."
-- "Organize files and directories for a set of analyses as an R"
-- "Project, and understand the purpose of the working directory."
+- "Organize files and directories for a set of analyses as an R Project and understand the purpose of the working directory."
 - "Use the built-in RStudio help interface to search for more information on R functions."
 - "Demonstrate how to provide sufficient information for troubleshooting with the R user community."
 keypoints:
 - "R is a programming language. RStudio is a user-friendly interface for coding in R."
-- "R projects help you organize your work and keep file paths simple"
-- "You can get help in the RStudio interface"
-- "There are many resources available online for R help"
+- "R projects help you organize your work and keep file paths simple."
+- "You can get help in the RStudio interface."
+- "There are many resources available online for R help."
 source: Rmd
 ---
 
@@ -162,8 +161,7 @@ tutorial below.
   location for it. This will be your **working directory** for the rest of the
   day (e.g., `~/data-carpentry`).
 4. Click on `Create Project`.
-5. Download the [code handout](./code-handout.R), place it in your working
-  directory and rename it (e.g., `data-carpentry-script.R`).
+5. [Click here to download the zipped dataset if you haven't already done so.](https://github.com/uw-madison-comps/R-plant-lesson/raw/gh-pages/data/R-plant-lesson.data.zip) Unzip it and place the `data/` folder in your working directory.
 6. (Optional) Set Preferences to 'Never' save workspace in RStudio.
 
 RStudio's default preferences generally work well, but saving a workspace to
@@ -217,7 +215,7 @@ are only going to use one file and it will make things easier.
 
 Your working directory should now look like this:
 
-<img src="fig/r-starting-how-it-should-look-like.png" title="How it should look like at the beginning of this lesson" alt="How it should look like at the beginning of this lesson" width="100%" style="display: block; margin: auto;" />
+<img src="../fig/r-starting-how-it-should-look-like.png" title="How it should look like at the beginning of this lesson" alt="How it should look like at the beginning of this lesson" width="100%" style="display: block; margin: auto;" />
 
 ### The working directory
 
@@ -293,7 +291,7 @@ command and return you to the `>` prompt.
 The material we cover during this workshop will give you an initial taste of how you can use R to analyze data for your own research. However, you will need to learn more to do advanced operations such as cleaning your dataset, using statistical methods, or creating beautiful graphics. The best way to become proficient and efficient at R, as with any other tool, is to use it to address your actual research questions. As a beginner, it can feel daunting to have to write a script from scratch, and given that many people make their code available online, modifying existing code to suit your purpose might make it easier for you to get started.
 
 
-<img src="fig/kitten-try-things.jpg" title="plot of chunk kitten-fig" alt="plot of chunk kitten-fig" width="400px" style="display: block; margin: auto;" />
+<img src="../fig/kitten-try-things.jpg" title="plot of chunk kitten-fig" alt="plot of chunk kitten-fig" width="400px" style="display: block; margin: auto;" />
 
 
 ## Seeking help
@@ -444,13 +442,13 @@ sessionInfo()
 
 
 ~~~
-R version 3.5.1 (2018-07-02)
+R version 3.6.0 (2019-04-26)
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
-Running under: macOS  10.14.6
+Running under: macOS Mojave 10.14.5
 
 Matrix products: default
-BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -459,13 +457,13 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] knitr_1.20              requirements_0.0.0.9000 remotes_2.1.0          
+[1] knitr_1.23              requirements_0.0.0.9000 remotes_2.1.0          
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.2      digest_0.6.18   rprojroot_1.3-2 backports_1.1.2
- [5] magrittr_1.5    evaluate_0.12   highr_0.7       rlang_0.4.0    
- [9] stringi_1.2.4   rmarkdown_1.10  tools_3.5.1     stringr_1.3.1  
-[13] yaml_2.2.0      compiler_3.5.1  htmltools_0.3.6
+ [1] compiler_3.6.0  magrittr_1.5    htmltools_0.3.6 tools_3.6.0    
+ [5] yaml_2.2.0      Rcpp_1.0.1      stringi_1.4.3   rmarkdown_1.13 
+ [9] highr_0.8       stringr_1.4.0   xfun_0.7        digest_0.6.19  
+[13] rlang_0.4.0     evaluate_0.14  
 ~~~
 {: .output}
 
@@ -495,15 +493,15 @@ loaded via a namespace (and not attached):
   be accessed using `packageDescription("name-of-package")`. You may also want
   to try to email the author of the package directly, or open an issue on the
   code repository (e.g., GitHub).
-* There are also some topic-specific mailing lists (GIS, phylogenetics, etc...),
-  the complete list is [here](http://www.r-project.org/mail.html).
+* There are also some topic-specific mailing lists (GIS, phylogenetics, etc...).
+  The complete list is [here](http://www.r-project.org/mail.html).
 
 ### More resources
 
 * The [Posting Guide](http://www.r-project.org/posting-guide.html) for the R
   mailing lists.
 * [How to ask for R help](http://blog.revolutionanalytics.com/2014/01/how-to-ask-for-r-help.html)
-  useful guidelines
+  useful guidelines.
 * [This blog post by Jon Skeet](http://codeblog.jonskeet.uk/2010/08/29/writing-the-perfect-question/)
   has quite comprehensive advice on how to ask programming questions.
 * The [reprex](https://cran.rstudio.com/web/packages/reprex/) package is very helpful to create reproducible examples when asking for help. The [rOpenSci community call "How to ask questions so they get answered"], [rOpenSci Blog](https://ropensci.org/commcalls/2017-03-07/) and [video recording](https://vimeo.com/208749032) includes a presentation of the reprex package and of its philosophy.
