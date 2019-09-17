@@ -730,14 +730,14 @@ widths[widths < 0.3 | widths > 0.5]
 
 
 ~~~
-widths[widths >= 0.3 & widths == 0.21]
+widths[widths >= 0.3 & widths <=  0.51]
 ~~~
 {: .language-r}
 
 
 
 ~~~
-numeric(0)
+[1] 0.34 0.39
 ~~~
 {: .output}
 
