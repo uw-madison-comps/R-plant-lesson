@@ -8,15 +8,14 @@ questions:
 - "What is RStudio?"
 objectives: 
 - "Describe the purpose of the RStudio Script, Console, Environment, and Plots panes."
-- "Organize files and directories for a set of analyses as an R"
-- "Project, and understand the purpose of the working directory."
+- "Organize files and directories for a set of analyses as an R Project and understand the purpose of the working directory."
 - "Use the built-in RStudio help interface to search for more information on R functions."
 - "Demonstrate how to provide sufficient information for troubleshooting with the R user community."
 keypoints:
 - "R is a programming language. RStudio is a user-friendly interface for coding in R."
-- "R projects help you organize your work and keep file paths simple"
-- "You can get help in the RStudio interface"
-- "There are many resources available online for R help"
+- "R projects help you organize your work and keep file paths simple."
+- "You can get help in the RStudio interface."
+- "There are many resources available online for R help."
 source: Rmd
 ---
 
@@ -166,8 +165,7 @@ tutorial below.
   location for it. This will be your **working directory** for the rest of the
   day (e.g., `~/data-carpentry`).
 4. Click on `Create Project`.
-5. Download the [code handout](./code-handout.R), place it in your working
-  directory and rename it (e.g., `data-carpentry-script.R`).
+5. [Click here to download the zipped dataset if you haven't already done so.](https://github.com/uw-madison-comps/R-plant-lesson/raw/gh-pages/data/R-plant-lesson.data.zip) Unzip it and place the `data/` folder in your working directory.
 6. (Optional) Set Preferences to 'Never' save workspace in RStudio.
 
 RStudio's default preferences generally work well, but saving a workspace to
@@ -222,7 +220,7 @@ are only going to use one file and it will make things easier.
 Your working directory should now look like this:
 
 ```{r, results='markup',fig.cap="How it should look like at the beginning of this lesson", echo=FALSE, purl=FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics("fig/r-starting-how-it-should-look-like.png")
+knitr::include_graphics("../fig/r-starting-how-it-should-look-like.png")
 ```
 
 ### The working directory
@@ -300,7 +298,7 @@ The material we cover during this workshop will give you an initial taste of how
 
 
 ```{r kitten-fig, results='markup', echo=FALSE, purl=FALSE, out.width='400px', fig.align='center'}
-knitr::include_graphics("fig/kitten-try-things.jpg")
+knitr::include_graphics("../fig/kitten-try-things.jpg")
 ```
 
 
@@ -449,15 +447,15 @@ sessionInfo()
   be accessed using `packageDescription("name-of-package")`. You may also want
   to try to email the author of the package directly, or open an issue on the
   code repository (e.g., GitHub).
-* There are also some topic-specific mailing lists (GIS, phylogenetics, etc...),
-  the complete list is [here](http://www.r-project.org/mail.html).
+* There are also some topic-specific mailing lists (GIS, phylogenetics, etc...).
+  The complete list is [here](http://www.r-project.org/mail.html).
 
 ### More resources
 
 * The [Posting Guide](http://www.r-project.org/posting-guide.html) for the R
   mailing lists.
 * [How to ask for R help](http://blog.revolutionanalytics.com/2014/01/how-to-ask-for-r-help.html)
-  useful guidelines
+  useful guidelines.
 * [This blog post by Jon Skeet](http://codeblog.jonskeet.uk/2010/08/29/writing-the-perfect-question/)
   has quite comprehensive advice on how to ask programming questions.
 * The [reprex](https://cran.rstudio.com/web/packages/reprex/) package is very helpful to create reproducible examples when asking for help. The [rOpenSci community call "How to ask questions so they get answered"], [rOpenSci Blog](https://ropensci.org/commcalls/2017-03-07/) and [video recording](https://vimeo.com/208749032) includes a presentation of the reprex package and of its philosophy.
