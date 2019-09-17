@@ -11,7 +11,6 @@ objectives:
 - "Select certain rows in a data frame according to filtering conditions with the **`dplyr`** function `filter`."
 - "Link the output of one **`dplyr`** function to the input of another function with the 'pipe' operator `%>%`."
 - "Add new columns to a data frame that are functions of existing columns with `mutate`."
-- "Use the split-apply-combine concept for data analysis."
 - "Use `summarize`, `group_by`, and `count` to split a data frame into groups of observations, apply summary statistics for each group, and then combine the results."
 - "Describe the concept of a wide and a long table format and for which purpose those formats are useful."
 - "Describe what key-value pairs are."
@@ -43,9 +42,9 @@ iris<-as_tibble(iris)
 phys_data <- read_csv("data/Physiology_Environmental_Data.csv")
 ```
 
-# Data Manipulation using **`dplyr`** and **`tidyr`**
+# Data Manipulation using **`dplyr`**
 
-Bracket subsetting is handy, but it can be cumbersome and difficult to read,especially for complicated operations. Enter **`dplyr`**. **`dplyr`** is a package for making tabular data manipulation easier. It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
+Bracket subsetting is handy, but it can be cumbersome and difficult to read, especially for complicated operations. Enter **`dplyr`**. **`dplyr`** is a package for making tabular data manipulation easier. It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
 
 Packages in R are basically sets of additional functions that let you do more stuff. The functions we've been using so far, like `str()` or `data.frame()`, come built into R; packages give you access to more of them. Before you use a package for the first time you need to install it on your machine, and then you should import it in every subsequent R session when you need it. 
 
