@@ -35,7 +35,7 @@ source: Rmd
 
 # Data Manipulation using **`dplyr`** and **`tidyr`**
 
-Bracket subsetting is handy, but it can be cumbersome and difficult to read,especially for complicated operations. Enter **`dplyr`**. **`dplyr`** is a package for making tabular data manipulation easier. It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
+Bracket subsetting is handy, but it can be cumbersome and difficult to read,especially for complicated operations. **`dplyr`** is a package for making tabular data manipulation easier. It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
 
 Packages in R are basically sets of additional functions that let you do more stuff. The functions we've been using so far, like `str()` or `data.frame()`, come built into R; packages give you access to more of them. Before you use a package for the first time you need to install it on your machine, and then you should import it in every subsequent R session when you need it. 
 
@@ -82,8 +82,8 @@ phys_data <- read_csv("data/Physiology_Environmental_Data.csv")
 ~~~
 Parsed with column specification:
 cols(
-  Year = col_integer(),
-  DOY = col_integer(),
+  Year = col_double(),
+  DOY = col_double(),
   Species = col_character(),
   Fgroup = col_character(),
   Cond_night = col_double(),
@@ -136,9 +136,9 @@ str(phys_data)
 
 
 ~~~
-Classes 'tbl_df', 'tbl' and 'data.frame':	285 obs. of  18 variables:
- $ Year          : int  2014 2014 2014 2014 2014 2014 2014 2014 2014 2014 ...
- $ DOY           : int  169 169 169 169 169 169 169 169 169 169 ...
+Classes 'spec_tbl_df', 'tbl_df', 'tbl' and 'data.frame':	282 obs. of  18 variables:
+ $ Year          : num  2014 2014 2014 2014 2014 ...
+ $ DOY           : num  169 169 169 169 169 169 169 169 169 169 ...
  $ Species       : chr  "AG" "AG" "AG" "CD" ...
  $ Fgroup        : chr  "grass" "grass" "grass" "woody" ...
  $ Cond_night    : num  0.0273 0.0168 0.0655 0.0593 0.0594 ...
@@ -155,47 +155,27 @@ Classes 'tbl_df', 'tbl' and 'data.frame':	285 obs. of  18 variables:
  $ VPD_N         : num  0.908 0.908 0.908 0.908 0.908 ...
  $ TAIR_D        : num  27.6 27.6 27.6 27.6 27.6 ...
  $ VPD_D         : num  1.26 1.26 1.26 1.26 1.26 ...
- - attr(*, "spec")=List of 2
-  ..$ cols   :List of 18
-  .. ..$ Year          : list()
-  .. .. ..- attr(*, "class")= chr  "collector_integer" "collector"
-  .. ..$ DOY           : list()
-  .. .. ..- attr(*, "class")= chr  "collector_integer" "collector"
-  .. ..$ Species       : list()
-  .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
-  .. ..$ Fgroup        : list()
-  .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
-  .. ..$ Cond_night    : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Trmmol_night  : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Photo         : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Cond_day      : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Trmmol_day    : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Percent_cond  : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Percent_trmmol: list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ PD            : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ MD            : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Soil_moisture : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ TAIR_N        : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ VPD_N         : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ TAIR_D        : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ VPD_D         : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  ..$ default: list()
-  .. ..- attr(*, "class")= chr  "collector_guess" "collector"
-  ..- attr(*, "class")= chr "col_spec"
+ - attr(*, "spec")=
+  .. cols(
+  ..   Year = col_double(),
+  ..   DOY = col_double(),
+  ..   Species = col_character(),
+  ..   Fgroup = col_character(),
+  ..   Cond_night = col_double(),
+  ..   Trmmol_night = col_double(),
+  ..   Photo = col_double(),
+  ..   Cond_day = col_double(),
+  ..   Trmmol_day = col_double(),
+  ..   Percent_cond = col_double(),
+  ..   Percent_trmmol = col_double(),
+  ..   PD = col_double(),
+  ..   MD = col_double(),
+  ..   Soil_moisture = col_double(),
+  ..   TAIR_N = col_double(),
+  ..   VPD_N = col_double(),
+  ..   TAIR_D = col_double(),
+  ..   VPD_D = col_double()
+  .. )
 ~~~
 {: .output}
 
@@ -209,27 +189,20 @@ str(iris)
 
 
 ~~~
-Classes 'tbl_df', 'tbl' and 'data.frame':	150 obs. of  5 variables:
+Classes 'spec_tbl_df', 'tbl_df', 'tbl' and 'data.frame':	150 obs. of  5 variables:
  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
  $ Species     : chr  "setosa" "setosa" "setosa" "setosa" ...
- - attr(*, "spec")=List of 2
-  ..$ cols   :List of 5
-  .. ..$ Sepal.Length: list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Sepal.Width : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Petal.Length: list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Petal.Width : list()
-  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
-  .. ..$ Species     : list()
-  .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
-  ..$ default: list()
-  .. ..- attr(*, "class")= chr  "collector_guess" "collector"
-  ..- attr(*, "class")= chr "col_spec"
+ - attr(*, "spec")=
+  .. cols(
+  ..   Sepal.Length = col_double(),
+  ..   Sepal.Width = col_double(),
+  ..   Petal.Length = col_double(),
+  ..   Petal.Width = col_double(),
+  ..   Species = col_character()
+  .. )
 ~~~
 {: .output}
 
@@ -667,9 +640,8 @@ year(one_date)
 {: .output}
 
 > ## Challenge 3
->
->  Create a new data frame from the `phys_data` data has columns for 
->  month and day
+>  Using the phys_data, create a new data frame that contains 
+>  all data plus Month and Day in the 3th and 4th column.
 >
 > > ## Solution to Challenge 3
 > > 
@@ -754,7 +726,7 @@ phys_data %>%
 # A tibble: 16 x 3
 # Groups:   Year [2]
     Year Species mean_photo
-   <int> <chr>        <dbl>
+   <dbl> <chr>        <dbl>
  1  2014 AC            12.0
  2  2014 AG            18.8
  3  2014 CD            11.4
@@ -770,7 +742,7 @@ phys_data %>%
 13  2015 RG            17.4
 14  2015 SC            19.8
 15  2015 SN            29.5
-16  2015 VB            12.2
+16  2015 VB            12.9
 ~~~
 {: .output}
 
@@ -792,7 +764,7 @@ phys_data %>%
 # A tibble: 16 x 3
 # Groups:   Year [2]
     Year Species mean_photo
-   <int> <chr>        <dbl>
+   <dbl> <chr>        <dbl>
  1  2014 AC            12.0
  2  2014 AG            18.8
  3  2014 CD            11.4
@@ -829,7 +801,7 @@ phys_data %>%
 # A tibble: 16 x 4
 # Groups:   Year [2]
     Year Species mean_photo min_photo
-   <int> <chr>        <dbl>     <dbl>
+   <dbl> <chr>        <dbl>     <dbl>
  1  2014 AC            12.0      6.60
  2  2014 AG            18.8     10.3 
  3  2014 CD            11.4      6.71
@@ -845,7 +817,7 @@ phys_data %>%
 13  2015 RG            17.4      8.35
 14  2015 SC            19.8      6.58
 15  2015 SN            29.5     11.7 
-16  2015 VB            12.2      1.08
+16  2015 VB            12.9      1.08
 ~~~
 {: .output}
 
@@ -867,8 +839,8 @@ phys_data %>%
 # A tibble: 16 x 4
 # Groups:   Year [2]
     Year Species mean_photo min_photo
-   <int> <chr>        <dbl>     <dbl>
- 1  2015 VB            12.2      1.08
+   <dbl> <chr>        <dbl>     <dbl>
+ 1  2015 VB            12.9      1.08
  2  2014 SC            11.0      1.82
  3  2014 RG            15.8      2.47
  4  2014 VB            10.7      3.13
@@ -905,7 +877,7 @@ phys_data %>%
 # A tibble: 16 x 4
 # Groups:   Year [2]
     Year Species mean_photo min_photo
-   <int> <chr>        <dbl>     <dbl>
+   <dbl> <chr>        <dbl>     <dbl>
  1  2015 SN            29.5     11.7 
  2  2015 PV            24.7     10.6 
  3  2014 AG            18.8     10.3 
@@ -921,7 +893,7 @@ phys_data %>%
 13  2014 VB            10.7      3.13
 14  2014 RG            15.8      2.47
 15  2014 SC            11.0      1.82
-16  2015 VB            12.2      1.08
+16  2015 VB            12.9      1.08
 ~~~
 {: .output}
 
@@ -1033,7 +1005,7 @@ phys_data %>%
 ~~~
 # A tibble: 16 x 3
     Year Species     n
-   <int> <chr>   <int>
+   <dbl> <chr>   <int>
  1  2014 AC         18
  2  2014 AG         18
  3  2014 CD         18
@@ -1049,7 +1021,7 @@ phys_data %>%
 13  2015 RG         18
 14  2015 SC         18
 15  2015 SN         18
-16  2015 VB         18
+16  2015 VB         15
 ~~~
 {: .output}
 
@@ -1071,7 +1043,7 @@ phys_data %>%
 ~~~
 # A tibble: 16 x 3
     Year Species     n
-   <int> <chr>   <int>
+   <dbl> <chr>   <int>
  1  2014 AC         18
  2  2015 AC         18
  3  2014 AG         18
@@ -1087,13 +1059,13 @@ phys_data %>%
 13  2015 SN         18
 14  2014 SN         15
 15  2014 VB         18
-16  2015 VB         18
+16  2015 VB         15
 ~~~
 {: .output}
 
 > ## Challenge 5
 >
-> How many plant species were measured in each `Year`?
+> How many individuals of each species were measured in each `Year`?
 >
 > > ## Solution to Challenge 5
 > > 
@@ -1110,7 +1082,7 @@ phys_data %>%
 > > # A tibble: 16 x 3
 > > # Groups:   Year [2]
 > >     Year Species     n
-> >    <int> <chr>   <int>
+> >    <dbl> <chr>   <int>
 > >  1  2014 AC         18
 > >  2  2014 AG         18
 > >  3  2014 CD         18
@@ -1126,7 +1098,7 @@ phys_data %>%
 > > 13  2015 RG         18
 > > 14  2015 SC         18
 > > 15  2015 SN         18
-> > 16  2015 VB         18
+> > 16  2015 VB         15
 > > ~~~
 > > {: .output}
 > >
@@ -1167,7 +1139,7 @@ phys_data %>%
 > >5 RG            16.6      25.4      2.47    36
 > >6 SC            15.4      32.7      1.82    36
 > >7 SN            24.9      40.6      9.78    33
-> >8 VB            11.4      27.0      1.08    36
+> >8 VB            11.7      27.0      1.08    33
 > >~~~
 > >{: .output}
 > {: .solution}
@@ -1195,7 +1167,7 @@ phys_data %>%
 > > # A tibble: 2 x 3
 > > # Groups:   Year [2]
 > >    Year Species Photo
-> >   <int> <chr>   <dbl>
+> >   <dbl> <chr>   <dbl>
 > > 1  2014 SN       30.4
 > > 2  2015 SN       40.6
 > > ~~~
