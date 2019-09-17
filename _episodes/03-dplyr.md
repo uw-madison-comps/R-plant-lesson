@@ -13,29 +13,28 @@ objectives:
 - "Select certain rows in a data frame according to filtering conditions with the **`dplyr`** function `filter`."
 - "Link the output of one **`dplyr`** function to the input of another function with the 'pipe' operator `%>%`."
 - "Add new columns to a data frame that are functions of existing columns with `mutate`."
-- "Use the split-apply-combine concept for data analysis."
 - "Use `summarize`, `group_by`, and `count` to split a data frame into groups of observations, apply summary statistics for each group, and then combine the results."
 - "Describe the concept of a wide and a long table format and for which purpose those formats are useful."
 - "Describe what key-value pairs are."
 - "Reshape a data frame from long to wide format and back with the `spread` and `gather` commands from the **`tidyr`** package."
 - "Export a data frame to a .csv file."
 keypoints:
-- "the tidyverse is built for data manipulation"
-- "read_csv creates tibbles instead of data frames"
-- "select picks particular columns based on names"
-- "filter picks rows based on values"
-- "mutate creates new columns based on the value of other columns"
-- "group by and summarize can be used to create summary tables"
-- "The lubridate package is useful for manipulating date data."
-- "write_csv exports tibbles into a .csv file"
+- "The tidyverse is built for data manipulation."
+- "The `read_csv` function creates tibbles instead of data frames."
+- "The `select` function picks particular columns based on names."
+- "The `filter` function picks rows based on values."
+- "The `mutate` function creates new columns based on the value of other columns."
+- "The `group_by` and `summarize` functions can be used to create summary tables."
+- "The `lubridate` package is useful for manipulating date data."
+- "The `write_csv` function exports tibbles into a .csv file."
 source: Rmd
 ---
 
 
 
-# Data Manipulation using **`dplyr`** and **`tidyr`**
+# Data Manipulation using **`dplyr`**
 
-Bracket subsetting is handy, but it can be cumbersome and difficult to read,especially for complicated operations. Enter **`dplyr`**. **`dplyr`** is a package for making tabular data manipulation easier. It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
+Bracket subsetting is handy, but it can be cumbersome and difficult to read, especially for complicated operations. **`dplyr`**. **`dplyr`** is a package for making tabular data manipulation easier.
 
 Packages in R are basically sets of additional functions that let you do more stuff. The functions we've been using so far, like `str()` or `data.frame()`, come built into R; packages give you access to more of them. Before you use a package for the first time you need to install it on your machine, and then you should import it in every subsequent R session when you need it. 
 
@@ -136,7 +135,7 @@ str(phys_data)
 
 
 ~~~
-Classes 'tbl_df', 'tbl' and 'data.frame':	285 obs. of  18 variables:
+Classes 'tbl_df', 'tbl' and 'data.frame':	282 obs. of  18 variables:
  $ Year          : int  2014 2014 2014 2014 2014 2014 2014 2014 2014 2014 ...
  $ DOY           : int  169 169 169 169 169 169 169 169 169 169 ...
  $ Species       : chr  "AG" "AG" "AG" "CD" ...
@@ -667,9 +666,8 @@ year(one_date)
 {: .output}
 
 > ## Challenge 3
->
->  Create a new data frame from the `phys_data` data has columns for 
->  month and day
+>  Using the phys_data, create a new data frame that contains 
+>  all data plus Month and Day in the 3th and 4th column.
 >
 > > ## Solution to Challenge 3
 > > 
@@ -770,7 +768,7 @@ phys_data %>%
 13  2015 RG            17.4
 14  2015 SC            19.8
 15  2015 SN            29.5
-16  2015 VB            12.2
+16  2015 VB            12.9
 ~~~
 {: .output}
 
@@ -845,7 +843,7 @@ phys_data %>%
 13  2015 RG            17.4      8.35
 14  2015 SC            19.8      6.58
 15  2015 SN            29.5     11.7 
-16  2015 VB            12.2      1.08
+16  2015 VB            12.9      1.08
 ~~~
 {: .output}
 
@@ -868,7 +866,7 @@ phys_data %>%
 # Groups:   Year [2]
     Year Species mean_photo min_photo
    <int> <chr>        <dbl>     <dbl>
- 1  2015 VB            12.2      1.08
+ 1  2015 VB            12.9      1.08
  2  2014 SC            11.0      1.82
  3  2014 RG            15.8      2.47
  4  2014 VB            10.7      3.13
@@ -921,7 +919,7 @@ phys_data %>%
 13  2014 VB            10.7      3.13
 14  2014 RG            15.8      2.47
 15  2014 SC            11.0      1.82
-16  2015 VB            12.2      1.08
+16  2015 VB            12.9      1.08
 ~~~
 {: .output}
 
@@ -1018,8 +1016,7 @@ iris %>%
 ~~~
 {: .output}
 
-
-Previous example shows the use of `count()` to count the number of rows/observations for *one* factor (i.e., `Species`).  If we wanted to count *combination of factors*, such as `Species` and `Year`, we would specify the first and the second factor as the arguments of `count()`:
+If we wanted to count *combination of factors*, such as `Species` and `Year`, we would specify the first and the second factor as the arguments of `count()`:
 
 
 ~~~
@@ -1049,7 +1046,7 @@ phys_data %>%
 13  2015 RG         18
 14  2015 SC         18
 15  2015 SN         18
-16  2015 VB         18
+16  2015 VB         15
 ~~~
 {: .output}
 
@@ -1087,13 +1084,13 @@ phys_data %>%
 13  2015 SN         18
 14  2014 SN         15
 15  2014 VB         18
-16  2015 VB         18
+16  2015 VB         15
 ~~~
 {: .output}
 
 > ## Challenge 5
 >
-> How many plant species were measured in each `Year`?
+> How many individuals of each species were measured in each `Year`?
 >
 > > ## Solution to Challenge 5
 > > 
@@ -1126,7 +1123,7 @@ phys_data %>%
 > > 13  2015 RG         18
 > > 14  2015 SC         18
 > > 15  2015 SN         18
-> > 16  2015 VB         18
+> > 16  2015 VB         15
 > > ~~~
 > > {: .output}
 > >
@@ -1167,7 +1164,7 @@ phys_data %>%
 > >5 RG            16.6      25.4      2.47    36
 > >6 SC            15.4      32.7      1.82    36
 > >7 SN            24.9      40.6      9.78    33
-> >8 VB            11.4      27.0      1.08    36
+> >8 VB            11.7      27.0      1.08    33
 > >~~~
 > >{: .output}
 > {: .solution}

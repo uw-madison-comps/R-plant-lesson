@@ -17,14 +17,14 @@ objectives:
 - "Reshape a data frame from long to wide format and back with the `spread` and `gather` commands from the **`tidyr`** package."
 - "Export a data frame to a .csv file."
 keypoints:
-- "the tidyverse is built for data manipulation"
-- "read_csv creates tibbles instead of data frames"
-- "select picks particular columns based on names"
-- "filter picks rows based on values"
-- "mutate creates new columns based on the value of other columns"
-- "group by and summarize can be used to create summary tables"
-- "The lubridate package is useful for manipulating date data."
-- "write_csv exports tibbles into a .csv file"
+- "The tidyverse is built for data manipulation."
+- "The `read_csv` function creates tibbles instead of data frames."
+- "The `select` function picks particular columns based on names."
+- "The `filter` function picks rows based on values."
+- "The `mutate` function creates new columns based on the value of other columns."
+- "The `group_by` and `summarize` functions can be used to create summary tables."
+- "The `lubridate` package is useful for manipulating date data."
+- "The `write_csv` function exports tibbles into a .csv file."
 source: Rmd
 ---
 
@@ -44,7 +44,7 @@ phys_data <- read_csv("data/Physiology_Environmental_Data.csv")
 
 # Data Manipulation using **`dplyr`**
 
-Bracket subsetting is handy, but it can be cumbersome and difficult to read, especially for complicated operations. Enter **`dplyr`**. **`dplyr`** is a package for making tabular data manipulation easier. It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
+Bracket subsetting is handy, but it can be cumbersome and difficult to read, especially for complicated operations. **`dplyr`**. **`dplyr`** is a package for making tabular data manipulation easier.
 
 Packages in R are basically sets of additional functions that let you do more stuff. The functions we've been using so far, like `str()` or `data.frame()`, come built into R; packages give you access to more of them. Before you use a package for the first time you need to install it on your machine, and then you should import it in every subsequent R session when you need it. 
 
@@ -294,9 +294,8 @@ year(one_date)
 ```
 
 > ## Challenge 3
->
->  Create a new data frame from the `phys_data` data has columns for 
->  month and day
+>  Using the phys_data, create a new data frame that contains 
+>  all data plus Month and Day in the 3th and 4th column.
 >
 > > ## Solution to Challenge 3
 > > ```{r ch3-soln}
@@ -445,8 +444,7 @@ iris %>%
     summarise(count = n())
 ```
 
-
-Previous example shows the use of `count()` to count the number of rows/observations for *one* factor (i.e., `Species`).  If we wanted to count *combination of factors*, such as `Species` and `Year`, we would specify the first and the second factor as the arguments of `count()`:
+If we wanted to count *combination of factors*, such as `Species` and `Year`, we would specify the first and the second factor as the arguments of `count()`:
 
 ```{r count3}
 phys_data %>%
@@ -466,7 +464,7 @@ phys_data %>%
 
 > ## Challenge 5
 >
-> How many plant species were measured in each `Year`?
+> How many individuals of each species were measured in each `Year`?
 >
 > > ## Solution to Challenge 5
 > > ```{r, answer=TRUE, purl=FALSE}
