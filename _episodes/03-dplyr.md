@@ -342,9 +342,28 @@ iris_sml
 Note that the final data frame is the leftmost part of this expression.
 
 ### Introducing the a Plant Physiology Environmental dataset
-While the iris dataset lets us illustrate many of the features of dplyr, it is not complex enough to illustrate all features. For the challenges and some examples in this lesson, we will be introducing a new dataset, `phys_dates` that is a variation on the `phys_data` dataset you will be using in the Advanced R lesson. 
+While the iris dataset lets us illustrate many of the features of dplyr, it is not complex enough to illustrate all features. For the challenges and some examples in this lesson, we will be introducing a new dataset, `phys_dates` that is a variation on the `phys_data` dataset you will be using in the Advanced R lesson. Here is an overview of the variables in this dataset: 
 
-<Insert Kim's description of the dataset here>
+Variable | Description
+-------|-------------------------
+Year | Year of data collection
+DOY | Day of year of data collection
+Species | Species (“AG”=Andropogon gerardii, “PV”=Panicum virgatum, “SN”=Sorghastrum nutans, “VB”=Vernonia baldwinii, “SC”=Solidago canadensis, “AC”=Amorpha canescens, “RG”=Rhus glabra, “CD”=Cornus drummondii
+Fgroup |Plant functional group
+Cond_night |Nocturnal stomatal conductance (mol m-2s-1)
+Trmmol_night |Nocturnal transpiration (mmol m-2s-1)
+Photo |Photosynthesis (μmol CO2 m-2s-1)
+Cond_day |Diurnal stomatal conductance (mol m-2s-1)
+Trmmol_day |Diurnal transpiration (mmol m-2s-1)
+Percent_cond |Percent nocturnal of diurnal stomatal conductance
+Percent_trmmol |Percent nocturnal of diurnal transpiration
+PD|Predawn leaf water potential (MPa)
+MD |Midday leaf water potential (MPa)
+Soil_moisture |Average daily soil moisture (v/v)
+TAIR_N |Air temperature (°C) at average time of nocturnal physiology measurements (23:00 h)
+VPD_N |Vapor pressure deficit (kPa) at average time of nocturnal physiology measurements (23:00 h)
+TAIR_D |Air temperature (°C) at average time of diurnal physiology measurements (11:00 h)
+VPD_D|Vapor pressure deficit (kPa) at average time of diurnal physiology measurements (11:00 h)
 
 The only difference is that the date is represented as month, day, and year rather than year and day of year. 
 
