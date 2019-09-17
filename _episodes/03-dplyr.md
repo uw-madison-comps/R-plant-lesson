@@ -8,34 +8,29 @@ exercises:
 questions:
 - "What is the tidyverse? Why should I use it to manipulate data?"
 objectives:
-- "Describe the purpose of the **`dplyr`** and **`tidyr`** packages."
+- "Describe the purpose of the **`dplyr`** package."
 - "Select certain columns in a data frame with the **`dplyr`** function `select`."
 - "Select certain rows in a data frame according to filtering conditions with the **`dplyr`** function `filter`."
 - "Link the output of one **`dplyr`** function to the input of another function with the 'pipe' operator `%>%`."
 - "Add new columns to a data frame that are functions of existing columns with `mutate`."
-- "Use the split-apply-combine concept for data analysis."
 - "Use `summarize`, `group_by`, and `count` to split a data frame into groups of observations, apply summary statistics for each group, and then combine the results."
-- "Describe the concept of a wide and a long table format and for which purpose those formats are useful."
-- "Describe what key-value pairs are."
-- "Reshape a data frame from long to wide format and back with the `spread` and `gather` commands from the **`tidyr`** package."
 - "Export a data frame to a .csv file."
 keypoints:
-- "the tidyverse is built for data manipulation"
-- "read_csv creates tibbles instead of data frames"
-- "select picks particular columns based on names"
-- "filter picks rows based on values"
-- "mutate creates new columns based on the value of other columns"
-- "group by and summarize can be used to create summary tables"
-- "The lubridate package is useful for manipulating date data."
-- "write_csv exports tibbles into a .csv file"
+- "The tidyverse is built for data manipulation."
+- "The `read_csv` function creates tibbles instead of data frames."
+- "The `select` function picks particular columns based on names."
+- "The `filter` function picks rows based on values."
+- "The `mutate` function creates new columns based on the value of other columns."
+- "The `group_by` and `summarize` functions can be used to create summary tables."
+- "The `write_csv` function exports tibbles into a .csv file."
 source: Rmd
 ---
 
 
 
-# Data Manipulation using **`dplyr`** and **`tidyr`**
+# Data Manipulation using **`dplyr`**
 
-Bracket subsetting is handy, but it can be cumbersome and difficult to read,especially for complicated operations. **`dplyr`** is a package for making tabular data manipulation easier. It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
+Bracket subsetting is handy, but it can be cumbersome and difficult to read, especially for complicated operations. **`dplyr`**. **`dplyr`** is a package for making tabular data manipulation easier.
 
 Packages in R are basically sets of additional functions that let you do more stuff. The functions we've been using so far, like `str()` or `data.frame()`, come built into R; packages give you access to more of them. Before you use a package for the first time you need to install it on your machine, and then you should import it in every subsequent R session when you need it. 
 
@@ -73,40 +68,6 @@ We'll read in our data using the `read_csv()` function, from the tidyverse packa
 
 
 ~~~
-phys_data <- read_csv("data/Physiology_Environmental_Data.csv")
-~~~
-{: .language-r}
-
-
-
-~~~
-Parsed with column specification:
-cols(
-  Year = col_double(),
-  DOY = col_double(),
-  Species = col_character(),
-  Fgroup = col_character(),
-  Cond_night = col_double(),
-  Trmmol_night = col_double(),
-  Photo = col_double(),
-  Cond_day = col_double(),
-  Trmmol_day = col_double(),
-  Percent_cond = col_double(),
-  Percent_trmmol = col_double(),
-  PD = col_double(),
-  MD = col_double(),
-  Soil_moisture = col_double(),
-  TAIR_N = col_double(),
-  VPD_N = col_double(),
-  TAIR_D = col_double(),
-  VPD_D = col_double()
-)
-~~~
-{: .output}
-
-
-
-~~~
 iris <- read_csv("data/iris.csv")
 ~~~
 {: .language-r}
@@ -129,59 +90,6 @@ cols(
 
 ~~~
 ## inspect the data
-str(phys_data)
-~~~
-{: .language-r}
-
-
-
-~~~
-Classes 'spec_tbl_df', 'tbl_df', 'tbl' and 'data.frame':	282 obs. of  18 variables:
- $ Year          : num  2014 2014 2014 2014 2014 ...
- $ DOY           : num  169 169 169 169 169 169 169 169 169 169 ...
- $ Species       : chr  "AG" "AG" "AG" "CD" ...
- $ Fgroup        : chr  "grass" "grass" "grass" "woody" ...
- $ Cond_night    : num  0.0273 0.0168 0.0655 0.0593 0.0594 ...
- $ Trmmol_night  : num  0.606 0.374 1.414 1.265 1.241 ...
- $ Photo         : num  25 20.5 22.5 16.4 17 ...
- $ Cond_day      : num  0.186 0.162 0.169 0.398 0.313 ...
- $ Trmmol_day    : num  5.55 5.2 6.84 9.21 9.55 ...
- $ Percent_cond  : num  14.7 10.4 38.9 14.9 17.5 ...
- $ Percent_trmmol: num  10.9 7.2 20.7 13.7 11.7 ...
- $ PD            : num  -0.2 -0.4 -0.35 -0.15 -0.3 -0.45 -0.35 -0.3 -0.2 -0.3 ...
- $ MD            : num  -0.95 -0.9 -0.95 -1.4 -1.45 -1.15 -1.4 -1 -1.45 -0.8 ...
- $ Soil_moisture : num  0.213 0.213 0.213 0.213 0.213 0.213 0.213 0.213 0.213 0.213 ...
- $ TAIR_N        : num  26.6 26.6 26.6 26.6 26.6 ...
- $ VPD_N         : num  0.908 0.908 0.908 0.908 0.908 ...
- $ TAIR_D        : num  27.6 27.6 27.6 27.6 27.6 ...
- $ VPD_D         : num  1.26 1.26 1.26 1.26 1.26 ...
- - attr(*, "spec")=
-  .. cols(
-  ..   Year = col_double(),
-  ..   DOY = col_double(),
-  ..   Species = col_character(),
-  ..   Fgroup = col_character(),
-  ..   Cond_night = col_double(),
-  ..   Trmmol_night = col_double(),
-  ..   Photo = col_double(),
-  ..   Cond_day = col_double(),
-  ..   Trmmol_day = col_double(),
-  ..   Percent_cond = col_double(),
-  ..   Percent_trmmol = col_double(),
-  ..   PD = col_double(),
-  ..   MD = col_double(),
-  ..   Soil_moisture = col_double(),
-  ..   TAIR_N = col_double(),
-  ..   VPD_N = col_double(),
-  ..   TAIR_D = col_double(),
-  ..   VPD_D = col_double()
-  .. )
-~~~
-{: .output}
-
-
-
-~~~
 str(iris)
 ~~~
 {: .language-r}
@@ -189,20 +97,27 @@ str(iris)
 
 
 ~~~
-Classes 'spec_tbl_df', 'tbl_df', 'tbl' and 'data.frame':	150 obs. of  5 variables:
+Classes 'tbl_df', 'tbl' and 'data.frame':	150 obs. of  5 variables:
  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
  $ Species     : chr  "setosa" "setosa" "setosa" "setosa" ...
- - attr(*, "spec")=
-  .. cols(
-  ..   Sepal.Length = col_double(),
-  ..   Sepal.Width = col_double(),
-  ..   Petal.Length = col_double(),
-  ..   Petal.Width = col_double(),
-  ..   Species = col_character()
-  .. )
+ - attr(*, "spec")=List of 2
+  ..$ cols   :List of 5
+  .. ..$ Sepal.Length: list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Sepal.Width : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Petal.Length: list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Petal.Width : list()
+  .. .. ..- attr(*, "class")= chr  "collector_double" "collector"
+  .. ..$ Species     : list()
+  .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+  ..$ default: list()
+  .. ..- attr(*, "class")= chr  "collector_guess" "collector"
+  ..- attr(*, "class")= chr "col_spec"
 ~~~
 {: .output}
 
@@ -211,7 +126,7 @@ To preview the data, you can click on the name of the tibble in your environment
 
 ~~~
 ## preview the data
-View(phys_data)
+View(iris)
 ~~~
 {: .language-r}
 Either of these methods will open a window with the dataset in the same area as your script file.
@@ -426,16 +341,42 @@ iris_sml
 
 Note that the final data frame is the leftmost part of this expression.
 
+### Introducing the a Plant Physiology Environmental dataset
+While the iris dataset lets us illustrate many of the features of dplyr, it is not complex enough to illustrate all features. For the challenges and some examples in this lesson, we will be introducing a new dataset, `phys_dates` that is a variation on the `phys_data` dataset you will be using in the Advanced R lesson. Here is an overview of the variables in this dataset: 
+
+Variable | Description
+-------|-------------------------
+Year | Year of data collection
+DOY | Day of year of data collection
+Species | Species (“AG”=Andropogon gerardii, “PV”=Panicum virgatum, “SN”=Sorghastrum nutans, “VB”=Vernonia baldwinii, “SC”=Solidago canadensis, “AC”=Amorpha canescens, “RG”=Rhus glabra, “CD”=Cornus drummondii
+Fgroup |Plant functional group
+Cond_night |Nocturnal stomatal conductance (mol m-2s-1)
+Trmmol_night |Nocturnal transpiration (mmol m-2s-1)
+Photo |Photosynthesis (μmol CO2 m-2s-1)
+Cond_day |Diurnal stomatal conductance (mol m-2s-1)
+Trmmol_day |Diurnal transpiration (mmol m-2s-1)
+Percent_cond |Percent nocturnal of diurnal stomatal conductance
+Percent_trmmol |Percent nocturnal of diurnal transpiration
+PD|Predawn leaf water potential (MPa)
+MD |Midday leaf water potential (MPa)
+Soil_moisture |Average daily soil moisture (v/v)
+TAIR_N |Air temperature (°C) at average time of nocturnal physiology measurements (23:00 h)
+VPD_N |Vapor pressure deficit (kPa) at average time of nocturnal physiology measurements (23:00 h)
+TAIR_D |Air temperature (°C) at average time of diurnal physiology measurements (11:00 h)
+VPD_D|Vapor pressure deficit (kPa) at average time of diurnal physiology measurements (11:00 h)
+
+The only difference is that the date is represented as month, day, and year rather than year and day of year. 
+
 > ## Challenge 1
 >
->  Using pipes, subset the `phys_data` data to include observations collected in
+>  Using pipes, subset the `phys_dates` data to include observations collected in
 >  2014 and retain only the columns `Year`, `Species`, and `Photo`.
 > 
 > 
 > > ## Solution to Challenge 1
 > > 
 > > ~~~
-> > phys_data %>% 
+> > phys_dates %>% 
 > >    filter(Year == 2014) %>%
 > >    select(Year, Species, Photo)
 > > ~~~
@@ -443,7 +384,7 @@ Note that the final data frame is the leftmost part of this expression.
 > {: .solution}
 {: .challenge}
 
-### Mutate
+## Mutate
 
 Frequently you'll want to create new columns based on the values in existing columns, for example to do unit conversions, or to find the ratio of values in two columns. For this we'll use `mutate()`.
 
@@ -508,7 +449,7 @@ iris %>%
 
 > ## Challenge 2 
 >  Instantaneous Water-Use Efficiency (WUE) is an efficiency measure of how much carbon is gained by photosynthesis per water lost through transpiration. A higher WUE indicates that the plant is losing less water, which is better for the plant. WUE is caluclated by dividing photosynthesis by transpiration. Often, different species and functional groups have distinct WUE.
->  Create a new data frame from the `phys_data` data that meets the following
+>  Create a new data frame from the `phys_dates` data that meets the following
 >  criteria: 
 >  * is named phys_wue
 >  * contains the following columns: Species, FGroup
@@ -522,7 +463,7 @@ iris %>%
 > > ## Solution to Challenge 2
 > > 
 > > ~~~
-> > phys_wue <- phys_data %>%
+> > phys_wue <- phys_dates %>%
 > >     mutate(wue_day = Photo/Trmmol_day) %>%
 > >     filter(wue_day > 1) %>%
 > >     select(Species, Fgroup, wue_day)
@@ -531,131 +472,7 @@ iris %>%
 > {: .solution}
 {: .challenge}
 
-# Using dates in R
-
-You may have noticed that we have 2 columns in the `phys_data` dataset that
-represent the date when the observations were made: `Year` and `DOY` (day of year).
-This is a great, compact way to represent the date: it only takes 2 columns, and if you load the data into a spreadsheet program like excel, it won't be reformatted automatically. However, it's not very human readable. (I don't know what month day 169 is off the top of my head.)
-
-R has a package called `lubridate` that can convert to and from various date formats. Let's install and load the package:
-
-
-~~~
-install.packages("lubridate")
-library(lubridate)
-~~~
-{: .language-r}
-
-The as.Date function converts other data types (such as the integers in the `Year` and `DOY` columns) into date format. 
-
-For example, we could use the following syntax to get the date for DOY = 15 and Year = 2015.
-
-~~~
-one_date<-as.Date(paste(15,2015), format="%j %Y")
-one_date
-~~~
-{: .language-r}
-
-
-
-~~~
-[1] "2015-01-15"
-~~~
-{: .output}
-
-
-
-~~~
-class(one_date)
-~~~
-{: .language-r}
-
-
-
-~~~
-[1] "Date"
-~~~
-{: .output}
-
-To create a column called date that holds the date information in a human readable format, we can use mutate:
-
-
-~~~
-phys_data<-phys_data%>%
-  mutate(Date = as.Date(paste(DOY,Year), format="%j %Y"))
-~~~
-{: .language-r}
-
-This puts the newly created column at the end. To reorder the columns, we 
-can use select:
-
-
-~~~
-phys_data<-phys_data%>%
-  select(Date, everything())
-~~~
-{: .language-r}
-
-We can also split the date format out into its individual year/month/day components using the `month`, `day` and `year` functions:
-
-
-~~~
-month(one_date)
-~~~
-{: .language-r}
-
-
-
-~~~
-[1] 1
-~~~
-{: .output}
-
-
-
-~~~
-day(one_date)
-~~~
-{: .language-r}
-
-
-
-~~~
-[1] 15
-~~~
-{: .output}
-
-
-
-~~~
-year(one_date)
-~~~
-{: .language-r}
-
-
-
-~~~
-[1] 2015
-~~~
-{: .output}
-
-> ## Challenge 3
->  Using the phys_data, create a new data frame that contains 
->  all data plus Month and Day in the 3th and 4th column.
->
-> > ## Solution to Challenge 3
-> > 
-> > ~~~
-> > phys_data <- phys_data %>%
-> >     mutate(Day = day(Date), 
-> >            Month = month(Date))%>%
-> >     select(Date, Year, Month, Day, DOY, everything())
-> > ~~~
-> > {: .language-r}
-> {: .solution}
-{: .challenge}
-
-# Exporting data
+## Exporting data
 
 Now that you have learned how to use **`dplyr`** to extract information from
 or summarize your raw data, you may want to export these new data sets to share
@@ -678,15 +495,15 @@ Let's save the dataset that that we created dates in.
 
 
 ~~~
-write_csv(phys_data, path = "data_output/phys_dates.csv")
+write_csv(phys_dates, path = "data_output/phys_dates.csv")
 ~~~
 {: .language-r}
 
-### Split-apply-combine data analysis and the summarize() function
+## Split-apply-combine data analysis and the summarize() function
 
 Many data analysis tasks can be approached using the *split-apply-combine* paradigm: split the data into groups, apply some analysis to each group, and then combine the results. **`dplyr`** makes this very easy through the use of the `group_by()` function.
 
-#### The `summarize()` function
+### The `summarize()` function
 
 `group_by()` is often used together with `summarize()`, which collapses each group into a single-row summary of that group.  `group_by()` takes as arguments the column names that contain the **categorical** variables for which you want to calculate the summary statistics. So to compute the mean `Sepal.Length` by `Species`:
 
@@ -710,11 +527,11 @@ iris %>%
 ~~~
 {: .output}
 
-You can also group by multiple columns. For this, we'll need to use the `phys_data` dataset:
+You can also group by multiple columns. For this, we'll need to use the `phys_dates` dataset:
 
 
 ~~~
-phys_data %>%
+phys_dates %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo))
 ~~~
@@ -726,7 +543,7 @@ phys_data %>%
 # A tibble: 16 x 3
 # Groups:   Year [2]
     Year Species mean_photo
-   <dbl> <chr>        <dbl>
+   <int> <chr>        <dbl>
  1  2014 AC            12.0
  2  2014 AG            18.8
  3  2014 CD            11.4
@@ -751,7 +568,7 @@ at the end of your chain with the argument `n` specifying the number of rows to 
 
 
 ~~~
-phys_data %>%  
+phys_dates %>%  
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo)) %>% 
   print(n = 15)
@@ -764,7 +581,7 @@ phys_data %>%
 # A tibble: 16 x 3
 # Groups:   Year [2]
     Year Species mean_photo
-   <dbl> <chr>        <dbl>
+   <int> <chr>        <dbl>
  1  2014 AC            12.0
  2  2014 AG            18.8
  3  2014 CD            11.4
@@ -788,7 +605,7 @@ Once the data are grouped, you can also summarize multiple variables at the same
 
 
 ~~~
-phys_data %>%
+phys_dates %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo),
             min_photo = min(Photo))
@@ -801,7 +618,7 @@ phys_data %>%
 # A tibble: 16 x 4
 # Groups:   Year [2]
     Year Species mean_photo min_photo
-   <dbl> <chr>        <dbl>     <dbl>
+   <int> <chr>        <dbl>     <dbl>
  1  2014 AC            12.0      6.60
  2  2014 AG            18.8     10.3 
  3  2014 CD            11.4      6.71
@@ -825,7 +642,7 @@ It is sometimes useful to rearrange the result of a query to inspect the values.
 
 
 ~~~
-phys_data %>%
+phys_dates %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo),
             min_photo = min(Photo)) %>%
@@ -839,7 +656,7 @@ phys_data %>%
 # A tibble: 16 x 4
 # Groups:   Year [2]
     Year Species mean_photo min_photo
-   <dbl> <chr>        <dbl>     <dbl>
+   <int> <chr>        <dbl>     <dbl>
  1  2015 VB            12.9      1.08
  2  2014 SC            11.0      1.82
  3  2014 RG            15.8      2.47
@@ -863,7 +680,7 @@ To sort in descending order, we need to add the `desc()` function. If we want to
 
 
 ~~~
-phys_data %>%
+phys_dates %>%
   group_by(Year, Species) %>%
   summarize(mean_photo = mean(Photo),
             min_photo = min(Photo)) %>%
@@ -877,7 +694,7 @@ phys_data %>%
 # A tibble: 16 x 4
 # Groups:   Year [2]
     Year Species mean_photo min_photo
-   <dbl> <chr>        <dbl>     <dbl>
+   <int> <chr>        <dbl>     <dbl>
  1  2015 SN            29.5     11.7 
  2  2015 PV            24.7     10.6 
  3  2014 AG            18.8     10.3 
@@ -897,7 +714,7 @@ phys_data %>%
 ~~~
 {: .output}
 
-> ## Challenge 4
+> ## Challenge 3
 > 
 > The original paper containing the iris dataset distinguished the three
 > types of irises based on the sepal and petal length and width, as well
@@ -912,7 +729,7 @@ phys_data %>%
 > Which of these values does the best job of differentiating the setsosa
 > species from the others?
 > 
-> > ## Solution to Challenge 4
+> > ## Solution to Challenge 3
 > > 
 > > 
 > > ~~~
@@ -945,7 +762,7 @@ phys_data %>%
 > {: .solution}
 {: .challenge}
 
-#### Counting
+### Counting
 
 When working with data, we often want to know the number of observations found for each factor or combination of factors. For this task, **`dplyr`** provides `count()`. For example, if we wanted to count the number of rows of data for each species, we would do:
 
@@ -990,12 +807,11 @@ iris %>%
 ~~~
 {: .output}
 
-
-Previous example shows the use of `count()` to count the number of rows/observations for *one* factor (i.e., `Species`).  If we wanted to count *combination of factors*, such as `Species` and `Year`, we would specify the first and the second factor as the arguments of `count()`:
+If we wanted to count *combination of factors*, such as `Species` and `Year`, we would specify the first and the second factor as the arguments of `count()`:
 
 
 ~~~
-phys_data %>%
+phys_dates %>%
   count(Year, Species) 
 ~~~
 {: .language-r}
@@ -1005,7 +821,7 @@ phys_data %>%
 ~~~
 # A tibble: 16 x 3
     Year Species     n
-   <dbl> <chr>   <int>
+   <int> <chr>   <int>
  1  2014 AC         18
  2  2014 AG         18
  3  2014 CD         18
@@ -1032,7 +848,7 @@ the levels of the species and (ii) in descending order of the count:
 
 
 ~~~
-phys_data %>%
+phys_dates %>%
   count(Year, Species) %>%
   arrange(Species, desc(n))
 ~~~
@@ -1043,7 +859,7 @@ phys_data %>%
 ~~~
 # A tibble: 16 x 3
     Year Species     n
-   <dbl> <chr>   <int>
+   <int> <chr>   <int>
  1  2014 AC         18
  2  2015 AC         18
  3  2014 AG         18
@@ -1063,14 +879,14 @@ phys_data %>%
 ~~~
 {: .output}
 
-> ## Challenge 5
+> ## Challenge 4
 >
 > How many individuals of each species were measured in each `Year`?
 >
-> > ## Solution to Challenge 5
+> > ## Solution to Challenge 4
 > > 
 > > ~~~
-> > phys_data %>%
+> > phys_dates %>%
 > >    group_by(Year)%>%
 > >    count(Species) 
 > > ~~~
@@ -1082,7 +898,7 @@ phys_data %>%
 > > # A tibble: 16 x 3
 > > # Groups:   Year [2]
 > >     Year Species     n
-> >    <dbl> <chr>   <int>
+> >    <int> <chr>   <int>
 > >  1  2014 AC         18
 > >  2  2014 AG         18
 > >  3  2014 CD         18
@@ -1105,17 +921,17 @@ phys_data %>%
 > {: .solution}
 {: .challenge}
 
-> ## Challenge 6
+> ## Challenge 5
 >
 > Use `group_by()` and `summarize()` to find the mean, min, and max
 > photosynthesis level for each species. Also add the number of
 > observations (hint: see `?n`).
 >
 >
-> > ## Solution to Challenge 6 
+> > ## Solution to Challenge 5 
 > >
 > >~~~
-> > phys_data %>%
+> > phys_dates %>%
 > >    group_by(Species) %>%
 > >    summarize(
 > >        mean_photo = mean(Photo),
@@ -1145,7 +961,7 @@ phys_data %>%
 > {: .solution}
 {: .challenge}
 
-> ## Challenge 7
+> ## Challenge 6
 >
 > Which plant had the highest photosynthetic rates in each year?
 > Return the columns `Year`, `Species`, and `Photo`.
@@ -1153,7 +969,7 @@ phys_data %>%
 > > ## Solution to Challenge 7
 > > 
 > > ~~~
-> > phys_data %>%
+> > phys_dates %>%
 > >     group_by(Year) %>%
 > >     filter(Photo == max(Photo)) %>%
 > >     select(Year, Species, Photo) %>%
@@ -1167,7 +983,7 @@ phys_data %>%
 > > # A tibble: 2 x 3
 > > # Groups:   Year [2]
 > >    Year Species Photo
-> >   <dbl> <chr>   <dbl>
+> >   <int> <chr>   <dbl>
 > > 1  2014 SN       30.4
 > > 2  2015 SN       40.6
 > > ~~~

@@ -14,10 +14,10 @@ objectives:
 - "Modify the aesthetics of an existing ggplot plot (including axis labels and color)."
 - "Build complex and customized plots from data in a data frame."
 keypoints:
-- "ggplot require 3 things to make a plot: data, aesthetics, and geoms"
-- "ggplots are highly customizable"
-- "faceting lets you make smaller graphs with cleaner plot areas"
-- "custom and premade themes can applied to any plot"
+- "Creating a ggplot require 3 things: data, aesthetics, and geoms"
+- "Ggplots are highly customizable."
+- "Faceting lets you make smaller graphs with cleaner plot areas."
+- "Custom and premade themes can applied to any plot."
 source: Rmd
 ---
 
@@ -95,7 +95,7 @@ let's use `geom_point()` first:
 ~~~
 ggplot(data = iris, 
        mapping = aes(x = Sepal.Length, 
-                     y = Sepal.Width))+
+                     y = Sepal.Width)) +
   geom_point()
 ~~~
 {: .language-r}
@@ -155,7 +155,7 @@ defining the dataset we'll use, lay out the axes, and choose a geom:
 ~~~
 ggplot(data = iris, 
        mapping = aes(x = Sepal.Width, 
-                     y = Sepal.Length))+
+                     y = Sepal.Length)) +
     geom_point()
 ~~~
 {: .language-r}
@@ -168,35 +168,35 @@ We can also add colors for all the points:
 ~~~
 ggplot(data = iris, 
        mapping = aes(x = Sepal.Width, 
-                     y = Sepal.Length))+
+                     y = Sepal.Length)) +
     geom_point(color = "blue")
 ~~~
 {: .language-r}
 
 <img src="../fig/rmd-04-adding-colors-1.png" title="plot of chunk adding-colors" alt="plot of chunk adding-colors" width="612" style="display: block; margin: auto;" />
 
-Or to color each species in the plot differently, you could use a vector as an input to the argument **color**. **`ggplot2`** will provide a different color corresponding to different values in the vector. Here is an example where we color with **`species`**:
+Or to color each species in the plot differently, you could use a vector as an input to the argument **color**. **`ggplot2`** will provide a different color corresponding to different values in the vector. To reference the values in a vector, we need to use the `aes()` function. Here is an example where we color with **`species`**:
 
 
 
 ~~~
 ggplot(data = iris, 
        mapping = aes(x = Sepal.Width, 
-                     y = Sepal.Length))+
+                     y = Sepal.Length)) +
     geom_point(aes(color = Species))
 ~~~
 {: .language-r}
 
 <img src="../fig/rmd-04-color-by-species-1-1.png" title="plot of chunk color-by-species-1" alt="plot of chunk color-by-species-1" width="612" style="display: block; margin: auto;" />
 
-We can also specify the colors directly inside the mapping provided in the `ggplot()` function. This will be seen by any geom layers and the mapping will be determined by the x- and y-axis set up in `aes()`.
+Color = . We can also specify the colors directly inside the mapping provided in the `ggplot()` function. This will be seen by any geom layers and the mapping will be determined by the x- and y-axis set up in `aes()`.
 
 
 ~~~
 ggplot(data = iris, 
        mapping = aes(x = Sepal.Width, 
                      y = Sepal.Length, 
-                     color = Species))+
+                     color = Species)) +
     geom_point()
 ~~~
 {: .language-r}
@@ -210,7 +210,7 @@ Notice that we can change the geom layer and colors will be still determined by 
 ggplot(data = iris, 
        mapping = aes(x = Sepal.Width, 
                      y = Sepal.Length, 
-                     color = Species))+
+                     color = Species)) +
     geom_jitter()
 ~~~
 {: .language-r}
@@ -259,7 +259,7 @@ measurements and of their distribution:
 ggplot(data = iris, 
        mapping = aes(x = Species, 
                      y = Sepal.Length)) +
-    geom_boxplot()+
+    geom_boxplot() +
     geom_jitter(color = "tomato")
 ~~~
 {: .language-r}
@@ -307,7 +307,7 @@ Now, let's try a box plot with some new data.
 > >      ggplot(data = iris, 
 > >             mapping = aes(x = Species, 
 > >                           y = Petal.Length)) +
-> >      geom_boxplot()+
+> >      geom_boxplot() +
 > >      geom_jitter(color = "tomato")
 > > ~~~
 > > {: .language-r}
@@ -380,7 +380,7 @@ make a time series plot for each species:
 ggplot(data = monthly_photo_fg, 
        mapping = aes(x = Month, 
                      y = mean_phot)) +
-     geom_line()+
+     geom_line() +
     facet_wrap(~ Fgroup)
 ~~~
 {: .language-r}
@@ -405,7 +405,7 @@ ggplot(data = mo_sp_fg,
        mapping = aes(x = Month, 
                      y = mean_phot, 
                      color = Species)) +
-     geom_line()+
+     geom_line() +
     facet_wrap(~ Fgroup) 
 ~~~
 {: .language-r}
@@ -422,7 +422,7 @@ ggplot(data = mo_sp_fg,
        mapping = aes(x = Month, 
                      y = mean_phot, 
                      color = Species)) +
-     geom_line()+
+     geom_line() +
     facet_wrap(~ Fgroup) +
      theme_bw() +
      theme(panel.grid = element_blank())
@@ -524,7 +524,7 @@ ggplot(data = mo_sp_fg,
        mapping = aes(x = Month, 
                      y = mean_phot, 
                      color = Species)) +
-     geom_line()+
+     geom_line() +
     facet_wrap(~ Fgroup) +
     labs(title = "Average photosynthesis over a season",
          x = "Month of observation",
@@ -544,7 +544,7 @@ ggplot(data = mo_sp_fg,
        mapping = aes(x = Month, 
                      y = mean_phot, 
                      color = Species)) +
-     geom_line()+
+     geom_line() +
     facet_wrap(~ Fgroup) +
     labs(title = "Average photosynthesis over a season",
          x = "Month of observation",
@@ -573,7 +573,7 @@ ggplot(data = mo_sp_fg,
        mapping = aes(x = Month, 
                      y = mean_phot, 
                      color = Species)) +
-     geom_line()+
+     geom_line() +
     facet_wrap(~ Fgroup) +
     labs(title = "Average photosynthesis over a season",
          x = "Month of observation",
@@ -632,7 +632,7 @@ sp_photo_line<-ggplot(data = mo_sp_fg,
        mapping = aes(x = Month, 
                      y = mean_phot, 
                      color = Species)) +
-     geom_line()+
+     geom_line() +
     facet_wrap(~ Fgroup) +
     labs(title = "Average photosynthesis over a season",
          x = "Month of observation",
