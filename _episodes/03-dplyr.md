@@ -342,7 +342,13 @@ iris_sml
 Note that the final data frame is the leftmost part of this expression.
 
 ### Introducing the a Plant Physiology Environmental dataset
-While the iris dataset lets us illustrate many of the features of dplyr, it is not complex enough to illustrate all features. For the challenges and some examples in this lesson, we will be introducing a new dataset, `phys_dates` that is a variation on the `phys_data` dataset you will be using in the Advanced R lesson. Here is an overview of the variables in this dataset: 
+While the iris dataset lets us illustrate many of the features of dplyr, it is not complex enough to illustrate all features. For the challenges and some examples in this lesson, we will be introducing a new dataset,  `phys_data`  
+
+#### Description of `phys_data`
+
+Plants have small openings on their leaf surfaces called “stomata” that permit the exchange of gases between the plant and the atmosphere during photosynthesis. During the day, plants keep their stomata open in order to obtain carbon dioxide from the atmosphere for photosynthesis. However, open stomata also allow water to escape from the leaf to the atmosphere through the process of transpiration. Plants typically close their stomata at night to preserve plant water when photosynthesis doesn’t occur. However, recent research has shown that many plants actually keep their stomata open at night, which allows nocturnal transpiration to occur. What drives nocturnal transpiration and if there is any ecological significance associated with this process is still unclear. To address this gap in knowledge, O’Keefe and Nippert (2018) aimed to understand the patterns and drivers of nocturnal transpiration in a variety of grassland plants. They measured rates of water loss in 8 different plant species, during the day and at night, over the course of two years. They also measured a variety of other plant physiological traits (photosynthesis, leaf water status) and environmental variables (air temperature, soil moisture, vapor pressure deficit) in order to determine if daytime and nocturnal transpiration are associated with other aspects of plant functioning or environmental drivers. They found that patterns of transpiration differed among species, with grasses exhibiting the highest rates of nocturnal water loss. Daytime and nocturnal transpiration had varying relationships with different environmental drivers, and nocturnal transpiration was strongly associated with predawn leaf water potential (an indicator of soil moisture around plant roots). We suggest that nocturnal transpiration is driven by water availability and may act as a competitive strategy in drought-tolerant grasses to use up water as quickly as possible, so as to create drier growing conditions for their less drought-tolerant neighbors.
+
+#### Overview of the variables 
 
 Variable | Description
 -------|-------------------------
