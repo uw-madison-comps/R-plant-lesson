@@ -126,7 +126,7 @@ From this output, we're usually interested in the following results:
 
 - `Pr(>|t|)`: These are the p-values associated with the intercept and our independent variable
 
-- `Multiple R-squared`: The $r^2$ value that indicates model fit
+- `Multiple R-squared`: The r^2^ value that indicates model fit
 
 - `F-statistic` and `p-value`: Indicate overall model significance
 
@@ -158,20 +158,22 @@ Although there are many different and valid ways to approach a statistical probl
 
 - Ranks and weights each competing model
 
-- Averages a top model set to produce a final model that only include predictor variables represented in the top model set
+- Averages a top model set to produce a final model that only includes predictor variables represented in the top model set
 
-IT Model Averaging quantifies multiple competing hypotheses and is better able to avoid over-parameterization than traditional methods using a single model. To get started, we need to create a "global model" that includes all possible predictor variables. To simplify things even further, lets only consider pairwise interactions among predictors. For this we need to use a `+` sign between variables and square the variables with `()^2`.
+IT Model Averaging quantifies multiple competing hypotheses and is better able to avoid over-parameterization than traditional methods using a single model. To get started, we need to create a "global model" that includes all possible predictor variables. To simplify things even further, let's only consider pairwise interactions among predictors. For this, R syntax supports polynomial expansions: you can write the terms as an additive model, then place the set of terms for which you want pairwise interactions in parentheses and square the sum, as in (x + y)^2.
 
 `model_name <- lm(dependent_variable ~ (independent_variable_1 + independent_variable_2)^2, data=dataframe_name )`
 
 ```{r global-model}
 # Global model
-fit_all <- lm(Trmmol_night ~ (VPD_N + TAIR_N + Soil_moisture + Fgroup)^2, data=phys_data)
+fit_IT <- lm(Trmmol_night ~ (VPD_N + TAIR_N + Soil_moisture + Fgroup)^2, data=phys_data)
 ```
 
 **IT Model Averaging** requires the following packages:
-`arm`: Includes the `standardize()` function that standardizes the input variables
-`MuMIn`: The `dredge()` function creates a full submodel set, the `get.models()` function creates a top model set, and `model.avg()` creates the average model and `importance()` calculates relative importance. Let's install and load these packages before we begin:
+- `arm`: Includes the `standardize()` function that standardizes the input variables
+- `MuMIn`: The `dredge()` function creates a full submodel set, the `get.models()` function creates a top model set, and `model.avg()` creates the average model and `importance()` calculates relative importance. 
+
+Let's install and load these packages before we begin:
 
 ```{r install-packages, eval=FALSE}
 # Install packages
@@ -197,11 +199,11 @@ Before we start using these functions, let's take a look at the package descript
 
 - You can access package descriptions online (google search), from the CRAN website, or by using the `help()` function in R.
 
-First, let's standardize our input variables with the `standardize()` function in the `arm` package. `standardize()` rescales numeric variables that take on more than two values to have a mean of 0 and a standard deviation of 0.5. To do this, we just need to specify the object to standardize (our global model, `fit_all`):
+First, let's standardize our input variables with the `standardize()` function in the `arm` package. `standardize()` rescales numeric variables that take on more than two values to have a mean of 0 and a standard deviation of 0.5. To do this, we just need to specify the object to standardize (our global model, `fit_IT`):
 ```{r standardize-global-model, eval = FALSE}
 # Standardize the global model
 
-stdz.model<-standardize(fit_all)
+stdz.model<-standardize(fit_IT)
 summary(stdz.model)
 ```
 
