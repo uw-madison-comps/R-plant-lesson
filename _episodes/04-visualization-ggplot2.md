@@ -35,8 +35,8 @@ If not still in the workspace, load the data we saved in the previous lesson.
 
 
 ~~~
-#iris <- read_csv(file = "data/iris.csv")
-phys_data<-read_csv("data_output/phys_dates.csv")
+iris <- read_csv(file = "data/iris.csv")
+phys_dates<-read_csv("data_output/phys_dates.csv")
 ~~~
 {: .language-r}
 
@@ -219,13 +219,13 @@ ggplot(data = iris,
 
 > ## Challenge 1
 >
-> Use what you just learned to create a scatter plot. Use these skills to plot the of the `phys_data` dataset. 
+> Use what you just learned to create a scatter plot. Use these skills to plot the of the `phys_dates` dataset. 
 > Plot `Cond_day` over `Cond_night` with the species showing in different colors. Is this a good way to show this type of data?
 >
 > > ## Solution to Challenge 1
 > > 
 > > ~~~
-> > ggplot(data = phys_data, 
+> > ggplot(data = phys_dates, 
 > >        mapping = aes(x = Cond_day, 
 > >                      y = Cond_night)) +
 > >    geom_point(aes(color = Species))
@@ -318,11 +318,11 @@ Now, let's try a box plot with some new data.
 
 ## Plotting time series data
 
-Let's calculate the average photosynthesis rate per month for each Functional group (`Fgroup`). First we need to group the data and calculate the mean photosynthesis measurement within each group:
+Because the `iris` dataset does not contain a time element, let's use the phys_dates dataset to look at timeseries analysis. Let's say we wanted to look at the average photosynthesis rate by month and plant Functional group (`Fgroup`). First we need to group the data and calculate the mean photosynthesis measurement within each group:
 
 
 ~~~
-monthly_photo_fg <- phys_data %>%
+monthly_photo_fg <- phys_dates %>%
   group_by(Month, Fgroup)%>%
   summarize(mean_phot = mean(Photo))
 ~~~
@@ -341,7 +341,7 @@ ggplot(data = monthly_photo_fg,
 
 <img src="../fig/rmd-04-first-time-series-1.png" title="plot of chunk first-time-series" alt="plot of chunk first-time-series" width="612" style="display: block; margin: auto;" />
 
-Unfortunately, this does not work because we plotted data for all the functional groups together. We need to tell ggplot to draw a line for each species by modifying the aesthetic function to include `group = Species`:
+Unfortunately, this plot does not represent the data in a usable manner, because we plotted data for all the functional groups together. We need to tell ggplot to draw a line for each species by modifying the aesthetic function to include `group = Species`:
 
 
 ~~~
@@ -391,7 +391,7 @@ Now we would like to split the line in each plot by the species within each func
 
 
 ~~~
-mo_sp_fg <- phys_data %>%
+mo_sp_fg <- phys_dates %>%
   group_by(Month, Species, Fgroup)%>%
   summarize(mean_phot = mean(Photo))
 ~~~
@@ -456,7 +456,7 @@ themes.
 > > ## Solution to Challenge 4
 > > 
 > > ~~~
-> >          seasonCond <- phys_data %>%
+> >          seasonCond <- phys_dates %>%
 > >                group_by(Month, Species, Fgroup) %>%
 > >                summarize(avg_cond = mean(Percent_cond))
 > > 
@@ -598,7 +598,7 @@ an object to be able to easily apply them to other plots you may create:
 grey_theme <- theme(axis.text.x = element_text(colour = "grey20", size = 12, angle = 90, hjust = 0.5, vjust = 0.5),
                           axis.text.y = element_text(colour = "grey20", size = 12),
                           text = element_text(size = 16))
-ggplot(phys_data, 
+ggplot(phys_dates, 
        aes(x = Species, 
            y = Photo)) +
     geom_boxplot() +
@@ -622,7 +622,7 @@ install.packages("gridExtra")
 ~~~
 library(gridExtra)
 
-sp_photo_boxplot <- ggplot(phys_data, 
+sp_photo_boxplot <- ggplot(phys_dates, 
        aes(x = Species, 
            y = Photo)) +
     geom_boxplot() +
@@ -655,7 +655,7 @@ Make sure you have the `fig_output/` folder in your working directory.
 
 
 ~~~
-my_plot <- ggplot(phys_data, 
+my_plot <- ggplot(phys_dates, 
        aes(x = Species, 
            y = Photo)) +
     geom_boxplot() +
