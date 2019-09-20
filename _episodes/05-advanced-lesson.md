@@ -103,9 +103,9 @@ Let's use this dataset to explore the relationships between **leaf transpiration
 ### Using a Simple Model
 As you can see, plotting our data can be informative, but it doesn't necessarily tell us much about the statistical relationships between variables. We are going to start investigate the relationships between these data by using a simple **linear regression.** Linear regression is used to predict the value of a dependent variable **Y** based on one or more input independent (predictor) variables **X**, with the following basic equation:
 
- $y  = \beta_1 + \beta_2 X + \epsilon$
+ $$y  = \beta_1 + \beta_2 X + \epsilon$$
  
-In this equation, $y$ is the dependent variable, $\beta_1$ is the intercept, $\beta_2$ is the slope, and $\epsilon$ is the error term.
+In this equation, $$y$$ is the dependent variable, $$\beta_1$$ is the intercept, $$\beta_2$$ is the slope, and $$\epsilon$$ is the error term.
 
 To build this equation in R, we'll use the `lm()` function. `lm()` is included in the base R package, so you don't have to load it into your workspace to use. `lm()` takes three basic arguments: the dependent variable, the independent variable, and the dataframe from which the data is used. The model is specified using a particular format, and is typically assigned to an object:
 
@@ -129,18 +129,18 @@ lm(formula = Trmmol_night ~ VPD_N, data = phys_data)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--0.57289 -0.27516 -0.07538  0.15691  1.36512 
+-0.57027 -0.27667 -0.07503  0.15594  1.36699 
 
 Coefficients:
             Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  0.64929    0.04480  14.493  < 2e-16 ***
-VPD_N       -0.21335    0.04867  -4.384 1.65e-05 ***
+(Intercept)  0.64619    0.04504  14.346  < 2e-16 ***
+VPD_N       -0.21200    0.04880  -4.344 1.96e-05 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.3783 on 283 degrees of freedom
-Multiple R-squared:  0.06359,	Adjusted R-squared:  0.06028 
-F-statistic: 19.22 on 1 and 283 DF,  p-value: 1.646e-05
+Residual standard error: 0.3792 on 280 degrees of freedom
+Multiple R-squared:  0.06313,	Adjusted R-squared:  0.05979 
+F-statistic: 18.87 on 1 and 280 DF,  p-value: 1.96e-05
 ~~~
 {: .output}
 
@@ -154,7 +154,7 @@ From this output, we're usually interested in the following results:
 
 - `Pr(>|t|)`: These are the p-values associated with the intercept and our independent variable
 
-- `Multiple R-squared`: The $r^2$ value that indicates model fit
+- `Multiple R-squared`: The $$r^2$$ value that indicates model fit
 
 - `F-statistic` and `p-value`: Indicate overall model significance
 
@@ -186,64 +186,64 @@ Note that adding an asterisk `*` between the two independent variables indicates
 > >    Fgroup, data = phys_data)
 > >
 > >Residuals:
-> >    Min      1Q  Median      3Q     Max 
-> >-0.7984 -0.2043 -0.0572  0.1351  1.4284 
+> >     Min       1Q   Median       3Q      Max 
+> >-0.79840 -0.20271 -0.05773  0.12702  1.42836 
 > >
 > >Coefficients:
-> >                                        Estimate Std. Error t value
-> >(Intercept)                             -3.96407    3.44780  -1.150
-> >VPD_N                                    2.06121    6.10586   0.338
-> >TAIR_N                                   0.25750    0.18189   1.416
-> >Soil_moisture                           22.02982   22.42903   0.982
-> >Fgroupgrass                             -2.56106    4.49212  -0.570
-> >Fgroupwoody                              2.52347    4.45109   0.567
-> >VPD_N:TAIR_N                            -0.14744    0.26059  -0.566
-> >VPD_N:Soil_moisture                     -0.99095   45.52504  -0.022
-> >TAIR_N:Soil_moisture                    -1.31389    1.17040  -1.123
-> >VPD_N:Fgroupgrass                        7.51010    7.89466   0.951
-> >VPD_N:Fgroupwoody                        1.51518    7.88263   0.192
-> >TAIR_N:Fgroupgrass                       0.14667    0.23783   0.617
-> >TAIR_N:Fgroupwoody                      -0.16006    0.23482  -0.682
-> >Soil_moisture:Fgroupgrass               30.54712   29.24017   1.045
-> >Soil_moisture:Fgroupwoody              -11.37981   28.95575  -0.393
-> >VPD_N:TAIR_N:Soil_moisture               0.40143    1.91713   0.209
-> >VPD_N:TAIR_N:Fgroupgrass                -0.34894    0.33756  -1.034
-> >VPD_N:TAIR_N:Fgroupwoody                -0.02159    0.33642  -0.064
-> >VPD_N:Soil_moisture:Fgroupgrass        -81.58945   58.85944  -1.386
-> >VPD_N:Soil_moisture:Fgroupwoody        -22.69473   58.77257  -0.386
-> >TAIR_N:Soil_moisture:Fgroupgrass        -1.52112    1.53236  -0.993
-> >TAIR_N:Soil_moisture:Fgroupwoody         0.78695    1.51098   0.521
-> >VPD_N:TAIR_N:Soil_moisture:Fgroupgrass   3.57627    2.48279   1.440
-> >VPD_N:TAIR_N:Soil_moisture:Fgroupwoody   0.67813    2.47500   0.274
+> >                                         Estimate Std. Error t value
+> >(Intercept)                             -4.224992   3.607216  -1.171
+> >VPD_N                                    2.809890   6.789476   0.414
+> >TAIR_N                                   0.269662   0.188632   1.430
+> >Soil_moisture                           24.056256  23.860637   1.008
+> >Fgroupgrass                             -2.300135   4.622194  -0.498
+> >Fgroupwoody                              2.784390   4.582030   0.608
+> >VPD_N:TAIR_N                            -0.177891   0.287298  -0.619
+> >VPD_N:Soil_moisture                     -7.433865  52.156806  -0.143
+> >TAIR_N:Soil_moisture                    -1.408985   1.231951  -1.144
+> >VPD_N:Fgroupgrass                        6.761417   8.445400   0.801
+> >VPD_N:Fgroupwoody                        0.766499   8.434074   0.091
+> >TAIR_N:Fgroupgrass                       0.134513   0.243379   0.553
+> >TAIR_N:Fgroupwoody                      -0.172222   0.240418  -0.716
+> >Soil_moisture:Fgroupgrass               28.520689  30.394684   0.938
+> >Soil_moisture:Fgroupwoody              -13.406242  30.119156  -0.445
+> >VPD_N:TAIR_N:Soil_moisture               0.661956   2.176396   0.304
+> >VPD_N:TAIR_N:Fgroupgrass                -0.318487   0.359046  -0.887
+> >VPD_N:TAIR_N:Fgroupwoody                 0.008865   0.357972   0.025
+> >VPD_N:Soil_moisture:Fgroupgrass        -75.146534  64.206261  -1.170
+> >VPD_N:Soil_moisture:Fgroupwoody        -16.251816  64.126051  -0.253
+> >TAIR_N:Soil_moisture:Fgroupgrass        -1.426020   1.582136  -0.901
+> >TAIR_N:Soil_moisture:Fgroupwoody         0.882050   1.561290   0.565
+> >VPD_N:TAIR_N:Soil_moisture:Fgroupgrass   3.315745   2.691432   1.232
+> >VPD_N:TAIR_N:Soil_moisture:Fgroupwoody   0.417599   2.684198   0.156
 > >                                       Pr(>|t|)
-> >(Intercept)                               0.251
-> >VPD_N                                     0.736
-> >TAIR_N                                    0.158
-> >Soil_moisture                             0.327
-> >Fgroupgrass                               0.569
-> >Fgroupwoody                               0.571
-> >VPD_N:TAIR_N                              0.572
-> >VPD_N:Soil_moisture                       0.983
-> >TAIR_N:Soil_moisture                      0.263
-> >VPD_N:Fgroupgrass                         0.342
-> >VPD_N:Fgroupwoody                         0.848
-> >TAIR_N:Fgroupgrass                        0.538
-> >TAIR_N:Fgroupwoody                        0.496
-> >Soil_moisture:Fgroupgrass                 0.297
-> >Soil_moisture:Fgroupwoody                 0.695
-> >VPD_N:TAIR_N:Soil_moisture                0.834
-> >VPD_N:TAIR_N:Fgroupgrass                  0.302
-> >VPD_N:TAIR_N:Fgroupwoody                  0.949
-> >VPD_N:Soil_moisture:Fgroupgrass           0.167
-> >VPD_N:Soil_moisture:Fgroupwoody           0.700
-> >TAIR_N:Soil_moisture:Fgroupgrass          0.322
-> >TAIR_N:Soil_moisture:Fgroupwoody          0.603
-> >VPD_N:TAIR_N:Soil_moisture:Fgroupgrass    0.151
-> >VPD_N:TAIR_N:Soil_moisture:Fgroupwoody    0.784
+> >(Intercept)                               0.243
+> >VPD_N                                     0.679
+> >TAIR_N                                    0.154
+> >Soil_moisture                             0.314
+> >Fgroupgrass                               0.619
+> >Fgroupwoody                               0.544
+> >VPD_N:TAIR_N                              0.536
+> >VPD_N:Soil_moisture                       0.887
+> >TAIR_N:Soil_moisture                      0.254
+> >VPD_N:Fgroupgrass                         0.424
+> >VPD_N:Fgroupwoody                         0.928
+> >TAIR_N:Fgroupgrass                        0.581
+> >TAIR_N:Fgroupwoody                        0.474
+> >Soil_moisture:Fgroupgrass                 0.349
+> >Soil_moisture:Fgroupwoody                 0.657
+> >VPD_N:TAIR_N:Soil_moisture                0.761
+> >VPD_N:TAIR_N:Fgroupgrass                  0.376
+> >VPD_N:TAIR_N:Fgroupwoody                  0.980
+> >VPD_N:Soil_moisture:Fgroupgrass           0.243
+> >VPD_N:Soil_moisture:Fgroupwoody           0.800
+> >TAIR_N:Soil_moisture:Fgroupgrass          0.368
+> >TAIR_N:Soil_moisture:Fgroupwoody          0.573
+> >VPD_N:TAIR_N:Soil_moisture:Fgroupgrass    0.219
+> >VPD_N:TAIR_N:Soil_moisture:Fgroupwoody    0.876
 > >
-> >Residual standard error: 0.3598 on 261 degrees of freedom
-> >Multiple R-squared:  0.219,	Adjusted R-squared:  0.1502 
-> >F-statistic: 3.182 on 23 and 261 DF,  p-value: 3.459e-06
+> >Residual standard error: 0.3611 on 258 degrees of freedom
+> >Multiple R-squared:  0.2172,	Adjusted R-squared:  0.1474 
+> >F-statistic: 3.113 on 23 and 258 DF,  p-value: 5.543e-06
 > >~~~
 > >{: .output}
 > {: .solution}
@@ -258,22 +258,24 @@ Although there are many different and valid ways to approach a statistical probl
 
 - Ranks and weights each competing model
 
-- Averages a top model set to produce a final model that only include predictor variables represented in the top model set
+- Averages a top model set to produce a final model that only includes predictor variables represented in the top model set
 
-IT Model Averaging quantifies multiple competing hypotheses and is better able to avoid over-parameterization than traditional methods using a single model. To get started, we need to create a "global model" that includes all possible predictor variables. To simplify things even further, lets only consider pairwise interactions among predictors. For this we need to use a `+` sign between variables and square the variables with `()^2`.
+IT Model Averaging quantifies multiple competing hypotheses and is better able to avoid over-parameterization than traditional methods using a single model. To get started, we need to create a "global model" that includes all possible predictor variables. To simplify things even further, let's only consider pairwise interactions among predictors. For this, R syntax supports polynomial expansions: you can write the terms as an additive model, then place the set of terms for which you want pairwise interactions in parentheses and square the sum, as in (x + y)^2.
 
 `model_name <- lm(dependent_variable ~ (independent_variable_1 + independent_variable_2)^2, data=dataframe_name )`
 
 
 ~~~
 # Global model
-fit_all <- lm(Trmmol_night ~ (VPD_N + TAIR_N + Soil_moisture + Fgroup)^2, data=phys_data)
+fit_IT <- lm(Trmmol_night ~ (VPD_N + TAIR_N + Soil_moisture + Fgroup)^2, data=phys_data)
 ~~~
 {: .language-r}
 
 **IT Model Averaging** requires the following packages:
-`arm`: Includes the `standardize()` function that standardizes the input variables
-`MuMIn`: The `dredge()` function creates a full submodel set, the `get.models()` function creates a top model set, and `model.avg()` creates the average model and `importance()` calculates relative importance. Let's install and load these packages before we begin:
+- `arm`: Includes the `standardize()` function that standardizes the input variables
+- `MuMIn`: The `dredge()` function creates a full submodel set, the `get.models()` function creates a top model set, and `model.avg()` creates the average model and `importance()` calculates relative importance. 
+
+Let's install and load these packages before we begin:
 
 
 ~~~
@@ -302,12 +304,12 @@ Before we start using these functions, let's take a look at the package descript
 
 - You can access package descriptions online (google search), from the CRAN website, or by using the `help()` function in R.
 
-First, let's standardize our input variables with the `standardize()` function in the `arm` package. `standardize()` rescales numeric variables that take on more than two values to have a mean of 0 and a standard deviation of 0.5. To do this, we just need to specify the object to standardize (our global model, `fit_all`):
+First, let's standardize our input variables with the `standardize()` function in the `arm` package. `standardize()` rescales numeric variables that take on more than two values to have a mean of 0 and a standard deviation of 0.5. To do this, we just need to specify the object to standardize (our global model, `fit_IT`):
 
 ~~~
 # Standardize the global model
 
-stdz.model<-standardize(fit_all)
+stdz.model<-standardize(fit_IT)
 summary(stdz.model)
 ~~~
 {: .language-r}
