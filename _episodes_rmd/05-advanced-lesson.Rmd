@@ -101,9 +101,9 @@ Let's use this dataset to explore the relationships between **leaf transpiration
 ### Using a Simple Model
 As you can see, plotting our data can be informative, but it doesn't necessarily tell us much about the statistical relationships between variables. We are going to start investigate the relationships between these data by using a simple **linear regression.** Linear regression is used to predict the value of a dependent variable **Y** based on one or more input independent (predictor) variables **X**, with the following basic equation:
 
- $y  = \beta_1 + \beta_2 X + \epsilon$
+ $$y  = \beta_1 + \beta_2 X + \epsilon$$
  
-In this equation, $y$ is the dependent variable, $\beta_1$ is the intercept, $\beta_2$ is the slope, and $\epsilon$ is the error term.
+In this equation, $$y$$ is the dependent variable, $$\beta_1$$ is the intercept, $$\beta_2$$ is the slope, and $$\epsilon$$ is the error term.
 
 To build this equation in R, we'll use the `lm()` function. `lm()` is included in the base R package, so you don't have to load it into your workspace to use. `lm()` takes three basic arguments: the dependent variable, the independent variable, and the dataframe from which the data is used. The model is specified using a particular format, and is typically assigned to an object:
 
@@ -126,7 +126,7 @@ From this output, we're usually interested in the following results:
 
 - `Pr(>|t|)`: These are the p-values associated with the intercept and our independent variable
 
-- `Multiple R-squared`: The r^2^ value that indicates model fit
+- `Multiple R-squared`: The $$r^2$$ value that indicates model fit
 
 - `F-statistic` and `p-value`: Indicate overall model significance
 
