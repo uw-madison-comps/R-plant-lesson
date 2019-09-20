@@ -14,7 +14,7 @@ objectives:
 keypoints: 
 - Linear regression is a quick and easy way to evaluate the direct relationship between two variables.
 - IT Model Averaging is one approach to evaluate more complex relationships between variables.
-- There are often many valid approaches to address a question in R, and understanding how to interpret R packages can help determine which approach might be most appropriate.
+- There are often many valid approaches to address a question in R and understanding how to interpret R packages can help determine which approach might be most appropriate.
 source: Rmd
 ---
 ```{r setup, message = FALSE, warning = FALSE, echo = FALSE}
@@ -45,7 +45,7 @@ In previous lessons we've worked with the plant physiology dataset from O'Keefe 
 2. What environmental variables drive nocturnal transpiration and do these differ from the drivers of daytime transpiration?
 3. Are nocturnal transpiration and stomatal conductance associated with daytime physiological processes?
 
-Let's use this dataset to explore the relationships between **leaf transpiration** and potential **drivers** of transpiration
+We'll use this dataset to explore the relationships between **leaf transpiration** and potential **drivers** of transpiration
 
 **Transpiration parameters:**
 
@@ -66,18 +66,20 @@ Let's use this dataset to explore the relationships between **leaf transpiration
 8. Photosynthesis (Photo)
 9. Plant functional group (Fgroup)
 
+First, let's review plotting in `ggplot` and investigate the relationship between nocturnal transpiration and nocturnal stomatal conductance.
+
 > ## Challenge 1
 >
-> Use ggplot to create a scatterplot of the relationship between a transpiration parameter and a potential driver.
+> Use ggplot to create a scatterplot of the relationship between nocturnal transpiration and nocturnal stomatal conductance.
 >
 > > ## Solution to  Challenge 1
 > > 
 > > ```{r ch1-soln}
 > > # Nocturnal transpiration vs. nocturnal VPD
-> > ggplot(phys_data, aes(x=VPD_N, y=Trmmol_night)) +
-> >   geom_point() +
-> >   xlab("Nocturnal VPD (kPa)") +
-> >   ylab(expression(paste(italic('E')[night]," ", "(mmol"," ",m^-2,s^-1,")"))) +
+> > ggplot(phys_data, aes(x=Cond_night, y=Trmmol_night)) +
+> >  geom_point() +
+> >  xlab("Nocturnal Conductance") +
+> >  ylab("Nocturnal Transpiration") +
 > >  theme_bw() 
 > > ```
 > {: .solution}
@@ -85,14 +87,14 @@ Let's use this dataset to explore the relationships between **leaf transpiration
 
 > ## Challenge 2
 >
->How does this relationship differ between the different plant functional groups (grass, forb, woody)?
+>Does this relationship differ between the different plant functional groups (grass, forb, woody)?
 >
 > > ## Solution to Challenge 2
 > > ```{r ch2-soln}
-> > ggplot(phys_data, aes(x=VPD_N, y=Trmmol_night, color=Fgroup)) +
+> > ggplot(phys_data, aes(x=Cond_night, y=Trmmol_night, color=Fgroup)) +
 > >  geom_point() +
-> >  xlab("Nocturnal VPD") +
-> >  ylab(expression(paste(italic('E')[night]," ", "(mmol"," ",m^-2,s^-1,")"))) +
+> >  xlab("Nocturnal Conductance") +
+> >  ylab("Nocturnal Transpiration") +
 > >  theme_bw()
 > > ```
 > {: .solution}
@@ -112,8 +114,8 @@ To build this equation in R, we'll use the `lm()` function. `lm()` is included i
 We can then view our model output with the `summary()` function. 
 
 ```{r lm}
-fit_vpd <- lm(Trmmol_night ~ VPD_N, data=phys_data)
-summary(fit_vpd)
+fit_trmmol <- lm(Trmmol_night ~ Cond_night, data=phys_data)
+summary(fit_trmmol)
 ```
 
 From this output, we're usually interested in the following results:
@@ -130,8 +132,23 @@ From this output, we're usually interested in the following results:
 
 - `F-statistic` and `p-value`: Indicate overall model significance
 
+
+As you can see, there is a significant positive relationship between nocturnal transpiration and nocturnal conductance. This makes sense; as plant stomata open, more water can escape from the leaf. Let's visual this regression on our scatterplot with `geom_smooth()`:
+
+```{r smoothing-regression}
+ggplot(phys_data, aes(x=Cond_night, y=Trmmol_night)) +
+  geom_point() +
+  geom_smooth(method='lm') +
+  xlab("Nocturnal Conductance") +
+  ylab("Nocturnal Transpiration") +
+  theme_bw() 
+```
+
+
 ### More Complex Models
-Now that we know how to test for the effect of one variable on the dependent variable, let's test for the effect of *multiple* variables on the dependent variable. You can add additional variables to your model by using the following formula:
+Now that we know how to test for the effect of one variable on the dependent variable, let's test for the effect of *multiple* variables on the dependent variable. This will be especially useful for understanding what drives nocturnal transpiration and nocturnal conductance, as there are likely multiple, interacting drivers for these parameters.
+
+You can add additional variables to your model by using the following formula:
 
 `model_name <- lm(dependent_variable ~ independent_variable_1 * independent_variable_2, data=dataframe_name )`
 

@@ -14,7 +14,7 @@ objectives:
 keypoints: 
 - Linear regression is a quick and easy way to evaluate the direct relationship between two variables.
 - IT Model Averaging is one approach to evaluate more complex relationships between variables.
-- There are often many valid approaches to address a question in R, and understanding how to interpret R packages can help determine which approach might be most appropriate.
+- There are often many valid approaches to address a question in R and understanding how to interpret R packages can help determine which approach might be most appropriate.
 source: Rmd
 ---
 
@@ -37,7 +37,7 @@ In previous lessons we've worked with the plant physiology dataset from O'Keefe 
 2. What environmental variables drive nocturnal transpiration and do these differ from the drivers of daytime transpiration?
 3. Are nocturnal transpiration and stomatal conductance associated with daytime physiological processes?
 
-Let's use this dataset to explore the relationships between **leaf transpiration** and potential **drivers** of transpiration
+We'll use this dataset to explore the relationships between **leaf transpiration** and potential **drivers** of transpiration
 
 **Transpiration parameters:**
 
@@ -58,19 +58,21 @@ Let's use this dataset to explore the relationships between **leaf transpiration
 8. Photosynthesis (Photo)
 9. Plant functional group (Fgroup)
 
+First, let's review plotting in `ggplot` and investigate the relationship between nocturnal transpiration and nocturnal stomatal conductance.
+
 > ## Challenge 1
 >
-> Use ggplot to create a scatterplot of the relationship between a transpiration parameter and a potential driver.
+> Use ggplot to create a scatterplot of the relationship between nocturnal transpiration and nocturnal stomatal conductance.
 >
 > > ## Solution to  Challenge 1
 > > 
 > > 
 > > ~~~
 > > # Nocturnal transpiration vs. nocturnal VPD
-> > ggplot(phys_data, aes(x=VPD_N, y=Trmmol_night)) +
-> >   geom_point() +
-> >   xlab("Nocturnal VPD (kPa)") +
-> >   ylab(expression(paste(italic('E')[night]," ", "(mmol"," ",m^-2,s^-1,")"))) +
+> > ggplot(phys_data, aes(x=Cond_night, y=Trmmol_night)) +
+> >  geom_point() +
+> >  xlab("Nocturnal Conductance") +
+> >  ylab("Nocturnal Transpiration") +
 > >  theme_bw() 
 > > ~~~
 > > {: .language-r}
@@ -81,15 +83,15 @@ Let's use this dataset to explore the relationships between **leaf transpiration
 
 > ## Challenge 2
 >
->How does this relationship differ between the different plant functional groups (grass, forb, woody)?
+>Does this relationship differ between the different plant functional groups (grass, forb, woody)?
 >
 > > ## Solution to Challenge 2
 > > 
 > > ~~~
-> > ggplot(phys_data, aes(x=VPD_N, y=Trmmol_night, color=Fgroup)) +
+> > ggplot(phys_data, aes(x=Cond_night, y=Trmmol_night, color=Fgroup)) +
 > >  geom_point() +
-> >  xlab("Nocturnal VPD") +
-> >  ylab(expression(paste(italic('E')[night]," ", "(mmol"," ",m^-2,s^-1,")"))) +
+> >  xlab("Nocturnal Conductance") +
+> >  ylab("Nocturnal Transpiration") +
 > >  theme_bw()
 > > ~~~
 > > {: .language-r}
@@ -113,8 +115,8 @@ We can then view our model output with the `summary()` function.
 
 
 ~~~
-fit_vpd <- lm(Trmmol_night ~ VPD_N, data=phys_data)
-summary(fit_vpd)
+fit_trmmol <- lm(Trmmol_night ~ Cond_night, data=phys_data)
+summary(fit_trmmol)
 ~~~
 {: .language-r}
 
@@ -123,22 +125,22 @@ summary(fit_vpd)
 ~~~
 
 Call:
-lm(formula = Trmmol_night ~ VPD_N, data = phys_data)
+lm(formula = Trmmol_night ~ Cond_night, data = phys_data)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--0.57027 -0.27667 -0.07503  0.15594  1.36699 
+-0.98937 -0.09752 -0.01945  0.07498  0.78951 
 
 Coefficients:
             Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  0.64619    0.04504  14.346  < 2e-16 ***
-VPD_N       -0.21200    0.04880  -4.344 1.96e-05 ***
+(Intercept)  0.13433    0.01548    8.68 3.31e-16 ***
+Cond_night  10.39960    0.33128   31.39  < 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.3792 on 280 degrees of freedom
-Multiple R-squared:  0.06313,	Adjusted R-squared:  0.05979 
-F-statistic: 18.87 on 1 and 280 DF,  p-value: 1.96e-05
+Residual standard error: 0.1843 on 280 degrees of freedom
+Multiple R-squared:  0.7787,	Adjusted R-squared:  0.778 
+F-statistic: 985.5 on 1 and 280 DF,  p-value: < 2.2e-16
 ~~~
 {: .output}
 
@@ -156,8 +158,27 @@ From this output, we're usually interested in the following results:
 
 - `F-statistic` and `p-value`: Indicate overall model significance
 
+
+As you can see, there is a significant positive relationship between nocturnal transpiration and nocturnal conductance. This makes sense; as plant stomata open, more water can escape from the leaf. Let's visual this regression on our scatterplot with `geom_smooth()`:
+
+
+~~~
+ggplot(phys_data, aes(x=Cond_night, y=Trmmol_night)) +
+  geom_point() +
+  geom_smooth(method='lm') +
+  xlab("Nocturnal Conductance") +
+  ylab("Nocturnal Transpiration") +
+  theme_bw() 
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-05-smoothing-regression-1.png" title="plot of chunk smoothing-regression" alt="plot of chunk smoothing-regression" width="612" style="display: block; margin: auto;" />
+
+
 ### More Complex Models
-Now that we know how to test for the effect of one variable on the dependent variable, let's test for the effect of *multiple* variables on the dependent variable. You can add additional variables to your model by using the following formula:
+Now that we know how to test for the effect of one variable on the dependent variable, let's test for the effect of *multiple* variables on the dependent variable. This will be especially useful for understanding what drives nocturnal transpiration and nocturnal conductance, as there are likely multiple, interacting drivers for these parameters.
+
+You can add additional variables to your model by using the following formula:
 
 `model_name <- lm(dependent_variable ~ independent_variable_1 * independent_variable_2, data=dataframe_name )`
 
@@ -735,7 +756,7 @@ Fgroupgrass:z.Soil_moisture  Fgroupwoody:z.Soil_moisture
 attr(,"rank")
 function (x) 
 do.call("rank", list(x))
-<environment: 0x7f8737aac2e0>
+<environment: 0x7fbfa0056c00>
 attr(,"call")
 AICc(x)
 attr(,"class")
