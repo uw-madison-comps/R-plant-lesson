@@ -75,7 +75,7 @@ First, let's review plotting in `ggplot` and investigate the relationship betwee
 > > ## Solution to  Challenge 1
 > > 
 > > ```{r ch1-soln}
-> > # Nocturnal transpiration vs. nocturnal VPD
+> > # Nocturnal transpiration vs. nocturnal stomatal conductance
 > > ggplot(phys_data, aes(x=Cond_night, y=Trmmol_night)) +
 > >  geom_point() +
 > >  xlab("Nocturnal Conductance") +
