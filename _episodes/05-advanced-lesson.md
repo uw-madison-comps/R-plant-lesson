@@ -68,7 +68,7 @@ First, let's review plotting in `ggplot` and investigate the relationship betwee
 > > 
 > > 
 > > ~~~
-> > # Nocturnal transpiration vs. nocturnal VPD
+> > # Nocturnal transpiration vs. nocturnal stomatal conductance
 > > ggplot(phys_data, aes(x=Cond_night, y=Trmmol_night)) +
 > >  geom_point() +
 > >  xlab("Nocturnal Conductance") +
@@ -756,7 +756,7 @@ Fgroupgrass:z.Soil_moisture  Fgroupwoody:z.Soil_moisture
 attr(,"rank")
 function (x) 
 do.call("rank", list(x))
-<environment: 0x7fbfa0056c00>
+<environment: 0x7fd46a6294c0>
 attr(,"call")
 AICc(x)
 attr(,"class")
