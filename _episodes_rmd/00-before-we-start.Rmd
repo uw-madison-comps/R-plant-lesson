@@ -165,7 +165,7 @@ tutorial below.
   location for it. This will be your **working directory** for the rest of the
   day (e.g., `~/data-carpentry`).
 4. Click on `Create Project`.
-5. [Click here to download the zipped dataset if you haven't already done so.](https://github.com/uw-madison-comps/R-plant-lesson/raw/gh-pages/data/R-plant-lesson.data.zip) Unzip it and place the `data/` folder in your working directory.
+5. [Click here to download the zipped dataset if you haven't already done so.](https://github.com/uw-madison-comps/R-plant-lesson/raw/gh-pages/data/R-plant-lesson-data.zip) Unzip it and place the `data/` folder in your working directory.
 6. (Optional) Set Preferences to 'Never' save workspace in RStudio.
 
 RStudio's default preferences generally work well, but saving a workspace to
